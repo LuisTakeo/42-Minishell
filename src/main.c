@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **env)
         i++;
     }
 	i = 0;
+    ft_test();
 
     return 0;
 }
