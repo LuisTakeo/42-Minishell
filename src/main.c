@@ -14,18 +14,17 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	int i;
+	int	i;
+
 	if (argc > 1 || argv[1])
 		return (0);
-
-    i = 0;
-    while (env[i])
-    {
-        printf("%s\n", env[i]);
-        i++;
-    }
 	i = 0;
-    ft_test();
-
-    return 0;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+	i = 0;
+	ft_test();
+	return (0);
 }
