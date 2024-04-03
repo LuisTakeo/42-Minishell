@@ -27,13 +27,14 @@ void	prompt(void)
 
 int	main(int argc, char **argv)
 {
-	int	i;
+	//int	i;
 
 	prompt();
 	if (argc > 1 || argv[1])
 		return (0);
-	i = 0;
-	/*while (env[i])
+	/*i = 0;
+	printf("\n");
+	while (env[i])
 	{
 		printf("%s\n", env[i]);
 		i++;
