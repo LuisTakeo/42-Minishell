@@ -12,19 +12,33 @@
 
 #include "./includes/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+void	prompt(void)
+{
+	char	*input;
+
+	input = readline("minishell$ ");
+	if (input)
+	{
+		add_history(input);
+		printf("%s\n", input);
+		free(input);
+	}
+}
+
+int	main(int argc, char **argv)
 {
 	int	i;
 
+	prompt();
 	if (argc > 1 || argv[1])
 		return (0);
 	i = 0;
-	while (env[i])
+	/*while (env[i])
 	{
 		printf("%s\n", env[i]);
 		i++;
 	}
 	i = 0;
-	ft_test();
+	ft_test();*/
 	return (0);
 }
