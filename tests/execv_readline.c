@@ -5,19 +5,35 @@
 #include <stdlib.h>
 #include "../src/includes/minishell.h"
 
+#include <sys/wait.h>
+
 int main(void)
 {
-	char *test[] = {"cat", NULL, NULL};
-	char *flags[] = {"-e", NULL};
+	char *test[] = {"ls", NULL, NULL};
+	char *flags[] = {NULL};
 	char *read;
+	__pid_t pid;
 
 	// readline gera stillreachables da própria readline
 	// flag para readline -lreadline
-	read = readline("> ");
-	test[1] = read;
+	read = NULL;
+	pid = fork();
+	if (!pid)
+		fork();
+
+	printf("%d aaa\n", pid);
+	if (pid)
+	{
+		printf("Esperando processo filho...\n");
+		wait(0);
+		printf("Continuando...\n");
+	}
+	printf("1 2 3\n1 2 3\n");
 	// execve pega o caminho do binario como primeiro argumento
 	// e um array de strings como comando e argumentos desse comando
-	printf("%d ", execve("/usr/bin/cat", test, flags));
+	if (!pid)
+		printf("Printf: %d \n", execve("/usr/bin/ls", test, flags));
+	printf("Chegou aqui\nPID: %d\n", pid);
 	free(read);
 	return (0);
 }
