@@ -7,7 +7,6 @@ LIBS := $(addprefix $(LIBFT), /libft.a)
 
 NAME := minishell
 
-
 HEADER := src/includes/minishell.h
 
 # SRC
@@ -48,7 +47,6 @@ all: $(NAME)
 
 teste:
 	@echo $(SRC_CD)
-
 
 libft:
 	@echo "Compilando Libft..."

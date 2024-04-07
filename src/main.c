@@ -12,6 +12,12 @@
 
 #include "./includes/minishell.h"
 
+int	get_token(char *input)
+{
+
+}
+
+
 void	prompt(void)
 {
 	char	*input;
@@ -21,24 +27,15 @@ void	prompt(void)
 	{
 		add_history(input);
 		printf("%s\n", input);
+		get_token(input);
 		free(input);
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	int	i;
-
 	prompt();
 	if (argc > 1 || argv[1])
 		return (0);
-	i = 0;
-	/*while (env[i])
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
-	i = 0;
-	ft_test();*/
 	return (0);
 }
