@@ -9,31 +9,35 @@
 
 int main(void)
 {
-	char *test[] = {"ls", NULL, NULL};
-	char *flags[] = {NULL};
-	char *read;
-	__pid_t pid;
+	char	*test[] = {"ls", NULL, NULL};
+	char	*flags[] = {NULL};
+	char	*read;
+	__pid_t	pid;
+	int		pid_id;
 
 	// readline gera stillreachables da própria readline
 	// flag para readline -lreadline
 	read = NULL;
 	pid = fork();
-	if (!pid)
-		fork();
-
-	printf("%d aaa\n", pid);
+	// if (!pid)
+	// 	fork();
+	pid_id = getpid();
 	if (pid)
-	{
-		printf("Esperando processo filho...\n");
-		wait(0);
-		printf("Continuando...\n");
-	}
-	printf("1 2 3\n1 2 3\n");
+		printf("Processo parent: %d\n", pid_id);
+	else
+		printf("Processo child: %d\n", pid_id);
+	// if (pid)
+	// {
+	// 	printf("Esperando processo filho...\n");
+	// 	wait(0);
+	// 	printf("Continuando...\n");
+	// }
+	printf("1 2 3\n");
 	// execve pega o caminho do binario como primeiro argumento
 	// e um array de strings como comando e argumentos desse comando
-	if (!pid)
-		printf("Printf: %d \n", execve("/usr/bin/ls", test, flags));
-	printf("Chegou aqui\nPID: %d\n", pid);
+	// if (!pid)
+	// 	printf("Printf: %d \n", execve("/usr/bin/ls", test, flags));
+	printf("Chegou aqui\nID: %d\n", pid);
 	free(read);
 	return (0);
 }
