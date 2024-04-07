@@ -1,0 +1,6 @@
+- tokenizar
+-- definir tipos de comando
+-- verificar se tokens são validos (validação do comando, validação de aspas)
+- verificar se é um builtin
+-- se sim, executar função de acordo
+-- se não, utilizar fork para execve
