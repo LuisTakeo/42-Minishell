@@ -12,30 +12,26 @@
 
 #include "./includes/minishell.h"
 
-int	get_token(char *input)
-{
-
-}
-
-
 void	prompt(void)
 {
 	char	*input;
+	t_token	*tokens;
 
 	input = readline("minishell$ ");
 	if (input)
 	{
 		add_history(input);
-		printf("%s\n", input);
-		get_token(input);
+		printf("Input: %s\n\n", input);
+		get_token(input, &tokens);
 		free(input);
+		free_token(&tokens);
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	prompt();
 	if (argc > 1 || argv[1])
 		return (0);
+	prompt();
 	return (0);
 }
