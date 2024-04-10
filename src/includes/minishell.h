@@ -57,4 +57,8 @@ enum e_token_type
 // teste para makefile
 void	ft_test(void);
 
+// tokenization
+void	get_token(char *input, t_token **tokens);
+void	free_token(t_token **tokens);
+
 #endif

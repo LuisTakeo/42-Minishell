@@ -11,15 +11,15 @@ HEADER := src/includes/minishell.h
 
 # SRC
 SRC_FOLDER := src/
-SRC_MAIN := $(addsuffix .c, main )
+SRC_MAIN := $(addsuffix .c, main)
 SRC := $(addprefix $(SRC_FOLDER), $(SRC_MAIN))
 OBJS_FOLDER := obj/
 OBJS := $(SRC:$(SRC_FOLDER)%.c=$(OBJS_FOLDER)%.o)
 
-# Objects do SRC
+# SRC Objects
 $(OBJS_FOLDER)%.o:$(SRC_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJS_FOLDER)
-	@$(CC) $(FLAGS) -o $@ -c $< && echo "Compilando: $(notdir $<)"
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
 # CD
 SRC_CD_FOLDER := $(SRC_FOLDER)cd/
@@ -27,14 +27,25 @@ SRC_CD := $(addprefix $(SRC_CD_FOLDER), $(addsuffix .c, cd))
 OBJ_CD_FOLDER := $(OBJS_FOLDER)cd/
 OBJS_CD := $(SRC_CD:$(SRC_CD_FOLDER)%.c=$(OBJ_CD_FOLDER)%.o)
 
-# Objects do CD
+# CD Objects
 $(OBJ_CD_FOLDER)%.o:$(SRC_CD_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_CD_FOLDER)
-	@$(CC) $(FLAGS) -o $@ -c $< && echo "Compilando: $(notdir $<)"
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
+
+# TOKENS
+SRC_TOKENS_FOLDER := $(SRC_FOLDER)tokens/
+SRC_TOKENS := $(addprefix $(SRC_TOKENS_FOLDER), $(addsuffix .c, get_token, free_token))
+OBJ_TOKENS_FOLDER := $(OBJS_FOLDER)tokens/
+OBJS_TOKENS := $(SRC_TOKENS:$(SRC_TOKENS_FOLDER)%.c=$(OBJ_TOKENS_FOLDER)%.o)
+
+# TOKENS Objects
+$(OBJ_TOKENS_FOLDER)%.o:$(SRC_TOKENS_FOLDER)%.c $(HEADER)
+	@mkdir -p $(OBJ_TOKENS_FOLDER)
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
 
 # Variavel para receber todos os objects
-ALL_OBJ := $(OBJS) $(OBJS_CD)
+ALL_OBJ := $(OBJS) $(OBJS_CD) $(OBJS_TOKENS)
 
 ######################################################################
 # $(NAME)
