@@ -53,8 +53,8 @@ int	main(void)
 	path = get_paths(environ);
 	prompt();
 	i = 0;
-	// while (path[i])
-	// 	printf("%s\n", path[i++]);
+	while (path[i])
+		printf("%s\n", path[i++]);
 	free_split(path);
 	rl_clear_history();
 	return (0);
