@@ -23,7 +23,8 @@
 # include "../../libs/libft/gnl/includes/get_next_line.h"
 
 # define WHITESPACE " \t\n\r\v\f"
-# define SYMBOLS "|<>$'\""
+# define SYMBOLS "|<>$"
+# define QUOTES "'\""
 
 typedef struct s_token
 {
@@ -51,7 +52,8 @@ enum e_token_type
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
-	HEREDOC
+	HEREDOC,
+	ENVAR
 };
 
 // teste para makefile

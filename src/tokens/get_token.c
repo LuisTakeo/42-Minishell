@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/10 09:49:46 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/04/12 19:19:36 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,34 @@ static void	init_token(t_token **tokens)
 	(*tokens)->next = NULL;
 }
 
-static t_token	*split_tokens(char *input, t_token *tokens)
+static void	split_tokens(char *input, t_token **tokens)
 {
-	t_token	*head;
+	t_token	*aux;
 	char	*start;
 	int		i;
 
-	head = tokens;
+	aux = *tokens;
 	start = input;
 	i = 0;
 	while (start[i])
 	{
+		while (start[i] && ft_strchr(WHITESPACE, start[i]))
+			i++;
+		start += i;
+		i = 0;
+		while (start[i] && !ft_strchr(WHITESPACE, start[i]))
+			i++;
 		if (ft_strchr(WHITESPACE, start[i])
-			&& !ft_strchr(WHITESPACE, start[i + 1]) && i != 0)
+			&& !ft_strchr(WHITESPACE, start[i - 1]) && i != 0)
 		{
-			tokens->content = ft_substr(start, 0, i);
-			init_token(&tokens->next);
-			tokens = tokens->next;
-			start += (i + 1);
+			aux->content = ft_substr(start, 0, i);
+			init_token(&aux->next);
+			aux = aux->next;
+			start += i;
 			i = 0;
 		}
 		i++;
 	}
-	tokens->content = ft_substr(start, 0, i);
-	tokens->next = NULL;
-	return (head);
 }
 
 void	get_token(char *input, t_token **tokens)
@@ -54,15 +57,17 @@ void	get_token(char *input, t_token **tokens)
 	t_token	*aux;
 	int		i;
 
+	if (!input[0])
+		return ;
 	init_token(tokens);
-	*tokens = split_tokens(input, *tokens);
+	split_tokens(input, tokens);
 
 	// Validando lista de tokens
 	i = 1;
 	aux = *tokens;
 	while (aux)
 	{
-		printf("Token[%d]: %s\n", i, aux->content);
+		printf("Token[%d]: %s!\n", i, aux->content);
 		aux = aux->next;
 		i++;
 	}

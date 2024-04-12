@@ -26,4 +26,3 @@ t_list	*get_env(char **envp)
 	}
 	return (env);
 }
-

@@ -17,14 +17,17 @@ void	prompt(void)
 	char	*input;
 	t_token	*tokens;
 
+	tokens = NULL;
 	input = readline("minishell$ ");
 	if (input)
 	{
 		add_history(input);
 		printf("Input: %s\n\n", input);
 		get_token(input, &tokens);
-		free(input);
-		free_token(&tokens);
+		if (input)
+			free(input);
+		if (tokens)
+			free_token(&tokens);
 	}
 }
 
@@ -50,8 +53,8 @@ int	main(void)
 	path = get_paths(environ);
 	prompt();
 	i = 0;
-	while (path[i])
-		printf("%s\n", path[i++]);
+	// while (path[i])
+	// 	printf("%s\n", path[i++]);
 	free_split(path);
 	rl_clear_history();
 	return (0);

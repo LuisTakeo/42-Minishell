@@ -1,7 +1,10 @@
 - tokenizar
+-- corrigir erro com input vazio e somente com espaços em branco
+-- separar as palavras/tokens
+-- incluir validação das aspas
 -- definir tipos de token
 -- expandir variaveis
--- verificar se tokens são validos (validação do comando, validação de aspas)
+-- verificar se tokens são validos (validação do comando)
 - verificar se é um builtin
 -- se sim, executar função de acordo
 -- se não, utilizar fork para execve
