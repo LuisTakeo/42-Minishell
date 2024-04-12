@@ -28,10 +28,31 @@ void	prompt(void)
 	}
 }
 
-int	main(int argc, char **argv)
+void	free_split(char **split)
 {
-	if (argc > 1 || argv[1])
-		return (0);
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+int	main(void)
+{
+	char		**path;
+	int			i;
+	extern char	**environ; // <---- puxa variáveis de ambiente
+
+	path = get_paths(environ);
 	prompt();
+	i = 0;
+	while (path[i])
+		printf("%s\n", path[i++]);
+	free_split(path);
+	rl_clear_history();
 	return (0);
 }
