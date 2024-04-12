@@ -43,9 +43,19 @@ $(OBJ_TOKENS_FOLDER)%.o:$(SRC_TOKENS_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_TOKENS_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
+# ENV
+SRC_ENV_FOLDER := $(SRC_FOLDER)env/
+SRC_ENV := $(addprefix $(SRC_ENV_FOLDER), $(addsuffix .c, get_env get_paths))
+OBJ_ENV_FOLDER := $(OBJS_FOLDER)env/
+OBJS_ENV := $(SRC_ENV:$(SRC_ENV_FOLDER)%.c=$(OBJ_ENV_FOLDER)%.o)
+
+# TOKENS Objects
+$(OBJ_ENV_FOLDER)%.o:$(SRC_ENV_FOLDER)%.c $(HEADER)
+	@mkdir -p $(OBJ_ENV_FOLDER)
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
 # Variavel para receber todos os objects
-ALL_OBJ := $(OBJS) $(OBJS_CD) $(OBJS_TOKENS)
+ALL_OBJ := $(OBJS) $(OBJS_CD) $(OBJS_TOKENS) $(OBJS_ENV)
 
 ######################################################################
 # $(NAME)
