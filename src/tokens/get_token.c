@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/12 20:23:45 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/12 22:41:51 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,11 @@ static void	split_tokens(char *input, t_token **tokens)
 		i = 0;
 		while (start[i] && !ft_strchr(WHITESPACE, start[i]) && !ft_strchr(QUOTES, start[i]))
 			i++;
-		// verificar se há aspas -> se sim -> função para pegar conteúdo das aspas -> else -> função para pegar o conteúdo do texto
-		if (ft_strchr(WHITESPACE, start[i])
+		// verificar se há aspas -> se sim -> função para pegar conteúdo das aspas ->
+		// else -> função para pegar o conteúdo do texto
+		if (ft_strchr(QUOTES, start[i]))
+			; //
+		else if (ft_strchr(WHITESPACE, start[i])
 			&& !ft_strchr(WHITESPACE, start[i - 1]) && i != 0)
 		{
 			aux->content = ft_substr(start, 0, i);

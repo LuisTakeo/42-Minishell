@@ -1,10 +1,13 @@
 - tokenizar
--- corrigir erro com input vazio e somente com espaços em branco
--- separar as palavras/tokens
 -- incluir validação das aspas
+-- separar as palavras/tokens/conteudos com aspas
 -- definir tipos de token
 -- expandir variaveis
 -- verificar se tokens são validos (validação do comando)
 - verificar se é um builtin
 -- se sim, executar função de acordo
 -- se não, utilizar fork para execve
+- coletar variaveis de ambiente
+-- environ pode ser limitado (separar utilizando o PATH)
+-- cada local é separdo por dois pontos :
+-- testar função getenv
