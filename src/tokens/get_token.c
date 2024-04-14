@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/14 17:32:53 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/04/14 18:52:52 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,63 +22,13 @@ static void	init_token(t_token **tokens)
 	(*tokens)->next = NULL;
 }
 
-static int	count_quotes(char *input)
+void	allocate_token(t_token **tokens, char *input, int start, int end)
 {
-	int	i;
-	int	occ_s_quote;
-	int	occ_d_quote;
-
-	i = 0;
-	occ_s_quote = 0;
-	occ_d_quote = 0;
-	while (input[i])
+	(*tokens)->content = ft_substr(input, start, end - start);
+	if (input[end + 1] != '\0')
 	{
-		if (input[i] == '"')
-		{
-			occ_d_quote++;
-			i++;
-			while (input[i] && input[i] != '"')
-				i++;
-			if (input[i++] == '"')
-				occ_d_quote++;
-			continue ;
-		}
-		if (input[i] == '\'')
-		{
-			occ_s_quote++;
-			i++;
-			while (input[i] && input[i] != '\'')
-				i++;
-			if (input[i++] == '\'')
-				occ_s_quote++;
-			continue ;
-		}
-		i++;
-	}
-	ft_printf("Quotes: single %d double %d\n", occ_s_quote, occ_d_quote);
-	if (occ_s_quote % 2 == 0 && occ_d_quote % 2 == 0)
-		return (0);
-	return (1);
-}
-
-static void	get_quoted_tokens(char *input, t_token **tokens, int *i)
-{
-	char	quote_type;
-	int		start;
-
-	quote_type = input[*i];
-	start = *i;
-	(*i)++;
-	while (input[*i] && input[*i] != quote_type)
-		(*i)++;
-	if (input[*i] == quote_type)
-	{
-		(*tokens)->content = ft_substr(input, start, *i - start + 1);
-		if (input[*i + 1] != '\0')
-		{
-			init_token(&(*tokens)->next);
-			*tokens = (*tokens)->next;
-		}
+		init_token(&(*tokens)->next);
+		*tokens = (*tokens)->next;
 	}
 }
 
@@ -108,26 +58,21 @@ static void	split_tokens(char *input, t_token **tokens)
 			while (start[i] && !ft_strchr(WHITESPACE, start[i])
 				&& !ft_strchr(QUOTES, start[i]))
 				i++;
-			if (ft_strchr(WHITESPACE, start[i])
-				&& !ft_strchr(WHITESPACE, start[i - 1]) && i != 0)
+			if (i != 0)
 			{
-				aux->content = ft_substr(start, 0, i);
-				if (start[i + 1] != '\0')
-				{
-					init_token(&aux->next);
-					aux = aux->next;
-				}
+				allocate_token(&aux, start, 0, i);
 				start += i;
 				i = 0;
 			}
 		}
 		else if (start[i] && ft_strchr(QUOTES, start[i]))
 		{
-			get_quoted_tokens(start, &aux, &i);
-			start += i;
+			get_quoted_token(&aux, start, &i);
+			start += i + 1;
 			i = 0;
 		}
-		i++;
+		else
+			i++;
 	}
 }
 

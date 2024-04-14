@@ -60,6 +60,9 @@ enum e_token_type
 void	ft_test(void);
 
 // tokenization
+int		count_quotes(char *input);
+void	allocate_token(t_token **tokens, char *input, int start, int end);
+void	get_quoted_token(t_token **tokens, char *input, int *i);
 void	get_token(char *input, t_token **tokens);
 void	free_token(t_token **tokens);
 // get envs
