@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/12 20:23:45 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/14 17:32:53 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	init_token(t_token **tokens)
+{
+	*tokens = (t_token *)malloc(sizeof(t_token));
+	if (!(*tokens))
+		return ;
+	(*tokens)->type = -1;
+	(*tokens)->content = NULL;
+	(*tokens)->next = NULL;
+}
 
 static int	count_quotes(char *input)
 {
@@ -51,14 +61,31 @@ static int	count_quotes(char *input)
 	return (1);
 }
 
-static void	init_token(t_token **tokens)
+static void	get_quoted_tokens(char *input, t_token **tokens, int *i)
 {
-	*tokens = (t_token *)malloc(sizeof(t_token));
-	if (!(*tokens))
-		return ;
-	(*tokens)->type = -1;
-	(*tokens)->content = NULL;
-	(*tokens)->next = NULL;
+	char	quote_type;
+	int		start;
+
+	quote_type = input[*i];
+	start = *i;
+	(*i)++;
+	while (input[*i] && input[*i] != quote_type)
+		(*i)++;
+	if (input[*i] == quote_type)
+	{
+		(*tokens)->content = ft_substr(input, start, *i - start + 1);
+		if (input[*i + 1] != '\0')
+		{
+			init_token(&(*tokens)->next);
+			*tokens = (*tokens)->next;
+		}
+	}
+}
+
+static void	skip_whitespace(char *input, int *i)
+{
+	while (input[*i] && ft_strchr(WHITESPACE, input[*i]))
+		(*i)++;
 }
 
 static void	split_tokens(char *input, t_token **tokens)
@@ -72,19 +99,31 @@ static void	split_tokens(char *input, t_token **tokens)
 	i = 0;
 	while (start[i])
 	{
-		while (start[i] && ft_strchr(WHITESPACE, start[i]))
-			i++;
+		skip_whitespace(start, &i);
 		start += i;
 		i = 0;
-		while (start[i] && !ft_strchr(WHITESPACE, start[i]) && !ft_strchr(QUOTES, start[i]))
-			i++;
-		// verificar se há aspas -> se sim -> função para pegar conteúdo das aspas -> else -> função para pegar o conteúdo do texto
-		if (ft_strchr(WHITESPACE, start[i])
-			&& !ft_strchr(WHITESPACE, start[i - 1]) && i != 0)
+		if (start[i] && !ft_strchr(WHITESPACE, start[i])
+			&& !ft_strchr(QUOTES, start[i]))
 		{
-			aux->content = ft_substr(start, 0, i);
-			init_token(&aux->next);
-			aux = aux->next;
+			while (start[i] && !ft_strchr(WHITESPACE, start[i])
+				&& !ft_strchr(QUOTES, start[i]))
+				i++;
+			if (ft_strchr(WHITESPACE, start[i])
+				&& !ft_strchr(WHITESPACE, start[i - 1]) && i != 0)
+			{
+				aux->content = ft_substr(start, 0, i);
+				if (start[i + 1] != '\0')
+				{
+					init_token(&aux->next);
+					aux = aux->next;
+				}
+				start += i;
+				i = 0;
+			}
+		}
+		else if (start[i] && ft_strchr(QUOTES, start[i]))
+		{
+			get_quoted_tokens(start, &aux, &i);
 			start += i;
 			i = 0;
 		}
@@ -103,7 +142,6 @@ void	get_token(char *input, t_token **tokens)
 	init_token(tokens);
 	split_tokens(input, tokens);
 
-	// Validando lista de tokens
 	i = 1;
 	aux = *tokens;
 	while (aux)
