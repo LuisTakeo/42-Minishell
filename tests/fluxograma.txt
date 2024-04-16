@@ -8,3 +8,12 @@
 - verificar se é um builtin
 -- se sim, executar função de acordo
 -- se não, utilizar fork para execve
+
+
+-- função
+
+- fork -> processo pai / processo filho
+- verificar se é processo filho
+- - void exec(t_list *param, int id)
+- - se tiver mais de um comando (pipe)
+- - 	fork ->

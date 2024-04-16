@@ -17,6 +17,8 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # include "../../libs/libft/libft.h"
 # include "../../libs/libft/ft_printf/includes/ft_printf.h"
@@ -68,5 +70,8 @@ void	free_token(t_token **tokens);
 // get envs
 t_list	*get_env(char **envp);
 char	**get_paths(char **env);
+// execute commands
+// prototype -> 1st version
+void	exec_command(char **arrstr, int id, char **env);
 
 #endif

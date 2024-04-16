@@ -12,23 +12,26 @@
 
 #include "./includes/minishell.h"
 
-void	prompt(void)
+void	prompt(char **environ)
 {
 	char	*input;
 	t_token	*tokens;
 
 	tokens = NULL;
 	input = readline("minishell$ ");
-	if (input)
+	while (input)
 	{
 		add_history(input);
-		printf("Input: %s\n\n", input);
+		ft_printf("Input: %s\n\n", input);
 		get_token(input, &tokens);
+		exec_command(ft_split("ls", ' '), 0, environ);
 		if (input)
 			free(input);
 		if (tokens)
 			free_token(&tokens);
+		input = readline("minishell$ ");
 	}
+	ft_printf("\n");
 }
 
 void	free_split(char **split)
@@ -47,14 +50,10 @@ void	free_split(char **split)
 int	main(void)
 {
 	char		**path;
-	int			i;
 	extern char	**environ; // <---- puxa variáveis de ambiente
 
 	path = get_paths(environ);
-	prompt();
-	i = 0;
-	/*while (path[i])
-		printf("%s\n", path[i++]);*/
+	prompt(environ);
 	free_split(path);
 	rl_clear_history();
 	return (0);

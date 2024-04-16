@@ -49,13 +49,24 @@ SRC_ENV := $(addprefix $(SRC_ENV_FOLDER), $(addsuffix .c, get_env get_paths))
 OBJ_ENV_FOLDER := $(OBJS_FOLDER)env/
 OBJS_ENV := $(SRC_ENV:$(SRC_ENV_FOLDER)%.c=$(OBJ_ENV_FOLDER)%.o)
 
-# TOKENS Objects
+# ENV Objects
 $(OBJ_ENV_FOLDER)%.o:$(SRC_ENV_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_ENV_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
+# EXEC
+SRC_EXEC_FOLDER := $(SRC_FOLDER)exec/
+SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command ))
+OBJ_EXEC_FOLDER := $(OBJS_FOLDER)exec/
+OBJS_EXEC := $(SRC_EXEC:$(SRC_EXEC_FOLDER)%.c=$(OBJ_EXEC_FOLDER)%.o)
+
+# ENV Objects
+$(OBJ_EXEC_FOLDER)%.o:$(SRC_EXEC_FOLDER)%.c $(HEADER)
+	@mkdir -p $(OBJ_EXEC_FOLDER)
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
+
 # Variavel para receber todos os objects
-ALL_OBJ := $(OBJS) $(OBJS_CD) $(OBJS_TOKENS) $(OBJS_ENV)
+ALL_OBJ := $(OBJS) $(OBJS_CD) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC)
 
 ######################################################################
 # $(NAME)
