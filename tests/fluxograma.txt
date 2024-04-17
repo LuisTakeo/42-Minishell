@@ -1,7 +1,7 @@
 - tokenizar
--- corrigir erro com input vazio e somente com espaços em branco
 -- separar as palavras/tokens
 -- incluir validação das aspas
+-- incluir separação por símbolos especiais (criar fubção/regra pra cada tipo)
 -- definir tipos de token
 -- expandir variaveis
 -- verificar se tokens são validos (validação do comando)
