@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/17 13:30:15 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:21:21 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	skip_whitespace(char *input, int *i)
 		(*i)++;
 }
 
-static void	split_tokens(char *input, t_token **tokens)
+/*static void	split_tokens(char *input, t_token **tokens)
 {
 	t_token	*aux;
 	char	*start;
@@ -73,6 +73,39 @@ static void	split_tokens(char *input, t_token **tokens)
 		}
 		else
 			i++;
+	}
+}*/
+
+static void	split_tokens(char *input, t_token **tokens)
+{
+	t_token	*aux;
+	t_token	*tmp;
+
+	aux = NULL;
+	while (*input)
+	{
+		skip_whitespace(&input);
+		if (is_special_symbol(*input))
+			get_special_token(&input, &aux);
+		else if (*input == '\'' || *input == '\"')
+			get_quoted_token(&input, &aux);
+		else if (*input == '$')
+			expand_variable(&input, &aux);
+		else
+			get_word_token(&input, &aux);
+		if (aux)
+		{
+			if (!*tokens)
+				*tokens = aux; // Primeiro token
+			else
+			{
+				tmp = *tokens;
+				while (tmp->next)
+					tmp = tmp->next;
+				tmp->next = aux;  // Encadear ao último token
+			}
+			aux = NULL;
+		}
 	}
 }
 
