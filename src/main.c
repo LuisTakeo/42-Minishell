@@ -12,7 +12,7 @@
 
 #include "./includes/minishell.h"
 
-void	prompt(char **environ)
+void	prompt(char **environ, char **path)
 {
 	char	*input;
 	t_token	*tokens;
@@ -24,7 +24,8 @@ void	prompt(char **environ)
 		add_history(input);
 		ft_printf("Input: %s\n\n", input);
 		get_token(input, &tokens);
-		exec_command(ft_split("ls", ' '), 0, environ);
+		if (tokens)
+			exec_command(ft_split(tokens->content, ' '), 0, environ, path);
 		// exec_command(ft_split("bash", ' '), 0, environ);
 		if (input)
 			free(input);
@@ -54,7 +55,7 @@ int	main(void)
 	extern char	**environ; // <---- puxa variáveis de ambiente
 
 	path = get_paths(environ);
-	prompt(environ);
+	prompt(environ, path);
 	free_split(path);
 	rl_clear_history();
 	return (0);

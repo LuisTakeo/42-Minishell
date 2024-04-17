@@ -72,6 +72,6 @@ t_list	*get_env(char **envp);
 char	**get_paths(char **env);
 // execute commands
 // prototype -> 1st version
-void	exec_command(char **arrstr, int id, char **env);
+void	exec_command(char **arrstr, int id, char **env, char **path);
 
 #endif
