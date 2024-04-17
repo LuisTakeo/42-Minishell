@@ -14,12 +14,16 @@
 
 void	exec_command(char **arrstr, int id, char **env, char **path)
 {
-	int 	i;
+	int		i;
 	char	*full_path;
 
 	i = 0;
-	full_path = ft_strjoin(path[6], arrstr[0]);
-	ft_printf("%s\n", full_path);
+	full_path = ft_strjoin(path[5], arrstr[0]);
+	// while (path[i])
+	// {
+
+	// 	ft_printf("Caminho: %s\n", path[i++]);
+	// }
 
 	id = fork();
 	if (id)
@@ -32,8 +36,8 @@ void	exec_command(char **arrstr, int id, char **env, char **path)
 	{
 
 		ft_printf("Processo filho: %d\n", id);
-		// execve("/usr/bin/bash", arrstr, env);
 		execve(full_path, arrstr, env);
+		// execve("/usr/bin/bash", arrstr, env);
 		// execve("/usr/bin/clear", arrstr, env);
 	}
 }

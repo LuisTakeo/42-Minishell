@@ -22,7 +22,6 @@ void	prompt(char **environ, char **path)
 	while (input)
 	{
 		add_history(input);
-		ft_printf("Input: %s\n\n", input);
 		get_token(input, &tokens);
 		if (tokens)
 			exec_command(ft_split(tokens->content, ' '), 0, environ, path);
