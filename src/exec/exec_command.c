@@ -18,12 +18,11 @@ void	exec_command(char **arrstr, int id, char **env, char **path)
 	char	*full_path;
 
 	i = 0;
-	full_path = ft_strjoin(path[5], arrstr[0]);
-	// while (path[i])
-	// {
-
-	// 	ft_printf("Caminho: %s\n", path[i++]);
-	// }
+	full_path = ft_strjoin(path[4], arrstr[0]);
+	/*while (path[i])
+	{
+		ft_printf("Caminho: %s\n", path[i++]);
+	}*/
 
 	id = fork();
 	if (id)
