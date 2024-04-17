@@ -25,6 +25,7 @@ void	prompt(char **environ)
 		ft_printf("Input: %s\n\n", input);
 		get_token(input, &tokens);
 		exec_command(ft_split("ls", ' '), 0, environ);
+		// exec_command(ft_split("bash", ' '), 0, environ);
 		if (input)
 			free(input);
 		if (tokens)

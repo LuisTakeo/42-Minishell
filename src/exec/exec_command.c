@@ -26,6 +26,7 @@ void	exec_command(char **arrstr, int id, char **env)
 	if (!id)
 	{
 		ft_printf("Processo filho: %d\n", id);
+		// execve("/usr/bin/bash", arrstr, env);
 		execve("/usr/bin/ls", arrstr, env);
 	}
 }
