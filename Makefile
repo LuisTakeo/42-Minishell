@@ -56,11 +56,11 @@ $(OBJ_ENV_FOLDER)%.o:$(SRC_ENV_FOLDER)%.c $(HEADER)
 
 # EXEC
 SRC_EXEC_FOLDER := $(SRC_FOLDER)exec/
-SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command ))
+SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command verify_path ))
 OBJ_EXEC_FOLDER := $(OBJS_FOLDER)exec/
 OBJS_EXEC := $(SRC_EXEC:$(SRC_EXEC_FOLDER)%.c=$(OBJ_EXEC_FOLDER)%.o)
 
-# ENV Objects
+# EXEC Objects
 $(OBJ_EXEC_FOLDER)%.o:$(SRC_EXEC_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_EXEC_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
