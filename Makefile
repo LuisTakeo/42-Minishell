@@ -34,7 +34,7 @@ $(OBJ_CD_FOLDER)%.o:$(SRC_CD_FOLDER)%.c $(HEADER)
 
 # TOKENS
 SRC_TOKENS_FOLDER := $(SRC_FOLDER)tokens/
-SRC_TOKENS := $(addprefix $(SRC_TOKENS_FOLDER), $(addsuffix .c, get_token free_token quotes))
+SRC_TOKENS := $(addprefix $(SRC_TOKENS_FOLDER), $(addsuffix .c, get_token get_token_utils get_quoted_token get_special_token))
 OBJ_TOKENS_FOLDER := $(OBJS_FOLDER)tokens/
 OBJS_TOKENS := $(SRC_TOKENS:$(SRC_TOKENS_FOLDER)%.c=$(OBJ_TOKENS_FOLDER)%.o)
 

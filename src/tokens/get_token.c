@@ -6,106 +6,44 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/17 19:21:21 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:56:52 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	init_token(t_token **tokens)
+void	get_word_token(char *input, t_token **tokens, int *i)
 {
-	*tokens = (t_token *)malloc(sizeof(t_token));
-	if (!(*tokens))
-		return ;
-	(*tokens)->type = -1;
-	(*tokens)->content = NULL;
-	(*tokens)->next = NULL;
-}
+	int	start;
 
-void	allocate_token(t_token **tokens, char *input, int start, int end)
-{
-	(*tokens)->content = ft_substr(input, start, end - start);
-	if (input[end + 1] != '\0')
+	start = *i;
+	if (input[*i] && !ft_strchr(WHITESPACE, input[*i])
+		&& !ft_strchr(QUOTES, input[*i]) && !ft_strchr(SYMBOLS, input[*i]))
 	{
-		init_token(&(*tokens)->next);
-		*tokens = (*tokens)->next;
+		while (input[*i] && !ft_strchr(WHITESPACE, input[*i])
+			&& !ft_strchr(QUOTES, input[*i]) && !ft_strchr(SYMBOLS, input[*i]))
+			(*i)++;
 	}
+	if (*i > start)
+		allocate_token(tokens, input, start, *i);
 }
-
-static void	skip_whitespace(char *input, int *i)
-{
-	while (input[*i] && ft_strchr(WHITESPACE, input[*i]))
-		(*i)++;
-}
-
-/*static void	split_tokens(char *input, t_token **tokens)
-{
-	t_token	*aux;
-	char	*start;
-	int		i;
-
-	aux = *tokens;
-	start = input;
-	i = 0;
-	while (start[i])
-	{
-		skip_whitespace(start, &i);
-		start += i;
-		i = 0;
-		if (start[i] && !ft_strchr(WHITESPACE, start[i])
-			&& !ft_strchr(QUOTES, start[i]))
-		{
-			while (start[i] && !ft_strchr(WHITESPACE, start[i])
-				&& !ft_strchr(QUOTES, start[i]))
-				i++;
-			if (i != 0)
-			{
-				allocate_token(&aux, start, 0, i);
-				start += i;
-				i = 0;
-			}
-		}
-		else if (start[i] && ft_strchr(QUOTES, start[i]))
-		{
-			get_quoted_token(&aux, start, &i);
-			start += i + 1;
-			i = 0;
-		}
-		else
-			i++;
-	}
-}*/
 
 static void	split_tokens(char *input, t_token **tokens)
 {
 	t_token	*aux;
-	t_token	*tmp;
+	int		i;
 
-	aux = NULL;
-	while (*input)
+	aux = *tokens;
+	i = 0;
+	while (input[i])
 	{
-		skip_whitespace(&input);
-		if (is_special_symbol(*input))
-			get_special_token(&input, &aux);
-		else if (*input == '\'' || *input == '\"')
-			get_quoted_token(&input, &aux);
-		else if (*input == '$')
-			expand_variable(&input, &aux);
+		skip_whitespace(input, &i);
+		if (ft_strchr(SYMBOLS, input[i]))
+			get_special_token(input, &aux, &i);
+		else if (ft_strchr(QUOTES, input[i]))
+			get_quoted_token(input, &aux, &i);
 		else
-			get_word_token(&input, &aux);
-		if (aux)
-		{
-			if (!*tokens)
-				*tokens = aux; // Primeiro token
-			else
-			{
-				tmp = *tokens;
-				while (tmp->next)
-					tmp = tmp->next;
-				tmp->next = aux;  // Encadear ao último token
-			}
-			aux = NULL;
-		}
+			get_word_token(input, &aux, &i);
 	}
 }
 
@@ -124,7 +62,8 @@ void	get_token(char *input, t_token **tokens)
 	aux = *tokens;
 	while (aux)
 	{
-		ft_printf("Token[%d]: %s!\n", i, aux->content);
+		ft_printf("Token[%d]: %s!\n ", i, aux->content);
+		ft_printf("Type[%d]: %i!\n\n", i, aux->type);
 		aux = aux->next;
 		i++;
 	}
