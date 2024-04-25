@@ -85,5 +85,6 @@ void	pwd(void);
 // prototype -> 1st version
 void	exec_command(char **arrstr, int id, char **env, char **path);
 char	*verify_path(char *bin, char **path);
+void	env(char **envp);
 
 #endif

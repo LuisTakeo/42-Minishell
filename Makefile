@@ -45,7 +45,7 @@ $(OBJ_TOKENS_FOLDER)%.o:$(SRC_TOKENS_FOLDER)%.c $(HEADER)
 
 # ENV
 SRC_ENV_FOLDER := $(SRC_FOLDER)env/
-SRC_ENV := $(addprefix $(SRC_ENV_FOLDER), $(addsuffix .c, get_env get_paths))
+SRC_ENV := $(addprefix $(SRC_ENV_FOLDER), $(addsuffix .c, get_env get_paths env))
 OBJ_ENV_FOLDER := $(OBJS_FOLDER)env/
 OBJS_ENV := $(SRC_ENV:$(SRC_ENV_FOLDER)%.c=$(OBJ_ENV_FOLDER)%.o)
 
