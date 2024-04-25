@@ -1,19 +1,23 @@
 - tokenizar
--- separar as palavras/tokens
--- incluir validação das aspas
--- incluir separação por símbolos especiais (criar fubção/regra pra cada tipo)
--- definir tipos de token
--- expandir variaveis
--- verificar se tokens são validos (validação do comando)
-- verificar se é um builtin
--- se sim, executar função de acordo
--- se não, utilizar fork para execve
+    -- incluir separação por símbolos especiais (criar função/regra pra cada tipo)
+    -- definir tipos de token para comandos, argumentos e flags
+    -- verificar se tokens são válidos (validação do comando)
 
+- expandir vars
+    -- expandir variaveis
+    -- corrigir separação de token com $ (variáveis de ambiente)
+    -- corrigir segfault quando executado apenas com $ (token não salva)
 
--- função
+- builtins
+    -- começar implementação das funções
+
+- parsear e preparar para execução
+    -- verificar se é um builtin
+        --- se sim, executar função de acordo
+        --- se não, utilizar fork para execve
 
 - fork -> processo pai / processo filho
-- verificar se é processo filho
-- - void exec(t_list *param, int id)
-- - se tiver mais de um comando (pipe)
-- - 	fork ->
+    -- verificar se é processo filho
+    -- void exec(t_list *param, int id)
+    -- se tiver mais de um comando (pipe)
+    -- 	fork ->
