@@ -21,3 +21,6 @@
     -- void exec(t_list *param, int id)
     -- se tiver mais de um comando (pipe)
     -- 	fork ->
+
+- tratar erros
+    -- para todo caso não previsto no PDF, retornar prompt
