@@ -23,10 +23,6 @@ char	*verify_path(char *bin, char **path)
 	while (path[i])
 	{
 		full_path = ft_strjoin(path[i], bin);
-		ft_printf("Access, it %s exists? %d \n", full_path,
-			access(full_path, F_OK));
-		ft_printf("Access, it %s executable? %d \n", full_path,
-			access(full_path, X_OK));
 		if (access(full_path, F_OK) == 0 && access(full_path, X_OK) == 0)
 			return (full_path);
 		free(full_path);

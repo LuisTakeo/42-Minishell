@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_quoted_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 18:14:23 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/19 18:56:11 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/04/24 20:59:48 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	count_quotes(char *input)
 		}
 		i++;
 	}
-	ft_printf("Quotes: single %d double %d\n", occ_s_quote, occ_d_quote);
 	if (occ_s_quote % 2 == 0 && occ_d_quote % 2 == 0)
 		return (0);
 	return (1);

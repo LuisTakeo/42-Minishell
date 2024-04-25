@@ -62,6 +62,7 @@ enum e_token_type
 void	ft_test(void);
 
 // tokenization
+/*count quotes*/
 int		count_quotes(char *input);
 void	skip_whitespace(char *input, int *i);
 void	init_token(t_token **tokens);

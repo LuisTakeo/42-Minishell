@@ -25,14 +25,13 @@ void	prompt(char **environ, char **path)
 		get_token(input, &tokens);
 		if (tokens)
 			exec_command(ft_split(tokens->content, ' '), 0, environ, path);
-		// exec_command(ft_split("bash", ' '), 0, environ);
 		if (input)
 			free(input);
 		if (tokens)
 			free_token(&tokens);
 		input = readline("minishell$ ");
 	}
-	ft_printf("\n");
+	ft_printf("\nExit\n");
 }
 
 void	free_split(char **split)
