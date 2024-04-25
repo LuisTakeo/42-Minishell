@@ -12,11 +12,24 @@
 
 #include "./includes/minishell.h"
 
+void	handle_signal(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", STDIN_FILENO);
+		rl_redisplay();
+	}
+}
+
 void	prompt(char **environ, char **path)
 {
 	char	*input;
 	t_token	*tokens;
 
+	signal(SIGINT, &handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 	tokens = NULL;
 	input = readline("minishell$ ");
 	while (input)
@@ -31,7 +44,7 @@ void	prompt(char **environ, char **path)
 			free_token(&tokens);
 		input = readline("minishell$ ");
 	}
-	ft_printf("\nExit\n");
+	ft_printf("Exit\n");
 }
 
 void	free_split(char **split)
