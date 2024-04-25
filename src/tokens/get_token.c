@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/25 14:05:52 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:46:07 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	get_env_token(char *input, t_token **tokens, int *i)
 	{
 		while (input[*i] && !ft_strchr(WHITESPACE, input[*i])
 			&& !ft_strchr(QUOTES, input[*i])
-			&& !ft_strchr(SYMBOLS, input[*i]))
+			&& !ft_strchr(SYMBOLS, input[*i])
+			&& input[*i] != '$')
 			(*i)++;
 	}
 	if (*i > start)
