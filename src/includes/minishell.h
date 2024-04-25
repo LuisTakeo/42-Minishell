@@ -25,7 +25,7 @@
 # include "../../libs/libft/gnl/includes/get_next_line.h"
 
 # define WHITESPACE " \t\n\r\v\f"
-# define SYMBOLS "|<>$"
+# define SYMBOLS "|<>"
 # define QUOTES "'\""
 
 typedef struct s_token
@@ -55,7 +55,8 @@ enum e_token_type
 	REDIR_OUT,
 	APPEND,
 	HEREDOC,
-	ENVAR
+	ENV,
+	STATUS
 };
 
 // teste para makefile
@@ -70,6 +71,7 @@ void	allocate_token(t_token **tokens, char *input, int start, int end);
 void	get_quoted_token(char *input, t_token **tokens, int *i);
 void	get_word_token(char *input, t_token **tokens, int *i);
 void	get_special_token(char *input, t_token **tokens, int *i);
+void	get_env_token(char *input, t_token **tokens, int *i);
 void	get_token(char *input, t_token **tokens);
 void	free_token(t_token **tokens);
 // get envs
