@@ -19,15 +19,14 @@ char	**get_env(char **envp)
 	int		i;
 
 	env_size = 0;
-	ft_printf("passou aqui\n %s!", envp[0]);
 	while (envp[env_size])
 		env_size++;
-	env = malloc(sizeof(char *) * env_size + 1);
+	env = ft_calloc(sizeof(char *), env_size + 1);
 	env[env_size] = NULL;
 	i = 0;
 	while (envp[i])
 	{
-		env[i] = envp[i];
+		env[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	return (env);
