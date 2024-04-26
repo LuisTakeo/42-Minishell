@@ -64,10 +64,12 @@ int	main(void)
 {
 	char		**path;
 	extern char	**environ; // <---- puxa variáveis de ambiente
+	char		**envp;
 
 	path = get_paths(environ);
-	prompt(environ, path);
+	envp = get_env(environ);
+	prompt(envp, path);
 	free_split(path);
 	rl_clear_history();
-	return (0);
+	return (EXIT_SUCCESS);
 }

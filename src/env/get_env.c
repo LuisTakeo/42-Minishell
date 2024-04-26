@@ -12,17 +12,23 @@
 
 #include "../includes/minishell.h"
 
-t_list	*get_env(char **envp)
+char	**get_env(char **envp)
 {
-	t_list	*env;
-	char	**temp;
+	char	**env;
+	int		env_size;
+	int		i;
 
-	env = NULL;
-	temp = envp;
-	while (*temp)
+	env_size = 0;
+	ft_printf("passou aqui\n %s!", envp[0]);
+	while (envp[env_size])
+		env_size++;
+	env = malloc(sizeof(char *) * env_size + 1);
+	env[env_size] = NULL;
+	i = 0;
+	while (envp[i])
 	{
-		ft_lstadd_back(&env, ft_lstnew(*temp));
-		temp++;
+		env[i] = envp[i];
+		i++;
 	}
 	return (env);
 }
