@@ -14,12 +14,12 @@
 
 void	env(char **envp)
 {
-	int	i;
+	char	**temp;
 
-	i = 0;
-	while (envp[i])
+	temp = envp;
+	while (*temp != NULL)
 	{
-		ft_printf("%s\n", envp[i]);
-		i++;
+		ft_printf("%s\n", *temp);
+		temp++;
 	}
 }

@@ -27,6 +27,7 @@ void	prompt(char **environ, char **path)
 {
 	char	*input;
 	t_token	*tokens;
+	char	**test_command; // test
 
 	signal(SIGINT, &handle_signal);
 	signal(SIGQUIT, SIG_IGN);
@@ -36,40 +37,46 @@ void	prompt(char **environ, char **path)
 	{
 		add_history(input);
 		get_token(input, &tokens);
+		test_command = ft_split(tokens->content, ' '); // test
 		if (tokens)
-			exec_command(ft_split(tokens->content, ' '), 0, environ, path);
+			exec_command(test_command, 0, environ, path);
 		if (input)
 			free(input);
 		if (tokens)
 			free_token(&tokens);
+		if (test_command) // test
+			free_arr(test_command);
 		input = readline("minishell$ ");
 	}
 	ft_printf("Exit\n");
 }
 
-void	free_split(char **split)
+
+void	free_arr(char **arr)
 {
 	int	i;
 
 	i = 0;
-	while (split[i])
+	while (arr[i])
 	{
-		free(split[i]);
+		free(arr[i]);
 		i++;
 	}
-	free(split);
+	free(arr);
 }
 
 int	main(void)
 {
 	char		**path;
-	extern char	**environ; // <---- puxa variáveis de ambiente
+	extern char	**environ;
 	char		**envp;
 
+	envp = NULL;
 	path = get_paths(environ);
 	envp = get_env(environ);
 	prompt(envp, path);
-	free_split(path);
+	free_arr(path);
+	free_arr(envp);
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
