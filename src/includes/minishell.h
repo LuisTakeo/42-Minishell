@@ -77,7 +77,7 @@ void	get_env_token(char *input, t_token **tokens, int *i);
 void	get_token(char *input, t_token **tokens);
 void	free_token(t_token **tokens);
 // get envs
-t_list	*get_env(char **envp);
+char	**get_env(char **envp);
 char	**get_paths(char **env);
 // bultins
 void	pwd(void);
