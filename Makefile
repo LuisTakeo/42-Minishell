@@ -21,17 +21,6 @@ $(OBJS_FOLDER)%.o:$(SRC_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJS_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
-# CD
-SRC_CD_FOLDER := $(SRC_FOLDER)cd/
-SRC_CD := $(addprefix $(SRC_CD_FOLDER), $(addsuffix .c, cd))
-OBJ_CD_FOLDER := $(OBJS_FOLDER)cd/
-OBJS_CD := $(SRC_CD:$(SRC_CD_FOLDER)%.c=$(OBJ_CD_FOLDER)%.o)
-
-# CD Objects
-$(OBJ_CD_FOLDER)%.o:$(SRC_CD_FOLDER)%.c $(HEADER)
-	@mkdir -p $(OBJ_CD_FOLDER)
-	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
-
 # TOKENS
 SRC_TOKENS_FOLDER := $(SRC_FOLDER)tokens/
 SRC_TOKENS := $(addprefix $(SRC_TOKENS_FOLDER), $(addsuffix .c, get_token get_token_utils get_quoted_token get_special_token))
@@ -56,7 +45,7 @@ $(OBJ_ENV_FOLDER)%.o:$(SRC_ENV_FOLDER)%.c $(HEADER)
 
 # EXEC
 SRC_EXEC_FOLDER := $(SRC_FOLDER)exec/
-SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command verify_path ))
+SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command verify_path))
 OBJ_EXEC_FOLDER := $(OBJS_FOLDER)exec/
 OBJS_EXEC := $(SRC_EXEC:$(SRC_EXEC_FOLDER)%.c=$(OBJ_EXEC_FOLDER)%.o)
 
@@ -65,8 +54,19 @@ $(OBJ_EXEC_FOLDER)%.o:$(SRC_EXEC_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_EXEC_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
+# BUILTINS
+SRC_BUILTINS_FOLDER := $(SRC_FOLDER)builtins/
+SRC_BUILTINS := $(addprefix $(SRC_BUILTINS_FOLDER), $(addsuffix .c, change_dir pwd))
+OBJ_BUILTINS_FOLDER := $(OBJS_FOLDER)builtins/
+OBJS_BUILTINS := $(SRC_BUILTINS:$(SRC_BUILTINS_FOLDER)%.c=$(OBJ_BUILTINS_FOLDER)%.o)
+
+# BUILTINS Objects
+$(OBJ_BUILTINS_FOLDER)%.o:$(SRC_BUILTINS_FOLDER)%.c $(HEADER)
+	@mkdir -p $(OBJ_BUILTINS_FOLDER)
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
+
 # Variavel para receber todos os objects
-ALL_OBJ := $(OBJS) $(OBJS_CD) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC)
+ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS)
 
 ######################################################################
 # $(NAME)
@@ -76,9 +76,6 @@ $(NAME): libft $(ALL_OBJ)
 	@echo "Compilando executável $@"
 
 all: $(NAME)
-
-teste:
-	@echo $(SRC_CD)
 
 libft:
 	@echo "Compilando Libft..."
