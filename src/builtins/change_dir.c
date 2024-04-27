@@ -6,21 +6,52 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:57:31 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/26 21:33:17 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:29:13 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static int	is_actual_dir(const char *path)
+{
+	return (*path == '\0' || !ft_strncmp(path, ".", ft_strlen(".") + 1));
+}
+
+static char	*generate_full_path(const char *home, const char *path)
+{
+	char	*full_path;
+
+	full_path = ft_strjoin(home, (path + 1));
+	return (full_path);
+
+}
+
+// nota -> passar conteúdo com aspas para change_dir
+//		-> comportamento diferente de cd ~ para cd "~"
 int	change_dir(const char *path)
 {
+	char	*full_path;
+	char	*home;
+
+	if (path && is_actual_dir(path))
+		return (EXIT_SUCCESS);
+	full_path = NULL;
+	home = getenv("HOME");
+	if (path == NULL || !ft_strncmp(path, "~", ft_strlen("~") + 1))
+		path = home;
+	else if (!ft_strncmp(path, "~/", 2))
+		full_path = generate_full_path(home, path);
+	if (full_path)
+		path = full_path;
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("cd: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		free(full_path);
 		return (EXIT_FAILURE);
 	}
+	free(full_path);
 	return (EXIT_SUCCESS);
 }
 
