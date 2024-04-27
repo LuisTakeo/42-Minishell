@@ -13,8 +13,8 @@ int main(int argc, char const *argv[])
 	fd = open("file", O_RDWR);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	write(1, "hello world\n", 12);
-	dup2(backup[STDOUT_FILENO], 1);
-	STDIN_FILENOrite(1, "minishell\n", 10);
+	write(STDOUT_FILENO, "hello world\n", 12);
+	dup2(backup[STDOUT_FILENO], STDOUT_FILENO);
+	write(STDOUT_FILENO, "minishell\n", 10);
 	return 0;
 }

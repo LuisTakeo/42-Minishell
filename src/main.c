@@ -74,6 +74,9 @@ int	main(void)
 	envp = NULL;
 	path = get_paths(environ);
 	envp = get_env(environ);
+	pwd();
+	change_dir("~/goinfre");
+	pwd();
 	prompt(envp, path);
 	free_arr(path);
 	free_arr(envp);
