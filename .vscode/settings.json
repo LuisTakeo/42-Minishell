@@ -1,6 +1,9 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"cstdlib": "c",
+		"wait.h": "c",
+		"string.h": "c"
 	}
 }
