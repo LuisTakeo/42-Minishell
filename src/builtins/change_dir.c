@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:57:31 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/28 15:58:18 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/28 16:48:15 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static char	*generate_full_path(const char *home, const char *path)
 
 // nota -> passar conteúdo com aspas para change_dir
 //		-> comportamento diferente de cd ~ para cd "~"
+//	upt	-> não é necessário tratar o ~
 int	change_dir(const char *path)
 {
 	char	*full_path;
@@ -46,9 +47,7 @@ int	change_dir(const char *path)
 	}
 	if (chdir(path) == -1)
 	{
-		ft_putstr_fd("cd: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_fdprintf("cd: %s No such file or directory\n", STDERR_FILENO, path);
 		free(full_path);
 		return (EXIT_FAILURE);
 	}

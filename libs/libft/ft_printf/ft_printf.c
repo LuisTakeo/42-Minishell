@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:23:21 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2023/12/07 17:26:44 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/28 16:35:27 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	ft_filter_to_print_args(int c, va_list args)
 	if (c == 'u')
 		return (ft_putunsnbr_fd(va_arg(args, unsigned int), 1));
 	if (c == 'x')
-		return (ft_putnbrbase(va_arg(args, unsigned int), HEX, 0, 0));
+		return (ft_putnbrbase(va_arg(args, unsigned int), 0, 0, 1));
 	if (c == 'X')
-		return (ft_putnbrbase(va_arg(args, unsigned int), HEX, 1, 0));
+		return (ft_putnbrbase(va_arg(args, unsigned int), 1, 0, 1));
 	if (c == 'p')
 		return (ft_putpointer_fd((unsigned long int) va_arg(args, void *),
 				"0x", 0, 1));
@@ -55,9 +55,9 @@ static int	ft_print_flags(char c, va_list args, t_flags flags)
 					"0x", 0, 1));
 	}
 	if (c == 'X' && (flags.is_hash))
-		return (ft_putnbrbase(va_arg(args, unsigned int), HEX, 1, "0X"));
+		return (ft_putnbrbase(va_arg(args, unsigned int), 1, "0X", 1));
 	if (c == 'x' && (flags.is_hash))
-		return (ft_putnbrbase(va_arg(args, unsigned int), HEX, 0, "0x"));
+		return (ft_putnbrbase(va_arg(args, unsigned int), 0, "0x", 1));
 	if (c == 's' && (flags.is_width))
 		return (ft_putstrspc_fd(va_arg(args, const char *), flags.is_width, 1));
 	return (ft_filter_to_print_args(c, args));

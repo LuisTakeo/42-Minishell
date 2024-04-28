@@ -6,7 +6,7 @@
 #    By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 18:38:35 by tpaim-yu          #+#    #+#              #
-#    Updated: 2024/03/06 19:10:48 by tpaim-yu         ###   ########.fr        #
+#    Updated: 2024/04/28 16:24:16 by tpaim-yu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRC_BONUS = ft_lstnew_bonus.c \
 SRC_NEW_FUN = gnl/get_next_line.c \
 				 gnl/get_next_line_utils.c \
 				 ft_printf/ft_printf.c \
+				 ft_printf/ft_fdprintf.c \
 				 ft_printf/ft_init_flags.c \
 				 ft_printf/ft_putnbrbase_fd.c \
 				 ft_printf/ft_putpointer_fd.c \

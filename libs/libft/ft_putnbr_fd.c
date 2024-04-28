@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:15:54 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/01/10 19:40:13 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/28 16:42:01 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_putnbr_fd(int n, int c, int fd)
 
 	len = 0;
 	if (c && n >= 0)
-		len += ft_putchar_fd(c, 1);
+		len += ft_putchar_fd(c, fd);
 	if (n == -2147483648)
 	{
 		len += ft_putchar_fd('-', fd);
