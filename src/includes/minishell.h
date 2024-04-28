@@ -83,6 +83,7 @@ char	**get_paths(char **env);
 // bultins
 void	pwd(void);
 int		change_dir(const char *path);
+int		unset(const char *key, char **envp);
 // execute commands
 // prototype -> 1st version
 void	exec_command(char **arrstr, int id, char **env, char **path);
