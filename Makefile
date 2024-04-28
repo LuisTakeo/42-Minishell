@@ -56,7 +56,7 @@ $(OBJ_EXEC_FOLDER)%.o:$(SRC_EXEC_FOLDER)%.c $(HEADER)
 
 # BUILTINS
 SRC_BUILTINS_FOLDER := $(SRC_FOLDER)builtins/
-SRC_BUILTINS := $(addprefix $(SRC_BUILTINS_FOLDER), $(addsuffix .c, change_dir pwd))
+SRC_BUILTINS := $(addprefix $(SRC_BUILTINS_FOLDER), $(addsuffix .c, change_dir pwd unset))
 OBJ_BUILTINS_FOLDER := $(OBJS_FOLDER)builtins/
 OBJS_BUILTINS := $(SRC_BUILTINS:$(SRC_BUILTINS_FOLDER)%.c=$(OBJ_BUILTINS_FOLDER)%.o)
 
