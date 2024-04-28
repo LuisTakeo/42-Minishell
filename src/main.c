@@ -75,7 +75,7 @@ int	main(void)
 	path = get_paths(environ);
 	envp = get_env(environ);
 	pwd();
-	change_dir("~/repo");
+	change_dir("\"~\"");
 	pwd();
 	prompt(envp, path);
 	free_arr(path);

@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:57:31 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/27 18:29:13 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/04/28 15:58:18 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	is_actual_dir(const char *path)
 {
-	return (*path == '\0' || !ft_strncmp(path, ".", ft_strlen(".") + 1));
+	return (*path == '\0' || !ft_strncmp(path, ".", ft_strlen(".") + 1)
+		|| !ft_strncmp(path, "\".\"", ft_strlen("\".\"") + 1));
 }
 
 static char	*generate_full_path(const char *home, const char *path)
@@ -23,7 +24,6 @@ static char	*generate_full_path(const char *home, const char *path)
 
 	full_path = ft_strjoin(home, (path + 1));
 	return (full_path);
-
 }
 
 // nota -> passar conteúdo com aspas para change_dir
@@ -40,9 +40,10 @@ int	change_dir(const char *path)
 	if (path == NULL || !ft_strncmp(path, "~", ft_strlen("~") + 1))
 		path = home;
 	else if (!ft_strncmp(path, "~/", 2))
+	{
 		full_path = generate_full_path(home, path);
-	if (full_path)
 		path = full_path;
+	}
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("cd: ", STDERR_FILENO);
