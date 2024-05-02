@@ -1,34 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   verify_path.c                                      :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 20:31:54 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/04/18 20:31:54 by tpaim-yu         ###   ########.fr       */
+/*   Created: 2024/05/02 17:08:18 by tpaim-yu          #+#    #+#             */
+/*   Updated: 2024/05/02 17:08:18 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*verify_path(char *bin, char **path)
+static void	sort_arr(char **arr)
 {
-	int		response;
-	int		i;
-	char	*full_path;
+	int	i;
+	int	j;
 
-	if (access(bin, F_OK) == 0 && access(bin, X_OK) == 0)
-		return (bin);
-	response = 0;
 	i = 0;
-	while (path[i])
+	j = 1;
+	while (arr[i] && arr[j])
 	{
-		full_path = ft_strjoin(path[i], bin);
-		if (access(full_path, F_OK) == 0 && access(full_path, X_OK) == 0)
-			return (full_path);
-		free(full_path);
-		i++;
+		ft_fdprintf("%s\n", STDOUT_FILENO, arr[j]);
+		j++;
+		if (!arr[j] && arr[i + 1])
+		{
+			i++;
+			j = i + 1;
+		}
 	}
-	return (NULL);
+}
+
+int	print_env(char **env)
+{
+	char	**envcp;
+	int		i;
+
+	envcp = get_env(env);
+
+	return (EXIT_SUCCESS);
+}
+
+int	export(char *variable, char *env)
+{
+	if (!variable)
+		return (print_env(env));
+
+	return (EXIT_SUCCESS);
 }
