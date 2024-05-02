@@ -12,6 +12,15 @@
 
 #include "../includes/minishell.h"
 
+static void	swap_arr(char **wordA, char **wordB)
+{
+	char	*temp;
+
+	temp = *wordA;
+	*wordA = *wordB;
+	*wordB = temp;
+}
+
 static void	sort_arr(char **arr)
 {
 	int	i;
@@ -21,7 +30,8 @@ static void	sort_arr(char **arr)
 	j = 1;
 	while (arr[i] && arr[j])
 	{
-		ft_fdprintf("%s\n", STDOUT_FILENO, arr[j]);
+		if (ft_strncmp(arr[i], arr[j], ft_strlen(arr[i])) > 0)
+			swap_arr(&arr[i], &arr[j]);
 		j++;
 		if (!arr[j] && arr[i + 1])
 		{
@@ -34,14 +44,29 @@ static void	sort_arr(char **arr)
 int	print_env(char **env)
 {
 	char	**envcp;
+	char	**key_value;
 	int		i;
+	int		j;
 
 	envcp = get_env(env);
-
+	sort_arr(envcp);
+	i = 0;
+	while (envcp[i])
+	{
+		key_value = ft_split(envcp[i], '=');
+		j = 1;
+		ft_printf("declare -x %s=\"", key_value[0]);
+		while (key_value[j])
+			ft_printf("%s", key_value[j++]);
+		ft_printf("\"\n");
+		free_arr(key_value);
+		i++;
+	}
+	free_arr(envcp);
 	return (EXIT_SUCCESS);
 }
 
-int	export(char *variable, char *env)
+int	export(char *variable, char **env)
 {
 	if (!variable)
 		return (print_env(env));
