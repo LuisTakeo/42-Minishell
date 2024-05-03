@@ -78,7 +78,7 @@ void	get_token(char *input, t_token **tokens)
 	t_token	*aux;
 	int		i;
 
-	if (!input[0])
+	if (!input || !input[0])
 		return ;
 	count_quotes(input);
 	init_token(tokens);

@@ -32,21 +32,23 @@ void	prompt(char **environ, char **path)
 	signal(SIGINT, &handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	tokens = NULL;
-	input = readline("minishell$ ");
-	while (input)
+	test_command = NULL;
+	while ((input = readline("minishell$ ")))
 	{
 		add_history(input);
 		get_token(input, &tokens);
-		test_command = ft_split(tokens->content, ' '); // test
+		if (input[0])
+			test_command = ft_split(tokens->content, ' '); // test
 		if (tokens)
 			exec_command(test_command, 0, environ, path);
 		if (input)
 			free(input);
 		if (tokens)
 			free_token(&tokens);
+		tokens = NULL;
 		if (test_command) // test
 			free_arr(test_command);
-		input = readline("minishell$ ");
+		test_command = NULL;
 	}
 	ft_printf("Exit\n");
 }
@@ -56,6 +58,8 @@ void	free_arr(char **arr)
 {
 	int	i;
 
+	if (!arr || !arr[0])
+		return ;
 	i = 0;
 	while (arr[i])
 	{
