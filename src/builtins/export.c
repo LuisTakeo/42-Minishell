@@ -55,10 +55,15 @@ int	print_env(char **env)
 	{
 		key_value = ft_split(envcp[i], '=');
 		j = 1;
-		ft_printf("declare -x %s=\"", key_value[0]);
-		while (key_value[j])
-			ft_printf("%s", key_value[j++]);
-		ft_printf("\"\n");
+		ft_printf("declare -x %s", key_value[0]);
+		if (key_value[j])
+		{
+			ft_printf("=\"");
+			while (key_value[j])
+				ft_printf("%s", key_value[j++]);
+			ft_printf("\"");
+		}
+		ft_printf("\n");
 		free_arr(key_value);
 		i++;
 	}
