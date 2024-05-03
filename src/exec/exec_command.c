@@ -41,6 +41,7 @@ void	exec_command(char **arrstr, int id, char **env, char **path)
 		ft_printf("Processo filho: %d\n", id);
 		execve(full_path, arrstr, env);
 	}
-	if (full_path)
+	if (full_path && ft_strncmp(full_path, arrstr[0],
+			ft_strlen(full_path) + 1))
 		free(full_path);
 }

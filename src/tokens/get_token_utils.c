@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:51:40 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/19 17:16:13 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/05/02 21:07:35 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	free_token(t_token **tokens)
 	{
 		aux = *tokens;
 		*tokens = (*tokens)->next;
-		free(aux->content);
+		if (aux->content)
+			free(aux->content);
 		free(aux);
 	}
 	free(*tokens);
