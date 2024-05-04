@@ -83,6 +83,7 @@ int	main(void)
 	export("-123", &envp);
 	export("_abc123", &envp);
 	export("_abcBCD=123", &envp);
+	export("_ddd=123", &envp);
 	export(NULL, &envp);
 	export("123", &envp);
 	prompt(envp, path);
