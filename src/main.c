@@ -83,9 +83,12 @@ int	main(void)
 	export("-123", &envp);
 	export("_abc123", &envp);
 	export("_abcBCD=123", &envp);
-	export("_ddd=123", &envp);
 	export(NULL, &envp);
+	ft_printf("\n\n");
+	export("_abcBCD=456", &envp);
+	export("_ddd=123", &envp);
 	export("123", &envp);
+	export(NULL, &envp);
 	prompt(envp, path);
 	free_arr(path);
 	free_arr(envp);

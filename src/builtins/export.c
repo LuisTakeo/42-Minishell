@@ -28,20 +28,49 @@ char	*validate_var_name(char *var)
 	return (NULL);
 }
 
-int	export(char *variable, char ***env)
+int	calculate_n_size(char *text, char delimiter)
 {
-	char	**new_envp;
-	char	*var;
-	int		size;
+	int	i;
+
+	i = 0;
+	while (text[i] && text[i] != delimiter)
+		i++;
+	return (i);
+}
+
+int	is_var_exists(char *var, char ***env)
+{
+	char	**temp;
+	int		size_temp;
+	int		size_var;
 	int		i;
 
-	if (!variable || !*variable)
-		return (print_order_env((*env)));
-	var = validate_var_name(variable);
-	if (var)
-		return (ft_fdprintf("'%s': not a valid identifier\n",
-				STDERR_FILENO, var));
+	temp = (*env);
+	size_var = calculate_n_size(var, '=');
+	i = 0;
+	while (temp[i])
+	{
+		size_temp = calculate_n_size(temp[i], '=');
+		if (size_temp == size_var && !ft_strncmp(temp[i], var, size_temp))
+		{
+			free(temp[i]);
+			temp[i] = ft_strdup(var);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	insert_key_value(char *variable, char ***env)
+{
+	int		size;
+	int		i;
+	char	**new_envp;
+
 	size = 0;
+	if (is_var_exists(variable, env))
+		return ;
 	while ((*env)[size])
 		size++;
 	new_envp = calloc(sizeof(char *), size + 2);
@@ -53,5 +82,18 @@ int	export(char *variable, char ***env)
 	if (*env)
 		free_arr(*env);
 	*env = new_envp;
+}
+
+int	export(char *variable, char ***env)
+{
+	char	*var;
+
+	if (!variable || !*variable)
+		return (print_order_env((*env)));
+	var = validate_var_name(variable);
+	if (var)
+		return (ft_fdprintf("'%s': not a valid identifier\n",
+				STDERR_FILENO, var));
+	insert_key_value(variable, env);
 	return (EXIT_SUCCESS);
 }
