@@ -78,8 +78,13 @@ int	main(void)
 	envp = NULL;
 	path = get_paths(environ);
 	envp = get_env(environ);
-	// export(NULL, envp);
-	env(envp);
+	export("123", &envp); //export tests
+	export("_123", &envp);
+	export("-123", &envp);
+	export("_abc123", &envp);
+	export("_abcBCD=123", &envp);
+	export(NULL, &envp);
+	export("123", &envp);
 	prompt(envp, path);
 	free_arr(path);
 	free_arr(envp);

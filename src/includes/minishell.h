@@ -84,7 +84,8 @@ char	**get_paths(char **env);
 void	pwd(void);
 int		change_dir(const char *path);
 int		unset(const char *key, char **envp);
-int		export(char *variable, char **env);
+int		export(char *variable, char ***env);
+int		print_order_env(char **env);
 // execute commands
 // prototype -> 1st version
 void	exec_command(char **arrstr, int id, char **env, char **path);
@@ -92,5 +93,7 @@ char	*verify_path(char *bin, char **path);
 void	env(char **envp);
 // utils
 void	free_arr(char **arr);
+void	sort_arr(char **arr);
+void	swap_arr(char **wordA, char **wordB);
 
 #endif
