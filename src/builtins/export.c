@@ -12,69 +12,46 @@
 
 #include "../includes/minishell.h"
 
-static void	swap_arr(char **wordA, char **wordB)
-{
-	char	*temp;
-
-	temp = *wordA;
-	*wordA = *wordB;
-	*wordB = temp;
-}
-
-static void	sort_arr(char **arr)
+char	*validate_var_name(char *var)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	j = 1;
-	while (arr[i] && arr[j])
+	i = 1;
+	if (var[0] && !(ft_isalpha(var[0]) || var[0] == '_'))
+		return (var);
+	while (var[i] && var[i] != '=')
 	{
-		if (ft_strncmp(arr[i], arr[j], ft_strlen(arr[i])) > 0)
-			swap_arr(&arr[i], &arr[j]);
-		j++;
-		if (!arr[j] && arr[i + 1])
-		{
-			i++;
-			j = i + 1;
-		}
-	}
-}
-
-int	print_env(char **env)
-{
-	char	**envcp;
-	char	**key_value;
-	int		i;
-	int		j;
-
-	envcp = get_env(env);
-	sort_arr(envcp);
-	i = 0;
-	while (envcp[i])
-	{
-		key_value = ft_split(envcp[i], '=');
-		j = 1;
-		ft_printf("declare -x %s", key_value[0]);
-		if (key_value[j])
-		{
-			ft_printf("=\"");
-			while (key_value[j])
-				ft_printf("%s", key_value[j++]);
-			ft_printf("\"");
-		}
-		ft_printf("\n");
-		free_arr(key_value);
+		if (!(ft_isalnum(var[i]) || var[i] == '_'))
+			return (var);
 		i++;
 	}
-	free_arr(envcp);
-	return (EXIT_SUCCESS);
+	return (NULL);
 }
 
-int	export(char *variable, char **env)
+int	export(char *variable, char ***env)
 {
-	if (!variable)
-		return (print_env(env));
+	char	**new_envp;
+	char	*var;
+	int		size;
+	int		i;
 
+	if (!variable || !*variable)
+		return (print_order_env((*env)));
+	var = validate_var_name(variable);
+	if (var)
+		return (ft_fdprintf("'%s': not a valid identifier\n",
+				STDERR_FILENO, var));
+	size = 0;
+	while ((*env)[size])
+		size++;
+	new_envp = calloc(sizeof(char *), size + 2);
+	i = -1;
+	while ((*env)[++i])
+		new_envp[i] = ft_strdup((*env)[i]);
+	new_envp[i] = ft_strdup(variable);
+	new_envp[size + 1] = NULL;
+	if (*env)
+		free_arr(*env);
+	*env = new_envp;
 	return (EXIT_SUCCESS);
 }

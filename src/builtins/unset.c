@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:58:22 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/28 19:59:37 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:36:46 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	unset_env(const char *key, char **envp)
 	i = 0;
 	j = 0;
 	new_key = ft_strjoin(key, "=");
-	new_env = (char **)malloc(sizeof(char *) * (get_envp_len(envp, new_key) + 1));
+	new_env = (char **)malloc(sizeof(char *) * (
+				get_envp_len(envp, new_key) + 1));
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], new_key, ft_strlen(new_key)) != 0)
