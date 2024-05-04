@@ -86,6 +86,7 @@ int		change_dir(const char *path);
 int		unset(const char *key, char **envp);
 int		export(char *variable, char ***env);
 int		print_order_env(char **env);
+int		echo(char **args);
 // execute commands
 // prototype -> 1st version
 void	exec_command(char **arrstr, int id, char **env, char **path);

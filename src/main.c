@@ -74,21 +74,24 @@ int	main(void)
 	char		**path;
 	extern char	**environ;
 	char		**envp;
+	// char		*test[] = {"-n","Teste", "teste2", NULL};
 
 	envp = NULL;
 	path = get_paths(environ);
 	envp = get_env(environ);
-	export("123", &envp); //export tests
-	export("_123", &envp);
-	export("-123", &envp);
-	export("_abc123", &envp);
-	export("_abcBCD=123", &envp);
-	export(NULL, &envp);
-	ft_printf("\n\n");
-	export("_abcBCD=456", &envp);
-	export("_ddd=123", &envp);
-	export("123", &envp);
-	export(NULL, &envp);
+	// export("123", &envp); //export tests
+	// export("_123", &envp);
+	// export("-123", &envp);
+	// export("_abc123", &envp);
+	// export("_abcBCD=123", &envp);
+	// export(NULL, &envp);
+	// ft_printf("\n\n");
+	// export("_abcBCD=456", &envp);
+	// export("_ddd=123", &envp);
+	// export("123", &envp);
+	// export(NULL, &envp);
+	// echo(test);
+	echo(NULL);
 	prompt(envp, path);
 	free_arr(path);
 	free_arr(envp);
