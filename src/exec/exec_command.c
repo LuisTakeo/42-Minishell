@@ -12,13 +12,14 @@
 
 #include "../includes/minishell.h"
 
-static void	show_error(char *content, char *error)
+static int	show_error(char *content, char *error, int num_error)
 {
 	ft_putstr_fd(content, 2);
 	ft_putstr_fd(error, 2);
+	return (num_error);
 }
 
-void	exec_command(char **arrstr, int id, char **env, char **path)
+int	exec_command(char **arrstr, int id, char **env, char **path)
 {
 	int		i;
 	char	*full_path;
@@ -26,10 +27,7 @@ void	exec_command(char **arrstr, int id, char **env, char **path)
 	i = 0;
 	full_path = verify_path(arrstr[0], path);
 	if (!full_path)
-	{
-		show_error(arrstr[0], ": Command not found\n");
-		return ;
-	}
+		return (show_error(arrstr[0], ": Command not found\n", 127));
 	id = fork();
 	if (id)
 	{
@@ -40,8 +38,10 @@ void	exec_command(char **arrstr, int id, char **env, char **path)
 	{
 		ft_printf("Processo filho: %d\n", id);
 		execve(full_path, arrstr, env);
+		exit(EXIT_FAILURE);
 	}
 	if (full_path && ft_strncmp(full_path, arrstr[0],
 			ft_strlen(full_path) + 1))
 		free(full_path);
+	return (0);
 }
