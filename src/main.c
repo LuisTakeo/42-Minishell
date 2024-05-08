@@ -35,12 +35,21 @@ void	prompt(char **environ, char **path)
 	test_command = NULL;
 	while ((input = readline("minishell$ ")))
 	{
+		if (!input[0])
+		{
+			free(input);
+			continue ;
+		}
 		add_history(input);
 		get_token(input, &tokens);
-		if (input[0])
-			test_command = ft_split(tokens->content, ' '); // test
+		test_command = ft_split(tokens->content, ' '); // test
 		if (tokens)
-			exec_command(test_command, 0, environ, path);
+		{
+			if (is_builtin(test_command, environ) >= 0)
+				ft_printf("Builtin\n");
+			else
+				exec_command(test_command, 0, environ, path);
+		}
 		if (input)
 			free(input);
 		if (tokens)
@@ -50,7 +59,6 @@ void	prompt(char **environ, char **path)
 			free_arr(test_command);
 		test_command = NULL;
 	}
-	ft_printf("Exit\n");
 }
 
 
@@ -74,25 +82,13 @@ int	main(void)
 	char		**path;
 	extern char	**environ;
 	char		**envp;
-	// char		*test[] = {"-n","Teste", "teste2", NULL};
 
 	envp = NULL;
 	path = get_paths(environ);
 	envp = get_env(environ);
-	// export("123", &envp); //export tests
-	// export("_123", &envp);
-	// export("-123", &envp);
-	// export("_abc123", &envp);
-	// export("_abcBCD=123", &envp);
-	// export(NULL, &envp);
-	// ft_printf("\n\n");
-	// export("_abcBCD=456", &envp);
-	// export("_ddd=123", &envp);
-	// export("123", &envp);
-	// export(NULL, &envp);
-	// echo(test);
 	echo(NULL);
 	prompt(envp, path);
+	ft_printf("Exit\n");
 	free_arr(path);
 	free_arr(envp);
 	rl_clear_history();

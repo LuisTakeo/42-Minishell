@@ -46,6 +46,8 @@ typedef struct s_command
 	t_token				*start;
 	t_token				*end;
 	struct s_command	*next;
+	struct s_command	*left;
+	struct s_command	*right;
 }					t_command;
 
 enum e_token_type
@@ -81,17 +83,18 @@ void	free_token(t_token **tokens);
 char	**get_env(char **envp);
 char	**get_paths(char **env);
 // bultins
-void	pwd(void);
+int		pwd(void);
 int		change_dir(const char *path);
 int		unset(const char *key, char **envp);
 int		export(char *variable, char ***env);
 int		print_order_env(char **env);
 int		echo(char **args);
+int		is_builtin(char **command, char **env);
 // execute commands
 // prototype -> 1st version
-void	exec_command(char **arrstr, int id, char **env, char **path);
+int		exec_command(char **arrstr, int id, char **env, char **path);
 char	*verify_path(char *bin, char **path);
-void	env(char **envp);
+int		env(char **envp);
 // utils
 void	free_arr(char **arr);
 void	sort_arr(char **arr);
