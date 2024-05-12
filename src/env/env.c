@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int	env(char **envp)
+int	print_env(char **envp)
 {
 	char	**temp;
 
