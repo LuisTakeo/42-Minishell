@@ -31,24 +31,36 @@
 # define SYMBOLS "|<>"
 # define QUOTES "'\""
 
-typedef struct s_token
+typedef struct s_minishell	t_minishell;
+typedef struct s_token		t_token;
+typedef struct s_command	t_command;
+
+struct s_minishell
+{
+	char		*input;
+	char		**envp;
+	char		**path;
+	t_token		*tokens;
+	t_command	*tree_commands;
+};
+
+struct s_token
 {
 	int				type;
 	char			*content;
 	struct s_token	*next;
-}					t_token;
+};
 
-typedef struct s_command
+struct s_command
 {
 	char				*name;
 	char				**args;
 	int					argc;
 	t_token				*start;
 	t_token				*end;
-	struct s_command	*next;
 	struct s_command	*left;
 	struct s_command	*right;
-}					t_command;
+};
 
 enum e_token_type
 {
@@ -64,9 +76,8 @@ enum e_token_type
 	STATUS
 };
 
-// teste para makefile
-void	ft_test(void);
-
+// signals
+void	prepare_signals(void);
 // tokenization
 /*count quotes*/
 int		count_quotes(char *input);
@@ -92,9 +103,9 @@ int		echo(char **args);
 int		is_builtin(char **command, char **env);
 // execute commands
 // prototype -> 1st version
-int		exec_command(char **arrstr, int id, char **env, char **path);
+int		exec_command(char **arrstr, int id, t_minishell *minishell);
 char	*verify_path(char *bin, char **path);
-int		env(char **envp);
+int		print_env(char **envp);
 // utils
 void	free_arr(char **arr);
 void	sort_arr(char **arr);

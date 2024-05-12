@@ -19,13 +19,13 @@ static int	show_error(char *content, char *error, int num_error)
 	return (num_error);
 }
 
-int	exec_command(char **arrstr, int id, char **env, char **path)
+int	exec_command(char **arrstr, int id, t_minishell *minishell)
 {
 	int		i;
 	char	*full_path;
 
 	i = 0;
-	full_path = verify_path(arrstr[0], path);
+	full_path = verify_path(arrstr[0], minishell->path);
 	if (!full_path)
 		return (show_error(arrstr[0], ": Command not found\n", 127));
 	id = fork();
@@ -37,7 +37,7 @@ int	exec_command(char **arrstr, int id, char **env, char **path)
 	if (!id)
 	{
 		ft_printf("Processo filho: %d\n", id);
-		execve(full_path, arrstr, env);
+		execve(full_path, arrstr, minishell->envp);
 		exit(EXIT_FAILURE);
 	}
 	if (full_path && ft_strncmp(full_path, arrstr[0],

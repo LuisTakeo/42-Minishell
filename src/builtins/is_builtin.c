@@ -23,7 +23,7 @@ int	is_builtin(char **command, char **env)
 	if (!ft_strncmp(command[0], "exit", ft_strlen("exit") + 1))
 		return (ft_fdprintf("Exit\n", STDOUT_FILENO));
 	if (!ft_strncmp(command[0], "env", ft_strlen("env") + 1))
-		return (ft_fdprintf("Env\n", STDOUT_FILENO));
+		return (print_env(env));
 	if (!ft_strncmp(command[0], "export", ft_strlen("export") + 1))
 		return (export(NULL, &env));
 	if (!ft_strncmp(command[0], "unset", ft_strlen("unset") + 1))

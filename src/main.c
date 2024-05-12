@@ -23,39 +23,45 @@ void	handle_signal(int signum)
 	}
 }
 
-void	prompt(char **environ, char **path)
+void	prepare_signals(void)
 {
-	char	*input;
-	t_token	*tokens;
-	char	**test_command; // test
-
 	signal(SIGINT, &handle_signal);
 	signal(SIGQUIT, SIG_IGN);
-	tokens = NULL;
+}
+
+void	prompt(t_minishell *minishell)
+{
+	char	**test_command;
+
+	prepare_signals();
+	minishell->tokens = NULL;
 	test_command = NULL;
-	while ((input = readline("minishell$ ")))
+	while (1)
 	{
-		if (!input[0])
+		minishell->input = readline("minishell$ ");
+		if (!minishell->input)
+			break ;
+		if (!minishell->input[0])
 		{
-			free(input);
+			free(minishell->input);
 			continue ;
 		}
-		add_history(input);
-		get_token(input, &tokens);
-		test_command = ft_split(tokens->content, ' '); // test
-		if (tokens)
+		add_history(minishell->input);
+		get_token(minishell->input, &(minishell->tokens));
+		test_command = ft_split(minishell->tokens->content, ' ');
+		if (minishell->tokens)
 		{
-			if (is_builtin(test_command, environ) >= 0)
+			if (is_builtin(test_command, minishell->envp) >= 0)
 				ft_printf("Builtin\n");
 			else
-				exec_command(test_command, 0, environ, path);
+				exec_command(test_command, 0, minishell);
 		}
-		if (input)
-			free(input);
-		if (tokens)
-			free_token(&tokens);
-		tokens = NULL;
-		if (test_command) // test
+		if (minishell->input)
+			free(minishell->input);
+		if (minishell->tokens)
+			free_token(&(minishell->tokens));
+		minishell->tokens = NULL;
+		if (test_command)
 			free_arr(test_command);
 		test_command = NULL;
 	}
@@ -79,18 +85,16 @@ void	free_arr(char **arr)
 
 int	main(void)
 {
-	char		**path;
+	t_minishell	minishell;
 	extern char	**environ;
-	char		**envp;
 
-	envp = NULL;
-	path = get_paths(environ);
-	envp = get_env(environ);
-	echo(NULL);
-	prompt(envp, path);
+	minishell.envp = get_env(environ);
+	minishell.path = get_paths(minishell.envp);
+	minishell.input = NULL;
+	prompt(&minishell);
 	ft_printf("Exit\n");
-	free_arr(path);
-	free_arr(envp);
+	free_arr(minishell.path);
+	free_arr(minishell.envp);
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
