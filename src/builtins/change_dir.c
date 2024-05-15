@@ -26,10 +26,18 @@ static char	*generate_full_path(const char *home, const char *path)
 	return (full_path);
 }
 
+static int	print_error_cd(char **path)
+{
+	ft_fdprintf("cd: ", STDERR_FILENO);
+	perror(NULL);
+	ft_fdprintf("cd: %s %s\n", STDERR_FILENO, (*path), strerror(errno));
+	free((*path));
+	return (EXIT_FAILURE);
+}
 // nota -> passar conteúdo com aspas para change_dir
 //		-> comportamento diferente de cd ~ para cd "~"
 //	upt	-> não é necessário tratar o ~
-int	change_dir(const char *path)
+int	change_dir(char *path)
 {
 	char	*full_path;
 	char	*home;
@@ -46,11 +54,7 @@ int	change_dir(const char *path)
 		path = full_path;
 	}
 	if (chdir(path) == -1)
-	{
-		ft_fdprintf("cd: %s No such file or directory\n", STDERR_FILENO, path);
-		free(full_path);
-		return (EXIT_FAILURE);
-	}
+		return (print_error_cd(&path));
 	free(full_path);
 	return (EXIT_SUCCESS);
 }

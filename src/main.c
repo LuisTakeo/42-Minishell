@@ -91,6 +91,7 @@ int	main(void)
 	minishell.envp = get_env(environ);
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
+	change_dir(ft_strdup("./minishellaa"));
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);

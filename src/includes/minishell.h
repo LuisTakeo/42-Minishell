@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <string.h>
+# include <errno.h>
 
 # include "../../libs/libft/libft.h"
 # include "../../libs/libft/ft_printf/includes/ft_printf.h"
@@ -95,7 +96,7 @@ char	**get_env(char **envp);
 char	**get_paths(char **env);
 // bultins
 int		pwd(void);
-int		change_dir(const char *path);
+int		change_dir(char *path);
 int		unset(const char *key, char **envp);
 int		export(char *variable, char ***env);
 int		print_order_env(char **env);
