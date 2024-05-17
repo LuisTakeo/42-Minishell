@@ -29,6 +29,7 @@ void	prepare_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+
 void	prompt(t_minishell *minishell)
 {
 	char	**test_command;
@@ -83,6 +84,100 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
+void	test(t_minishell *minishell)
+{
+	int			fd[2];
+	int			fd2[2];
+	int			status;
+	pid_t			pid;
+	// int			pid2;
+	// int			pid3;
+	extern char	**environ;
+	char		*test;
+	char		**env;
+	char		**comando = ft_split("ls -la", ' ');
+	t_list		*temp;
+
+
+	test = NULL;
+	env = get_env(__environ);
+	pipe(fd);
+	printf("Descritores de arquivo: leitura = %d, escrita = %d\n", fd[0], fd[1]);
+	pid = fork();
+	if (pid)
+	{
+		ft_lstadd_back(&minishell->pid_list, ft_lstnew((void *)((long)pid)));
+		ft_printf("%d %d ", (long *)(minishell->pid_list->content), pid);
+	}
+	if (!pid)
+	{
+		dup2(fd[STDOUT_FILENO], STDOUT_FILENO);
+		// duplicando a saida do pipe para saida padrão
+		close(fd[STDOUT_FILENO]);
+		close(fd[STDIN_FILENO]);
+		execve("/usr/bin/ls", comando, env);
+		exit(EXIT_FAILURE);
+	}
+	free_arr(comando);
+	// wait(NULL);
+	comando = ft_split("wc -l", ' ');
+	pipe(fd2);
+	pid = fork();
+	if (pid)
+	{
+		ft_lstadd_back(&minishell->pid_list, ft_lstnew((void *)((long)pid)));
+		ft_printf("%d %d ", (long *)(minishell->pid_list->content), pid);
+	}
+	if (!pid)
+	{
+		dup2(fd[STDIN_FILENO], STDIN_FILENO);
+		// duplicando a entrada do pipe para entrada padrão
+		dup2(fd2[STDOUT_FILENO], STDOUT_FILENO);
+		// duplicando a saida do próximo pipe para a saida padrão
+		// ft_printf("Entrou aqui");
+		close(fd[STDOUT_FILENO]);
+		close(fd[STDIN_FILENO]);
+		close(fd2[STDOUT_FILENO]);
+		close(fd2[STDIN_FILENO]);
+		execve("/usr/bin/wc", comando, env);
+		exit(EXIT_FAILURE);
+	}
+	close(fd[STDOUT_FILENO]);
+	close(fd[STDIN_FILENO]);
+	// wait(NULL);
+	// dup2(fd[STDIN_FILENO], fd2[STDOUT_FILENO]);
+	// ft_printf("%d", 123);
+	// close(fd[STDIN_FILENO]);
+	free_arr(comando);
+	comando = ft_split("grep 1", ' ');
+	pid = fork();
+	if (pid)
+	{
+		ft_lstadd_back(&minishell->pid_list, ft_lstnew((void *)((long)pid)));
+		ft_printf("%d %d ", (long *)(minishell->pid_list->content), pid);
+	}
+	if (!pid)
+	{
+		dup2(fd2[STDIN_FILENO], STDIN_FILENO);
+		close(fd2[STDOUT_FILENO]);
+		close(fd2[STDIN_FILENO]);
+		execve("/usr/bin/grep", comando, env);
+		exit(EXIT_FAILURE);
+	}
+	close(fd2[0]);
+	close(fd2[1]);
+	temp = minishell->pid_list;
+	// lógica para implantar waits de cada processo
+	// wait são aplicados no final, após fds fechados para evitar problemas
+	while (temp)
+	{
+		waitpid((pid_t)((long)(temp->content)), &status, 0);
+		temp = temp->next;
+	}
+	ft_lstclear(&minishell->pid_list, free);
+}
+
+
 int	main(void)
 {
 	t_minishell	minishell;
@@ -91,7 +186,11 @@ int	main(void)
 	minishell.envp = get_env(environ);
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
-	change_dir(ft_strdup("./minishellaa"));
+	minishell.pid_list = NULL;
+	test(&minishell);
+	// pwd();
+	// change_dir(ft_strdup("./src"));
+	// pwd();
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);

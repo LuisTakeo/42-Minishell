@@ -24,3 +24,7 @@
 
 - tratar erros
     -- para todo caso não previsto no PDF, retornar prompt
+
+
+- ideia recursão tree
+    funcao que recebe o nó o fd de saída e a estrutura do minishell
