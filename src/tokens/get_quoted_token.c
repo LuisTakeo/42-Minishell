@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_quoted_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 18:14:23 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/04/24 20:59:48 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:19:09 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	count_quotes(char *input)
 	return (1);
 }
 
-void	get_quoted_token(char *input, t_token **tokens, int *i)
+void	get_quoted_token(char *input, int *i)
 {
 	char	quote_type;
 	int		start;
@@ -60,7 +60,5 @@ void	get_quoted_token(char *input, t_token **tokens, int *i)
 	(*i)++;
 	while (input[*i] && input[*i] != quote_type)
 		(*i)++;
-	if (input[*i] == quote_type)
-		allocate_token(tokens, input, start, *i + 1);
 	(*i)++;
 }

@@ -3,32 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/08 19:09:34 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:16:37 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	get_word_token(char *input, t_token **tokens, int *i)
+void	get_word(char *input, t_token **tokens, int *i)
 {
 	int	start;
 
+	(*tokens)->type = WORD;
 	start = *i;
-	if (input[*i] && !ft_strchr(WHITESPACE, input[*i])
-		&& !ft_strchr(QUOTES, input[*i]) && !ft_strchr(SYMBOLS, input[*i]))
+	while (input[*i] && !ft_strchr(WHITESPACE, input[*i])
+		&& !ft_strchr(SYMBOLS, input[*i]))
 	{
 		while (input[*i] && !ft_strchr(WHITESPACE, input[*i])
 			&& !ft_strchr(QUOTES, input[*i]) && !ft_strchr(SYMBOLS, input[*i]))
 			(*i)++;
+		if (input[*i] && ft_strchr(QUOTES, input[*i]))
+			get_quoted_token(input, i);
 	}
 	if (*i > start)
 		allocate_token(tokens, input, start, *i);
 }
 
-void	get_env_token(char *input, t_token **tokens, int *i)
+/*void	get_env_token(char *input, t_token **tokens, int *i)
 {
 	int	start;
 
@@ -50,7 +53,7 @@ void	get_env_token(char *input, t_token **tokens, int *i)
 	}
 	if (*i > start)
 		allocate_token(tokens, input, start, *i);
-}
+}*/
 
 static void	split_tokens(char *input, t_token **tokens)
 {
@@ -63,13 +66,9 @@ static void	split_tokens(char *input, t_token **tokens)
 	{
 		skip_whitespace(input, &i);
 		if (ft_strchr(SYMBOLS, input[i]))
-			get_special_token(input, &aux, &i);
-		else if (ft_strchr(QUOTES, input[i]))
-			get_quoted_token(input, &aux, &i);
-		else if (input[i] == '$')
-			get_env_token(input, &aux, &i);
+			get_operator(input, &aux, &i);
 		else
-			get_word_token(input, &aux, &i);
+			get_word(input, &aux, &i);
 	}
 }
 
