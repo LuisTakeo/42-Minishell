@@ -86,9 +86,14 @@ struct s_pid
 
 enum e_token_type
 {
+	WORD,
+	OPERATOR
+};
+
+/*enum e_token_type
+{
 	COMMAND,
 	CMD_ARG,
-	FLAG,
 	PIPE,
 	REDIR_IN,
 	REDIR_OUT,
@@ -96,22 +101,22 @@ enum e_token_type
 	HEREDOC,
 	ENV,
 	STATUS
-};
+};*/
 
 // signals
 void		prepare_signals(void);
 // tokenization
 /*count quotes*/
-int			count_quotes(char *input);
-void		skip_whitespace(char *input, int *i);
-void		init_token(t_token **tokens);
-void		allocate_token(t_token **tokens, char *input, int start, int end);
-void		get_quoted_token(char *input, t_token **tokens, int *i);
-void		get_word_token(char *input, t_token **tokens, int *i);
-void		get_special_token(char *input, t_token **tokens, int *i);
-void		get_env_token(char *input, t_token **tokens, int *i);
-void		get_token(char *input, t_token **tokens);
-void		free_token(t_token **tokens);
+int		count_quotes(char *input);
+void	skip_whitespace(char *input, int *i);
+void	init_token(t_token **tokens);
+void	allocate_token(t_token **tokens, char *input, int start, int end);
+void	get_quoted_token(char *input, int *i);
+void	get_word(char *input, t_token **tokens, int *i);
+void	get_operator(char *input, t_token **tokens, int *i);
+//void	get_env_token(char *input, t_token **tokens, int *i);
+void	get_token(char *input, t_token **tokens);
+void	free_token(t_token **tokens);
 // get envs
 char		**get_env(char **envp);
 char		**get_paths(char **env);
