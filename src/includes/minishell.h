@@ -36,6 +36,7 @@ typedef struct s_minishell	t_minishell;
 typedef struct s_token		t_token;
 typedef struct s_command	t_command;
 typedef struct s_pid		t_pid;
+typedef enum e_token_type	t_token_type;
 
 /*
 *	@input = input da linha de comando
@@ -48,6 +49,7 @@ typedef struct s_pid		t_pid;
 */
 struct s_minishell
 {
+	int			status;
 	char		*input;
 	char		**envp;
 	char		**path;
@@ -63,15 +65,18 @@ struct s_token
 	struct s_token	*next;
 };
 
+
 struct s_command
 {
 	char				*name;
-	char				**args;
+	char				**argv;
+	char				**redir;
 	int					argc;
-	t_token				*start;
-	t_token				*end;
+	int					*fd;
+	t_token_type		type;
 	struct s_command	*left;
 	struct s_command	*right;
+	struct s_command	*parent;
 };
 
 struct s_pid
