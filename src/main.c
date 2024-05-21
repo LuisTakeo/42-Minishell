@@ -29,7 +29,6 @@ void	prepare_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-
 void	prompt(t_minishell *minishell)
 {
 	char	**test_command;
