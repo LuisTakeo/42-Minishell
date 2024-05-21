@@ -68,12 +68,11 @@ struct s_token
 
 struct s_command
 {
-	char				*name;
 	char				**argv;
 	char				**redir;
 	int					argc;
 	int					*fd;
-	t_token_type		type;
+	int					type;
 	struct s_command	*left;
 	struct s_command	*right;
 	struct s_command	*parent;
@@ -100,38 +99,42 @@ enum e_token_type
 };
 
 // signals
-void	prepare_signals(void);
+void		prepare_signals(void);
 // tokenization
 /*count quotes*/
-int		count_quotes(char *input);
-void	skip_whitespace(char *input, int *i);
-void	init_token(t_token **tokens);
-void	allocate_token(t_token **tokens, char *input, int start, int end);
-void	get_quoted_token(char *input, t_token **tokens, int *i);
-void	get_word_token(char *input, t_token **tokens, int *i);
-void	get_special_token(char *input, t_token **tokens, int *i);
-void	get_env_token(char *input, t_token **tokens, int *i);
-void	get_token(char *input, t_token **tokens);
-void	free_token(t_token **tokens);
+int			count_quotes(char *input);
+void		skip_whitespace(char *input, int *i);
+void		init_token(t_token **tokens);
+void		allocate_token(t_token **tokens, char *input, int start, int end);
+void		get_quoted_token(char *input, t_token **tokens, int *i);
+void		get_word_token(char *input, t_token **tokens, int *i);
+void		get_special_token(char *input, t_token **tokens, int *i);
+void		get_env_token(char *input, t_token **tokens, int *i);
+void		get_token(char *input, t_token **tokens);
+void		free_token(t_token **tokens);
 // get envs
-char	**get_env(char **envp);
-char	**get_paths(char **env);
+char		**get_env(char **envp);
+char		**get_paths(char **env);
 // bultins
-int		pwd(void);
-int		change_dir(char *path);
-int		unset(const char *key, char **envp);
-int		export(char *variable, char ***env);
-int		print_order_env(char **env);
-int		echo(char **args);
-int		is_builtin(char **command, char **env);
+int			pwd(void);
+int			change_dir(char *path);
+int			unset(const char *key, char **envp);
+int			export(char *variable, char ***env);
+int			print_order_env(char **env);
+int			echo(char **args);
+int			is_builtin(char **command, char **env);
 // execute commands
 // prototype -> 1st version
-int		exec_command(char **arrstr, int id, t_minishell *minishell);
-char	*verify_path(char *bin, char **path);
-int		print_env(char **envp);
+int			exec_command(char **arrstr, int id, t_minishell *minishell);
+char		*verify_path(char *bin, char **path);
+int			print_env(char **envp);
+// tree functions
+t_command	*ft_newtreenode(char **args);
+void		ft_treeaddonleft(t_command **treenode, t_command *treenew);
+void		ft_treeaddonright(t_command **treenode, t_command *treenew);
 // utils
-void	free_arr(char **arr);
-void	sort_arr(char **arr);
-void	swap_arr(char **wordA, char **wordB);
+void		free_arr(char **arr);
+void		sort_arr(char **arr);
+void		swap_arr(char **wordA, char **wordB);
 
 #endif
