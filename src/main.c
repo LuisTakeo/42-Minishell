@@ -102,7 +102,7 @@ void	test(t_minishell *minishell)
 	test = NULL;
 	env = get_env(__environ);
 	pipe(fd);
-	printf("Descritores de arquivo: leitura = %d, escrita = %d\n", fd[0], fd[1]);
+	printf("Descritores de arquivo: in = %d, out = %d\n", fd[0], fd[1]);
 	pid = fork();
 	if (pid)
 	{
@@ -111,6 +111,7 @@ void	test(t_minishell *minishell)
 	}
 	if (!pid)
 	{
+		dup2(STDIN_FILENO, STDIN_FILENO);
 		dup2(fd[STDOUT_FILENO], STDOUT_FILENO);
 		// duplicando a saida do pipe para saida padrão
 		close(fd[STDOUT_FILENO]);
@@ -122,6 +123,7 @@ void	test(t_minishell *minishell)
 	// wait(NULL);
 	comando = ft_split("wc -l", ' ');
 	pipe(fd2);
+	printf("Descritores de arquivo: in = %d, out = %d\n", fd2[0], fd2[1]);
 	pid = fork();
 	if (pid)
 	{
@@ -176,7 +178,6 @@ void	test(t_minishell *minishell)
 	}
 	ft_lstclear(&minishell->pid_list, free);
 }
-
 
 int	main(void)
 {
