@@ -12,4 +12,38 @@
 
 #include "../includes/minishell.h"
 
-t_command	*
+char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
+{
+	(void)word;
+	(void)minishell;
+	return (NULL);
+}
+
+char	**ft_generate_argv(t_token *tokens)
+{
+	int		i;
+	t_token	*temp;
+	char	**argv;
+
+	i = 0;
+	temp = tokens;
+	while (temp && temp->type == WORD)
+	{
+		i++;
+		temp = temp->next;
+	}
+	argv = (char **)ft_calloc(i + 1, sizeof(char *));
+	temp = tokens;
+	i = 0;
+	while (temp && temp->type == WORD)
+	{
+		argv[i] = temp->content;
+		temp = temp->next;
+		i++;
+	}
+
+	// se encontrar um operador redir, pular para o próximo.
+	// Caso o próximo for null ou diferente de word, retornar erro
+	// se encontrar um operador | ou null, alocar o char **	de acordo com os nós contados
+	return (argv);
+}

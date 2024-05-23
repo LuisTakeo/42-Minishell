@@ -137,9 +137,12 @@ int			print_env(char **envp);
 t_command	*ft_newtreenode(char **args);
 void		ft_treeaddonleft(t_command **treenode, t_command *treenew);
 void		ft_treeaddonright(t_command **treenode, t_command *treenew);
+char		**ft_generate_argv(t_token *tokens);
 // utils
 void		free_arr(char **arr);
 void		sort_arr(char **arr);
 void		swap_arr(char **wordA, char **wordB);
+// free functions
+void		free_resources_prompt(t_minishell *minishell);
 
 #endif

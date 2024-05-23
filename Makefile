@@ -67,17 +67,17 @@ $(OBJ_BUILTINS_FOLDER)%.o:$(SRC_BUILTINS_FOLDER)%.c $(HEADER)
 
 # TREE
 SRC_TREE_FOLDER := $(SRC_FOLDER)tree/
-SRC_TREE := $(addprefix $(SRC_TREE_FOLDER), $(addsuffix .c, ft_newtreenode))
+SRC_TREE := $(addprefix $(SRC_TREE_FOLDER), $(addsuffix .c, ft_newtreenode ft_treeaddonsides ft_generate_tree))
 OBJ_TREE_FOLDER := $(OBJS_FOLDER)tree/
 OBJS_TREE := $(SRC_TREE:$(SRC_TREE_FOLDER)%.c=$(OBJ_TREE_FOLDER)%.o)
 
 # BUILTINS Objects
-$(OBJ_BUILTINS_FOLDER)%.o:$(SRC_BUILTINS_FOLDER)%.c $(HEADER)
-	@mkdir -p $(OBJ_BUILTINS_FOLDER)
+$(OBJ_TREE_FOLDER)%.o:$(SRC_TREE_FOLDER)%.c $(HEADER)
+	@mkdir -p $(OBJ_TREE_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
 # Variavel para receber todos os objects
-ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS)
+ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS) $(OBJS_TREE)
 
 ######################################################################
 # $(NAME)
