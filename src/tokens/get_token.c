@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/21 19:16:37 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:15:15 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	split_tokens(char *input, t_token **tokens)
 	while (input[i])
 	{
 		skip_whitespace(input, &i);
-		if (ft_strchr(SYMBOLS, input[i]))
+		if (input[i] && ft_strchr(SYMBOLS, input[i]))
 			get_operator(input, &aux, &i);
 		else
 			get_word(input, &aux, &i);
@@ -74,21 +74,21 @@ static void	split_tokens(char *input, t_token **tokens)
 
 void	get_token(char *input, t_token **tokens)
 {
-	t_token	*aux;
-	int		i;
+	// t_token	*aux;
+	// int		i;
 
 	if (!input || !input[0])
 		return ;
 	count_quotes(input);
 	init_token(tokens);
 	split_tokens(input, tokens);
-	i = 1;
-	aux = *tokens;
-	while (aux)
-	{
-		ft_printf("Token[%d]: %s!\n ", i, aux->content);
-		ft_printf("Type[%d]: %i!\n\n", i, aux->type);
-		aux = aux->next;
-		i++;
-	}
+	// i = 1;
+	// aux = *tokens;
+	// while (aux)
+	// {
+	// 	ft_printf("Token[%d]: %s!\n ", i, aux->content);
+	// 	ft_printf("Type[%d]: %i!\n\n", i, aux->type);
+	// 	aux = aux->next;
+	// 	i++;
+	// }
 }

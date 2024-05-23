@@ -29,6 +29,35 @@ void	prepare_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void	free_resources_prompt(t_minishell *minishell)
+{
+	free(minishell->input);
+	minishell->input = NULL;
+	if (minishell->tokens)
+		free_token(&(minishell->tokens));
+	minishell->tokens = NULL;
+}
+
+void	build_commands(t_minishell *minishell)
+{
+	char	**command;
+
+	if (!(minishell->tokens))
+		return ;
+	command = ft_generate_argv(minishell->tokens);
+	// int i = 0;
+	// while (command[i])
+	// 	ft_printf("Argv: %s\n", command[i++]);
+	if (is_builtin(command, minishell->envp) >= 0)
+		;
+	else
+		exec_command(command, 0, minishell);
+	// if (command)
+	// 	free_arr(command);
+	free(command);
+	command = NULL;
+}
+
 void	prompt(t_minishell *minishell)
 {
 	char	**test_command;
@@ -48,22 +77,9 @@ void	prompt(t_minishell *minishell)
 		}
 		add_history(minishell->input);
 		get_token(minishell->input, &(minishell->tokens));
-		test_command = ft_split(minishell->tokens->content, ' ');
-		if (minishell->tokens)
-		{
-			if (is_builtin(test_command, minishell->envp) >= 0)
-				ft_printf("Builtin\n");
-			else
-				exec_command(test_command, 0, minishell);
-		}
-		if (minishell->input)
-			free(minishell->input);
-		if (minishell->tokens)
-			free_token(&(minishell->tokens));
-		minishell->tokens = NULL;
-		if (test_command)
-			free_arr(test_command);
-		test_command = NULL;
+		build_commands(minishell);
+		free_resources_prompt(minishell);
+
 	}
 }
 
@@ -107,6 +123,8 @@ void	test(t_minishell *minishell)
 	{
 		ft_lstadd_back(&minishell->pid_list, ft_lstnew((void *)((long)pid)));
 		ft_printf("%d %d ", (long *)(minishell->pid_list->content), pid);
+		// ft_lstadd_back(&minishell->pid_list, ft_lstnew(ft_itoa(pid)));
+		// ft_printf("%s %d ", (ft_lstlast(minishell->pid_list))->content, pid);
 	}
 	if (!pid)
 	{
@@ -126,8 +144,10 @@ void	test(t_minishell *minishell)
 	pid = fork();
 	if (pid)
 	{
-		ft_lstadd_back(&minishell->pid_list, ft_lstnew((void *)((long)pid)));
+		ft_lstadd_back(&(minishell->pid_list), ft_lstnew((void *)((long)pid)));
 		ft_printf("%d %d ", (long *)(minishell->pid_list->content), pid);
+		// ft_lstadd_back(&minishell->pid_list, ft_lstnew(ft_itoa(pid)));
+		// ft_printf("%s %d ", (ft_lstlast(minishell->pid_list))->content, pid);
 	}
 	if (!pid)
 	{
@@ -154,8 +174,10 @@ void	test(t_minishell *minishell)
 	pid = fork();
 	if (pid)
 	{
-		ft_lstadd_back(&minishell->pid_list, ft_lstnew((void *)((long)pid)));
+		ft_lstadd_back(&(minishell->pid_list), ft_lstnew((void *)((long)pid)));
 		ft_printf("%d %d ", (long *)(minishell->pid_list->content), pid);
+		// ft_lstadd_back(&minishell->pid_list, ft_lstnew(ft_itoa(pid)));
+		// ft_printf("%s %d ", (ft_lstlast(minishell->pid_list))->content, pid);
 	}
 	if (!pid)
 	{
@@ -167,6 +189,7 @@ void	test(t_minishell *minishell)
 	}
 	close(fd2[0]);
 	close(fd2[1]);
+	free_arr(comando);
 	temp = minishell->pid_list;
 	// lógica para implantar waits de cada processo
 	// wait são aplicados no final, após fds fechados para evitar problemas
@@ -175,7 +198,9 @@ void	test(t_minishell *minishell)
 		waitpid((pid_t)((long)(temp->content)), &status, 0);
 		temp = temp->next;
 	}
-	ft_lstclear(&minishell->pid_list, free);
+	free_arr(env);
+	temp = minishell->pid_list;
+	ft_lstclear(&temp, free);
 }
 
 int	main(void)
@@ -187,7 +212,7 @@ int	main(void)
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
-	test(&minishell);
+	// test(&minishell);
 	// pwd();
 	// change_dir(ft_strdup("./src"));
 	// pwd();

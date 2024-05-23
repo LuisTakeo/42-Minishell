@@ -19,7 +19,7 @@ int	echo(char **args)
 
 	if (!args)
 		return (EXIT_FAILURE);
-	i = 0;
+	i = 1;
 	is_break_line = 1;
 	if (args[i] && !ft_strncmp(args[i], "-n", 3))
 	{

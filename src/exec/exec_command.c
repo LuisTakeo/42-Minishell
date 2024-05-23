@@ -29,16 +29,17 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	if (!full_path)
 		return (show_error(arrstr[0], ": Command not found\n", 127));
 	id = fork();
-	if (id)
-	{
-		waitpid(id, &i, 0);
-		ft_printf("Response: %d\n", i);
-	}
 	if (!id)
 	{
 		ft_printf("Processo filho: %d\n", id);
 		execve(full_path, arrstr, minishell->envp);
 		exit(EXIT_FAILURE);
+	}
+	if (id)
+	{
+		waitpid(id, &i, 0);
+		minishell->status = i;
+		ft_printf("Response: %d\n", minishell->status);
 	}
 	if (full_path && ft_strncmp(full_path, arrstr[0],
 			ft_strlen(full_path) + 1))
