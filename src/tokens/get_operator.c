@@ -6,16 +6,11 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:18:32 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/21 16:32:35 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/05/25 17:20:44 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*static void	get_pipe_token(char *input, t_token **tokens, int *i)
-{
-	allocate_token(tokens, input, *i, *i + 1);
-}*/
 
 /*static void	set_redirs_type(t_token **tokens, char type, int is_double)
 {

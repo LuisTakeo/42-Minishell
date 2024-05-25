@@ -83,7 +83,6 @@ void	prompt(t_minishell *minishell)
 	}
 }
 
-
 void	free_arr(char **arr)
 {
 	int	i;
@@ -212,10 +211,6 @@ int	main(void)
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
-	// test(&minishell);
-	// pwd();
-	// change_dir(ft_strdup("./src"));
-	// pwd();
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
