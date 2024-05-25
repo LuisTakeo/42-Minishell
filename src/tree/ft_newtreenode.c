@@ -16,7 +16,7 @@ t_command	*ft_newtreenode(char **args)
 {
 	t_command	*new_node;
 
-	new_node = malloc(sizeof(t_list));
+	new_node = malloc(sizeof(t_command));
 	if (!new_node)
 		return (NULL);
 	new_node->argv = args;
