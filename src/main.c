@@ -211,6 +211,7 @@ int	main(void)
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
+	//ft_printf("%s\n", expand_env("LS_COLORS", minishell.envp));
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
