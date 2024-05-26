@@ -71,7 +71,7 @@ SRC_TREE := $(addprefix $(SRC_TREE_FOLDER), $(addsuffix .c, ft_newtreenode ft_tr
 OBJ_TREE_FOLDER := $(OBJS_FOLDER)tree/
 OBJS_TREE := $(SRC_TREE:$(SRC_TREE_FOLDER)%.c=$(OBJ_TREE_FOLDER)%.o)
 
-# BUILTINS Objects
+# TREE Objects
 $(OBJ_TREE_FOLDER)%.o:$(SRC_TREE_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_TREE_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"

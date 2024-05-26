@@ -31,16 +31,13 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	id = fork();
 	if (!id)
 	{
-		ft_printf("Processo filho: %d\n", id);
+		// ft_printf("Processo filho: %d\n", id);
 		execve(full_path, arrstr, minishell->envp);
 		exit(EXIT_FAILURE);
 	}
-	if (id)
-	{
-		waitpid(id, &i, 0);
-		minishell->status = i;
-		ft_printf("Response: %d\n", minishell->status);
-	}
+	waitpid(id, &i, 0);
+	minishell->status = i;
+	ft_printf("Response: %d\n", minishell->status);
 	if (full_path && ft_strncmp(full_path, arrstr[0],
 			ft_strlen(full_path) + 1))
 		free(full_path);

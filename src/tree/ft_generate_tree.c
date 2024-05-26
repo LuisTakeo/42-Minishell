@@ -16,9 +16,13 @@ char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
 {
 	(void)word;
 	(void)minishell;
+	// quando encontrar variavel, chamar função de expandir var
+	// quando encontrar '' chamar função de expandir ''
+	// quando encontrar "" chamar função de expandir ""
 	return (NULL);
 }
 
+// gera o argv (char **) da arvore
 char	**ft_generate_argv(t_token *tokens)
 {
 	int		i;
