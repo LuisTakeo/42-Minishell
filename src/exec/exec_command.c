@@ -14,8 +14,8 @@
 
 static int	show_error(char *content, char *error, int num_error)
 {
-	ft_putstr_fd(content, 2);
-	ft_putstr_fd(error, 2);
+	ft_putstr_fd(content, STDERR_FILENO);
+	ft_putstr_fd(error, STDERR_FILENO);
 	return (num_error);
 }
 

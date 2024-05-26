@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/26 17:44:45 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/26 17:46:17 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,6 @@ void	get_word(char *input, t_token **tokens, int *i)
 	if (*i > start)
 		allocate_token(tokens, input, start, *i);
 }
-
-/*void	get_env_token(char *input, t_token **tokens, int *i)
-{
-	int	start;
-
-	start = *i;
-	(*i)++;
-	(*tokens)->type = ENV;
-	if (input[*i] && input[*i] == '?')
-	{
-		(*tokens)->type = STATUS;
-		(*i)++;
-	}
-	else
-	{
-		while (input[*i] && !ft_strchr(WHITESPACE, input[*i])
-			&& !ft_strchr(QUOTES, input[*i])
-			&& !ft_strchr(SYMBOLS, input[*i])
-			&& input[*i] != '$')
-			(*i)++;
-	}
-	if (*i > start)
-		allocate_token(tokens, input, start, *i);
-}*/
 
 static void	split_tokens(char *input, t_token **tokens)
 {
