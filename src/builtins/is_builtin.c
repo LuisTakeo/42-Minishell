@@ -17,7 +17,7 @@ int	is_builtin(char **command, char **env)
 	if (!env)
 		return (0);
 	if (!ft_strncmp(command[0], "cd", ft_strlen("cd") + 1))
-		return (change_dir("."));
+		return (change_dir(command));
 	if (!ft_strncmp(command[0], "echo", ft_strlen("echo") + 1))
 		return (echo(command));
 	if (!ft_strncmp(command[0], "exit", ft_strlen("exit") + 1))

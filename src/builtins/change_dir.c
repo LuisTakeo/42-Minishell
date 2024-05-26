@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_dir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:57:31 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/15 14:35:38 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/26 18:30:49 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,42 @@ static char	*generate_full_path(const char *home, const char *path)
 	return (full_path);
 }
 
-static int	print_error_cd(char **path)
+static int	print_error_cd(char **path, char *error_msg)
 {
-	ft_fdprintf("cd: ", STDERR_FILENO);
-	perror(NULL);
-	ft_fdprintf("cd: %s %s\n", STDERR_FILENO, (*path), strerror(errno));
-	free((*path));
+	if (error_msg)
+		ft_fdprintf("cd: %s\n", STDERR_FILENO, error_msg);
+	else
+	{
+		ft_fdprintf("cd: ", STDERR_FILENO);
+		perror(NULL);
+		ft_fdprintf("cd: %s %s\n", STDERR_FILENO, (*path), strerror(errno));
+		free((*path));
+	}
 	return (EXIT_FAILURE);
 }
 // nota -> passar conteúdo com aspas para change_dir
 //		-> comportamento diferente de cd ~ para cd "~"
 //	upt	-> não é necessário tratar o ~
-int	change_dir(char *path)
+int	change_dir(char **path)
 {
 	char	*full_path;
 	char	*home;
 
-	if (path && is_actual_dir(path))
+	if (path[1] && is_actual_dir(path[1]))
 		return (EXIT_SUCCESS);
+	if (path[2])
+		print_error_cd(path, "too many arguments");
 	full_path = NULL;
 	home = getenv("HOME");
-	if (path == NULL || !ft_strncmp(path, "~", ft_strlen("~") + 1))
-		path = home;
-	else if (!ft_strncmp(path, "~/", 2))
+	if (path[1] == NULL || !ft_strncmp(path[1], "~", ft_strlen("~") + 1))
+		path[1] = home;
+	else if (!ft_strncmp(path[1], "~/", 2))
 	{
-		full_path = generate_full_path(home, path);
-		path = full_path;
+		full_path = generate_full_path(home, path[1]);
+		path[1] = full_path;
 	}
-	if (chdir(path) == -1)
-		return (print_error_cd(&path));
+	if (chdir(path[1]) == -1)
+		return (print_error_cd(&path[1], NULL));
 	free(full_path);
 	return (EXIT_SUCCESS);
 }
