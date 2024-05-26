@@ -120,7 +120,7 @@ char		**get_env(char **envp);
 char		**get_paths(char **env);
 // bultins
 int			pwd(void);
-int			change_dir(char *path);
+int			change_dir(char **path);
 int			unset(const char *key, char **envp);
 int			export(char *variable, char ***env);
 int			print_order_env(char **env);
