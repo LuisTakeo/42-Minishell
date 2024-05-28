@@ -12,10 +12,41 @@
 
 #include "../includes/minishell.h"
 
+char	*expand_simple_quotes(char *word)
+{
+	char	*temp;
+	int		i;
+
+	temp = word;
+	i = 0;
+	if (*temp == '\'')
+		temp++;
+	while (temp[i] && temp[i] != '\'')
+		i++;
+	return (ft_substr(temp, 0, i));
+}
+
+char	*expand_word(char *word)
+{
+	char	*temp;
+	int		i;
+
+	temp = word;
+	i = 0;
+	while (temp[i] && !ft_strchr(QUOTES, temp[i]))
+		i++;
+	return (ft_substr(temp, 0, i));
+}
+
 char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
 {
-	(void)word;
+	char	*full_word;
+	// char	*temp;
+	// int		i;
+
 	(void)minishell;
+	(void)word;
+	(void)full_word;
 	// quando encontrar variavel, chamar função de expandir var
 	// quando encontrar '' chamar função de expandir ''
 	// quando encontrar "" chamar função de expandir ""

@@ -60,11 +60,11 @@ void	build_commands(t_minishell *minishell)
 
 void	prompt(t_minishell *minishell)
 {
-	char	**test_command;
+	// char	**test_command;
 
 	prepare_signals();
 	minishell->tokens = NULL;
-	test_command = NULL;
+	// test_command = NULL;
 	while (1)
 	{
 		minishell->input = readline("minishell$ ");
@@ -106,14 +106,14 @@ void	test(t_minishell *minishell)
 	pid_t			pid;
 	// int			pid2;
 	// int			pid3;
-	extern char	**environ;
-	char		*test;
+	// extern char	**environ;
+	// char		*test;
 	char		**env;
 	char		**comando = ft_split("ls -la", ' ');
 	t_list		*temp;
 
 
-	test = NULL;
+	// test = NULL;
 	env = get_env(__environ);
 	pipe(fd);
 	printf("Descritores de arquivo: in = %d, out = %d\n", fd[0], fd[1]);
@@ -206,11 +206,16 @@ int	main(void)
 {
 	t_minishell	minishell;
 	extern char	**environ;
+	char		*test_word1;
 
-	minishell.envp = get_env(environ);
+	if (environ)
+		minishell.envp = get_env(environ);
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
+	test_word1 = expand_simple_quotes("'oi  oi'");
+	ft_printf("->%s!\n", test_word1);
+	free(test_word1);
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
