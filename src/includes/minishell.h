@@ -115,8 +115,9 @@ void		get_word(char *input, t_token **tokens, int *i);
 void		get_operator(char *input, t_token **tokens, int *i);
 void		get_token(char *input, t_token **tokens);
 void		free_token(t_token **tokens);
-char		*expand_simple_quotes(char *word);
-char		*expand_word(char *word);
+char		*expand_simple_quotes(char **word);
+char		*expand_word(char **word);
+char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 // get envs
 char		**get_env(char **envp);
 char		**get_paths(char **env);

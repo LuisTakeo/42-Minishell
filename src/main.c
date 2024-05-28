@@ -206,15 +206,24 @@ int	main(void)
 {
 	t_minishell	minishell;
 	extern char	**environ;
+	// testes para verificar expansão de aspas simples e words
 	char		*test_word1;
+	char		*test_word2 = "123123   aaa""'a'";
+	char		*temp; // percorrer com temp
 
 	if (environ)
 		minishell.envp = get_env(environ);
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
-	test_word1 = expand_simple_quotes("'oi  oi'");
+	temp = test_word2;
+	test_word1 = expand_word(&temp);
 	ft_printf("->%s!\n", test_word1);
+	ft_printf("->%s!\n", test_word2);
+	ft_printf("->%s!\n", temp);
+	free(test_word1);
+	test_word1 = expand_vars_and_quotes(test_word2, &minishell);
+	ft_printf("teste final->%s!\n", test_word1);
 	free(test_word1);
 	prompt(&minishell);
 	ft_printf("Exit\n");
