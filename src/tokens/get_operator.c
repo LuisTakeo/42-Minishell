@@ -33,10 +33,10 @@
 static void	get_redirs_token(char *input, t_token **tokens, int *i)
 {
 	char	redir_type;
-	t_token	*aux;
+	// t_token	*aux;
 
 	redir_type = input[*i];
-	aux = *tokens;
+	// aux = *tokens;
 	if (input[*i] == redir_type)
 	{
 		if (input[*i + 1] == redir_type)

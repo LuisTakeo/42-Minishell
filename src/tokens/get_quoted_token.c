@@ -53,10 +53,10 @@ int	count_quotes(char *input)
 void	get_quoted_token(char *input, int *i)
 {
 	char	quote_type;
-	int		start;
+	// int		start;
 
 	quote_type = input[*i];
-	start = *i;
+	// start = *i;
 	(*i)++;
 	while (input[*i] && input[*i] != quote_type)
 		(*i)++;
