@@ -123,12 +123,12 @@ char		**get_env(char **envp);
 char		**get_paths(char **env);
 // bultins
 int			pwd(void);
-int			change_dir(char **path);
+int			change_dir(char **path, t_minishell *minishell);
 int			unset(const char *key, char **envp);
 int			export(char *variable, char ***env);
 int			print_order_env(char **env);
 int			echo(char **args);
-int			is_builtin(char **command, char **env);
+int			is_builtin(char **command, t_minishell *minishell);
 // execute commands
 // prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);

@@ -45,11 +45,8 @@ void	build_commands(t_minishell *minishell)
 	if (!(minishell->tokens))
 		return ;
 	command = ft_generate_argv(minishell->tokens);
-	// int i = 0;
-	// while (command[i])
-	// 	ft_printf("Argv: %s\n", command[i++]);
-	if (is_builtin(command, minishell->envp) >= 0)
-		;
+	if (is_builtin(command, minishell) >= 0)
+		; // verificar se é comando filho
 	else
 		exec_command(command, 0, minishell);
 	// if (command)

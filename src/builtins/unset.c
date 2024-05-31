@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:58:22 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/03 21:36:46 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/31 14:45:02 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static int	unset_env(const char *key, char **envp)
 
 int	unset(const char *key, char **envp)
 {
+	// int	status_error;
+
 	if (key == NULL)
 		return (EXIT_FAILURE);
 	else if (is_key_in_envp(key, envp) == 1)
