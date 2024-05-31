@@ -17,7 +17,7 @@ char	*validate_var_name(char *var)
 	int	i;
 
 	i = 1;
-	if (var[0] && !(ft_isalpha(var[0]) || var[0] == '_'))
+	if (!var[0] || (var[0] && !(ft_isalpha(var[0]) || var[0] == '_')))
 		return (var);
 	while (var[i] && var[i] != '=')
 	{
@@ -84,16 +84,29 @@ void	insert_key_value(char *variable, char ***env)
 	*env = new_envp;
 }
 
-int	export(char *variable, char ***env)
+int	export(char **args, char ***env, t_minishell *minishell)
 {
 	char	*var;
+	int		i;
+	int		status_error;
 
-	if (!variable || !*variable)
+	if (!args[1])
 		return (print_order_env((*env)));
-	var = validate_var_name(variable);
-	if (var)
-		return (ft_fdprintf("'%s': not a valid identifier\n",
-				STDERR_FILENO, var));
-	insert_key_value(variable, env);
-	return (EXIT_SUCCESS);
+	status_error = 0;
+	i = 0;
+	while (args[++i])
+	{
+		var = validate_var_name(args[i]);
+		if (var)
+		{
+			status_error = ft_fdprintf("'%s': not a valid identifier\n",
+					STDERR_FILENO, var);
+			continue ;
+		}
+		insert_key_value(args[i], env);
+
+	}
+	free_arr(minishell->path);
+	minishell->path = get_paths((*env));
+	return (status_error);
 }

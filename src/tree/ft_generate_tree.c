@@ -57,7 +57,6 @@ char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
 	char	*full_word;
 	char	*temp_word;
 	char	*temp;
-	// char	*temp2;
 
 	(void)minishell;
 	full_word = NULL;

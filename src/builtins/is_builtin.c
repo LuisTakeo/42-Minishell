@@ -23,9 +23,9 @@ int	is_builtin(char **command, t_minishell *minishell)
 	if (!ft_strncmp(command[0], "env", ft_strlen("env") + 1))
 		return (print_env(minishell->envp));
 	if (!ft_strncmp(command[0], "export", ft_strlen("export") + 1))
-		return (export(NULL, &(minishell->envp)));
+		return (export(command, &(minishell->envp), minishell));
 	if (!ft_strncmp(command[0], "unset", ft_strlen("unset") + 1))
-		return (unset(NULL, minishell->envp));
+		return (unset(NULL, minishell->envp, minishell));
 	if (!ft_strncmp(command[0], "pwd", ft_strlen("pwd") + 1))
 		return (pwd());
 	return (-1);

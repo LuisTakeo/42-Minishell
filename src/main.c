@@ -42,9 +42,9 @@ void	build_commands(t_minishell *minishell)
 {
 	char	**command;
 
-	if (!(minishell->tokens))
+	if (!(minishell->tokens) || !(minishell->tokens->content))
 		return ;
-	command = ft_generate_argv(minishell->tokens);
+	command = ft_generate_argv(minishell->tokens, minishell);
 	if (is_builtin(command, minishell) >= 0)
 		; // verificar se é comando filho
 	else

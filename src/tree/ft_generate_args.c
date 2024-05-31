@@ -13,7 +13,7 @@
 #include "../includes/minishell.h"
 
 // gera o argv (char **) da arvore
-char	**ft_generate_argv(t_token *tokens)
+char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
 {
 	int		i;
 	t_token	*temp;
@@ -31,7 +31,7 @@ char	**ft_generate_argv(t_token *tokens)
 	i = 0;
 	while (temp && temp->type == WORD)
 	{
-		argv[i] = temp->content;
+		argv[i] = expand_vars_and_quotes(temp->content, minishell);
 		temp = temp->next;
 		i++;
 	}

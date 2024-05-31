@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:57:31 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/31 16:35:25 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:32:07 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,21 @@ static int	print_error_cd(char **path, char *error_msg)
 
 void	set_pwd(t_minishell *minishell)
 {
-	char	*new_pwd;
-	char	*old_pwd;
 	char	*temp;
+	char	**arr_export;
 	int		i;
 
 	i = -1;
 	while (minishell->envp[++i])
 		if (!ft_strncmp(minishell->envp[i], "PWD", 3))
 			break ;
-	old_pwd = ft_strjoin("OLD", minishell->envp[i]);
 	temp = getcwd(NULL, 0);
-	new_pwd = ft_strjoin("PWD=", temp);
-	export(new_pwd, &minishell->envp);
-	export(old_pwd, &minishell->envp);
-	free(old_pwd);
-	free(new_pwd);
+	arr_export = malloc(sizeof(char *) * 3);
+	arr_export[2] = NULL;
+	arr_export[0] = ft_strjoin("OLD", minishell->envp[i]);
+	arr_export[1] = ft_strjoin("PWD=", temp);
+	export(arr_export, &minishell->envp, minishell);
+	free_arr(arr_export);
 	free(temp);
 }
 

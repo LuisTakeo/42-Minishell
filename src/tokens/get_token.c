@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/26 17:46:17 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:37:05 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,53 @@ static void	split_tokens(char *input, t_token **tokens)
 	}
 }
 
+static void	verify_null(t_token **tokens)
+{
+	t_token	*prev;
+	t_token	*temp;
+
+	if (!(*tokens))
+		return ;
+	temp = *tokens;
+	prev = NULL;
+	while (temp)
+	{
+		if (!temp->content && !prev)
+		{
+			prev = temp;
+			temp = temp->next;
+			free_token(&prev);
+		}
+		else if (!temp->content)
+		{
+			temp = temp->next;
+			free_token(&(prev->next));
+			prev->next = temp;
+			temp = prev;
+		}
+		prev = temp;
+		temp = temp->next;
+	}
+}
+
 void	get_token(char *input, t_token **tokens)
 {
-	// t_token	*aux;
-	// int		i;
+	t_token	*aux;
+	int		i;
 
 	if (!input || !input[0])
 		return ;
 	count_quotes(input);
 	init_token(tokens);
 	split_tokens(input, tokens);
-	// i = 1;
-	// aux = *tokens;
-	// while (aux)
-	// {
-	// 	ft_printf("Token[%d]: %s!\n ", i, aux->content);
-	// 	ft_printf("Type[%d]: %i!\n\n", i, aux->type);
-	// 	aux = aux->next;
-	// 	i++;
-	// }
+	verify_null(tokens);
+	i = 1;
+	aux = *tokens;
+	while (aux)
+	{
+		ft_printf("Token[%d]: %s!\n ", i, aux->content);
+		ft_printf("Type[%d]: %i!\n\n", i, aux->type);
+		aux = aux->next;
+		i++;
+	}
 }
