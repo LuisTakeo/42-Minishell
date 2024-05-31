@@ -225,6 +225,9 @@ int	main(void)
 	test_word1 = get_single_env("HOME", minishell.envp);
 	ft_printf("Teste get single env->%s!\n", test_word1);
 	free(test_word1);
+	test_word1 = get_env_value("HOME", minishell.envp);
+	ft_printf("Teste value env ->%s!\n", test_word1);
+	free(test_word1);
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);

@@ -122,6 +122,7 @@ char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 char		**get_env(char **envp);
 char		*get_single_env(char *env_name, char **envp);
 char		**get_paths(char **env);
+char		*get_env_value(char *env_name, char **envp);
 // bultins
 int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);

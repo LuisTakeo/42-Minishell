@@ -36,7 +36,6 @@ char	*get_single_env(char *env_name, char **envp)
 {
 	int		i;
 	int		env_len;
-	char	*temp;
 
 	i = -1;
 	env_len = ft_strlen(env_name);
@@ -44,16 +43,31 @@ char	*get_single_env(char *env_name, char **envp)
 		if (!ft_strncmp(env_name, envp[i], env_len)
 			&& (envp[i][env_len] == '=' || !envp[i][env_len]))
 			break ;
-	temp = envp[i];
+	if (!envp[i])
+		return (NULL);
+	return (ft_strdup(envp[i]));
+}
+
+char	*get_env_value(char *env_name, char **envp)
+{
+	char	*full_var_env;
+	char	*temp;
+
+	full_var_env = get_single_env(env_name, envp);
+	temp = full_var_env;
 	if (temp)
 	{
 		while (*temp && *temp != '=')
 			temp++;
 		if (!(*temp))
+		{
+			free (full_var_env);
 			return (NULL);
+		}
 		temp++;
 		temp = ft_strdup(temp);
-		ft_printf("%s\n", temp);
+		free (full_var_env);
+
 	}
 	return (temp);
 }
