@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:58:22 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/03 21:36:46 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:57:27 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ static int	unset_env(const char *key, char **envp)
 	return (EXIT_SUCCESS);
 }
 
-int	unset(const char *key, char **envp)
+int	unset(const char *key, char **envp, t_minishell *minishell)
 {
+	// int	status_error;
+
 	if (key == NULL)
 		return (EXIT_FAILURE);
 	else if (is_key_in_envp(key, envp) == 1)
@@ -80,5 +82,7 @@ int	unset(const char *key, char **envp)
 		return (EXIT_FAILURE);
 	}
 	unset_env(key, envp);
+	free_arr(minishell->path);
+	minishell->path = get_paths(envp);
 	return (EXIT_SUCCESS);
 }

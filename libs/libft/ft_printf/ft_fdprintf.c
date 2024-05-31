@@ -34,18 +34,18 @@ static int	ft_filter_to_print_args(int c, va_list args, int fd)
 	return (0);
 }
 
-static int	ft_print_flags(char c, va_list args, t_flags flags, int fd)
+static int	ft_print_flags(char c, va_list args, t_flags f, int fd)
 {
 	if (c == 'd' || c == 'i' || c == 'p')
 	{
-		if (flags.is_plus && (c == 'd' || c == 'i'))
+		if (f.is_plus && (c == 'd' || c == 'i'))
 			return (ft_putnbr_fd(va_arg(args, int), '+', fd));
-		if (flags.is_plus && (c == 'p'))
+		if (f.is_plus && (c == 'p'))
 			return (ft_putpointer_fd((unsigned long int) va_arg(args, void *),
 					"0x", '+', fd));
-		if (flags.is_space && (c == 'd' || c == 'i'))
+		if (f.is_space && (c == 'd' || c == 'i'))
 			return (ft_putnbr_fd(va_arg(args, int), ' ', fd));
-		if (flags.is_space && (c == 'p'))
+		if (f.is_space && (c == 'p'))
 			return (ft_putpointer_fd((unsigned long int) va_arg(args, void *),
 					"0x", ' ', fd));
 		if (c == 'd' || c == 'i')
@@ -54,12 +54,12 @@ static int	ft_print_flags(char c, va_list args, t_flags flags, int fd)
 			return (ft_putpointer_fd((unsigned long int) va_arg(args, void *),
 					"0x", 0, fd));
 	}
-	if (c == 'X' && (flags.is_hash))
+	if (c == 'X' && (f.is_hash))
 		return (ft_putnbrbase(va_arg(args, unsigned int), 1, "0X", fd));
-	if (c == 'x' && (flags.is_hash))
+	if (c == 'x' && (f.is_hash))
 		return (ft_putnbrbase(va_arg(args, unsigned int), 0, "0x", fd));
-	if (c == 's' && (flags.is_width))
-		return (ft_putstrspc_fd(va_arg(args, const char *), flags.is_width, fd));
+	if (c == 's' && (f.is_width))
+		return (ft_putstrspc_fd(va_arg(args, char *), f.is_width, fd));
 	return (ft_filter_to_print_args(c, args, fd));
 }
 

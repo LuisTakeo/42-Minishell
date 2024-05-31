@@ -42,14 +42,11 @@ void	build_commands(t_minishell *minishell)
 {
 	char	**command;
 
-	if (!(minishell->tokens))
+	if (!(minishell->tokens) || !(minishell->tokens->content))
 		return ;
-	command = ft_generate_argv(minishell->tokens);
-	// int i = 0;
-	// while (command[i])
-	// 	ft_printf("Argv: %s\n", command[i++]);
-	if (is_builtin(command, minishell->envp) >= 0)
-		;
+	command = ft_generate_argv(minishell->tokens, minishell);
+	if (is_builtin(command, minishell) >= 0)
+		; // verificar se é comando filho
 	else
 		exec_command(command, 0, minishell);
 	// if (command)
@@ -224,6 +221,12 @@ int	main(void)
 	free(test_word1);
 	test_word1 = expand_vars_and_quotes(test_word2, &minishell);
 	ft_printf("teste final->%s!\n", test_word1);
+	free(test_word1);
+	test_word1 = get_single_env("HOME", minishell.envp);
+	ft_printf("Teste get single env->%s!\n", test_word1);
+	free(test_word1);
+	test_word1 = get_env_value("HOME", minishell.envp);
+	ft_printf("Teste value env ->%s!\n", test_word1);
 	free(test_word1);
 	prompt(&minishell);
 	ft_printf("Exit\n");
