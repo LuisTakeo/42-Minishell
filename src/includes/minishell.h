@@ -120,6 +120,7 @@ char		*expand_word(char **word);
 char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 // get envs
 char		**get_env(char **envp);
+char		*get_single_env(char *env_name, char **envp);
 char		**get_paths(char **env);
 // bultins
 int			pwd(void);
