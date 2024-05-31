@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/31 20:37:05 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:51:12 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	split_tokens(char *input, t_token **tokens)
 		skip_whitespace(input, &i);
 		if (input[i] && ft_strchr(SYMBOLS, input[i]))
 			get_operator(input, &aux, &i);
-		else
+		else if (input[i])
 			get_word(input, &aux, &i);
 	}
 }

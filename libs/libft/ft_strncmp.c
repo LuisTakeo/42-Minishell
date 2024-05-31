@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:17:38 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2023/10/27 05:40:25 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:48:22 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	else
 	{
-		while ((i < (n - 1)) && (s1[i] == s2[i]) && s1[i])
+		while (s1[i] && (i < (n - 1)) && (s1[i] == s2[i]))
 			i++;
 	}
 	return ((int)((unsigned char)s1[i] - (unsigned char)s2[i]));
