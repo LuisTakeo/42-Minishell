@@ -2,19 +2,39 @@
     -- incluir separação por símbolos especiais (criar função/regra pra cada tipo)
     -- definir tipos de token para comandos, argumentos e flags
     -- verificar se tokens são válidos (validação do comando)
+DONE!!!
 
 - expandir vars
     -- expandir variaveis
     -- corrigir separação de token com $ (variáveis de ambiente)
     -- corrigir segfault quando executado apenas com $ (token não salva)
 
-- builtins
-    -- começar implementação das funções
+- arvore binaria
+    -- validar tokens (operadores)
+    -- tipar operadores dos tokens
+    -- construir a arvore // utilizar lista duplamente linkada?
+        -- alocar o primeiro nó
+        -- buscar pelo ultimo pipe
+        // loop
+        -- botar o pipe no primeiro nó
+        -- o nó da direita da arvore vai receber os comandos com o conteudo a direita do pipe
+            -- puxar o conteudo que for 'word' de tokens e transformar em argv
+            -- puxar o conteudo que for redir/argumento e jogar em uma lista de redir
+            -- retornar o nó alocado com seus conteudos
+        -- verificar se há um pipe antes
+        -- não houver, chamaar função para construir nó da esquerda (mesma função utilizada para nó da direitaa)
+        -- se sim, alocar o nó da esquerda e seguir pro próximo (repetir o loop)
 
-- parsear e preparar para execução
+- builtins
+    -- implementar exit
+    -- adaptação unset
+
+- parsear e preparar para execução // separar em função quando for único comando
     -- verificar se é um builtin
         --- se sim, executar função de acordo
         --- se não, utilizar fork para execve
+    DONE!!!
+
 
 - fork -> processo pai / processo filho
     -- verificar se é processo filho

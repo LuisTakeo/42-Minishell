@@ -115,17 +115,22 @@ void		get_word(char *input, t_token **tokens, int *i);
 void		get_operator(char *input, t_token **tokens, int *i);
 void		get_token(char *input, t_token **tokens);
 void		free_token(t_token **tokens);
+char		*expand_simple_quotes(char **word);
+char		*expand_word(char **word);
+char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 // get envs
 char		**get_env(char **envp);
+char		*get_single_env(char *env_name, char **envp);
 char		**get_paths(char **env);
+char		*get_env_value(char *env_name, char **envp);
 // bultins
 int			pwd(void);
-int			change_dir(char **path);
-int			unset(const char *key, char **envp);
-int			export(char *variable, char ***env);
+int			change_dir(char **path, t_minishell *minishell);
+int			unset(const char *key, char **envp, t_minishell *minishell);
+int			export(char **args, char ***env, t_minishell *minishell);
 int			print_order_env(char **env);
 int			echo(char **args);
-int			is_builtin(char **command, char **env);
+int			is_builtin(char **command, t_minishell *minishell);
 // expansor
 char		*expand_env(char *var, char **envp);
 // execute commands
@@ -137,7 +142,7 @@ int			print_env(char **envp);
 t_command	*ft_newtreenode(char **args);
 void		ft_treeaddonleft(t_command **treenode, t_command *treenew);
 void		ft_treeaddonright(t_command **treenode, t_command *treenew);
-char		**ft_generate_argv(t_token *tokens);
+char		**ft_generate_argv(t_token *tokens, t_minishell *minishell);
 // utils
 void		free_arr(char **arr);
 void		sort_arr(char **arr);

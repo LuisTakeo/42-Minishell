@@ -42,14 +42,17 @@ void	build_commands(t_minishell *minishell)
 {
 	char	**command;
 
-	if (!(minishell->tokens))
+	get_token(minishell->input, &(minishell->tokens));
+	if (!(minishell->tokens) || !(minishell->tokens->content))
 		return ;
-	command = ft_generate_argv(minishell->tokens);
-	// int i = 0;
-	// while (command[i])
-	// 	ft_printf("Argv: %s\n", command[i++]);
-	if (is_builtin(command, minishell->envp) >= 0)
-		;
+	// -> validação dos tokens (operadores)
+	// -> atualizar os tipos quando for redir / pipe
+	// -> montar a arvore
+	// -> na montagem de arvore, utilizar ft_generate_argv
+	// -> função da montagem da arvore
+	command = ft_generate_argv(minishell->tokens, minishell);
+	if (is_builtin(command, minishell) >= 0)
+		; // verificar se é comando filho
 	else
 		exec_command(command, 0, minishell);
 	// if (command)
@@ -60,11 +63,11 @@ void	build_commands(t_minishell *minishell)
 
 void	prompt(t_minishell *minishell)
 {
-	char	**test_command;
+	// char	**test_command;
 
 	prepare_signals();
 	minishell->tokens = NULL;
-	test_command = NULL;
+	// test_command = NULL;
 	while (1)
 	{
 		minishell->input = readline("minishell$ ");
@@ -76,10 +79,8 @@ void	prompt(t_minishell *minishell)
 			continue ;
 		}
 		add_history(minishell->input);
-		get_token(minishell->input, &(minishell->tokens));
 		build_commands(minishell);
 		free_resources_prompt(minishell);
-
 	}
 }
 
@@ -106,14 +107,14 @@ void	test(t_minishell *minishell)
 	pid_t			pid;
 	// int			pid2;
 	// int			pid3;
-	extern char	**environ;
-	char		*test;
+	// extern char	**environ;
+	// char		*test;
 	char		**env;
 	char		**comando = ft_split("ls -la", ' ');
 	t_list		*temp;
 
 
-	test = NULL;
+	// test = NULL;
 	env = get_env(__environ);
 	pipe(fd);
 	printf("Descritores de arquivo: in = %d, out = %d\n", fd[0], fd[1]);
@@ -206,12 +207,31 @@ int	main(void)
 {
 	t_minishell	minishell;
 	extern char	**environ;
+	// testes para verificar expansão de aspas simples e words
+	char		*test_word1;
+	char		*test_word2 = "123123   aaa""'a'";
+	char		*temp; // percorrer com temp
 
-	minishell.envp = get_env(environ);
+	if (environ)
+		minishell.envp = get_env(environ);
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
-	//ft_printf("%s\n", expand_env("LS_COLORS", minishell.envp));
+	temp = test_word2;
+	test_word1 = expand_word(&temp);
+	ft_printf("->%s!\n", test_word1);
+	ft_printf("->%s!\n", test_word2);
+	ft_printf("->%s!\n", temp);
+	free(test_word1);
+	test_word1 = expand_vars_and_quotes(test_word2, &minishell);
+	ft_printf("teste final->%s!\n", test_word1);
+	free(test_word1);
+	test_word1 = get_single_env("HOME", minishell.envp);
+	ft_printf("Teste get single env->%s!\n", test_word1);
+	free(test_word1);
+	test_word1 = get_env_value("HOME", minishell.envp);
+	ft_printf("Teste value env ->%s!\n", test_word1);
+	free(test_word1);
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);

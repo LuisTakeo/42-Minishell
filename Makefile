@@ -78,11 +78,11 @@ $(OBJ_BUILTINS_FOLDER)%.o:$(SRC_BUILTINS_FOLDER)%.c $(HEADER)
 
 # TREE
 SRC_TREE_FOLDER := $(SRC_FOLDER)tree/
-SRC_TREE := $(addprefix $(SRC_TREE_FOLDER), $(addsuffix .c, ft_newtreenode ft_treeaddonsides ft_generate_tree))
+SRC_TREE := $(addprefix $(SRC_TREE_FOLDER), $(addsuffix .c, ft_newtreenode ft_treeaddonsides ft_generate_tree ft_generate_args))
 OBJ_TREE_FOLDER := $(OBJS_FOLDER)tree/
 OBJS_TREE := $(SRC_TREE:$(SRC_TREE_FOLDER)%.c=$(OBJ_TREE_FOLDER)%.o)
 
-# BUILTINS Objects
+# TREE Objects
 $(OBJ_TREE_FOLDER)%.o:$(SRC_TREE_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_TREE_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
