@@ -32,6 +32,17 @@ $(OBJ_TOKENS_FOLDER)%.o:$(SRC_TOKENS_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_TOKENS_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
+# EXPANSOR
+SRC_EXPANSOR_FOLDER := $(SRC_FOLDER)expansor/
+SRC_EXPANSOR := $(addprefix $(SRC_EXPANSOR_FOLDER), $(addsuffix .c, expand_env))
+OBJ_EXPANSOR_FOLDER := $(OBJS_FOLDER)expansor/
+OBJS_EXPANSOR := $(SRC_EXPANSOR:$(SRC_EXPANSOR_FOLDER)%.c=$(OBJ_EXPANSOR_FOLDER)%.o)
+
+# EXPANSOR Objects
+$(OBJ_EXPANSOR_FOLDER)%.o:$(SRC_EXPANSOR_FOLDER)%.c $(HEADER)
+	@mkdir -p $(OBJ_EXPANSOR_FOLDER)
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
+
 # ENV
 SRC_ENV_FOLDER := $(SRC_FOLDER)env/
 SRC_ENV := $(addprefix $(SRC_ENV_FOLDER), $(addsuffix .c, get_env get_paths env))
@@ -77,7 +88,7 @@ $(OBJ_TREE_FOLDER)%.o:$(SRC_TREE_FOLDER)%.c $(HEADER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
 # Variavel para receber todos os objects
-ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS) $(OBJS_TREE)
+ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS) $(OBJS_TREE) $(OBJS_EXPANSOR)
 
 ######################################################################
 # $(NAME)

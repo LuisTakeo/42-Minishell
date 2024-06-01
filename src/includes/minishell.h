@@ -131,6 +131,8 @@ int			export(char **args, char ***env, t_minishell *minishell);
 int			print_order_env(char **env);
 int			echo(char **args);
 int			is_builtin(char **command, t_minishell *minishell);
+// expansor
+char		*expand_env(char *var, char **envp);
 // execute commands
 // prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);
