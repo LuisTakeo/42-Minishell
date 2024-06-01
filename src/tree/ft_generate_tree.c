@@ -77,4 +77,3 @@ char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
 	// quando encontrar "" chamar função de expandir ""
 	return (full_word);
 }
-

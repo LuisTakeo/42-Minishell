@@ -42,8 +42,14 @@ void	build_commands(t_minishell *minishell)
 {
 	char	**command;
 
+	get_token(minishell->input, &(minishell->tokens));
 	if (!(minishell->tokens) || !(minishell->tokens->content))
 		return ;
+	// -> validação dos tokens (operadores)
+	// -> atualizar os tipos quando for redir / pipe
+	// -> montar a arvore
+	// -> na montagem de arvore, utilizar ft_generate_argv
+	// -> função da montagem da arvore
 	command = ft_generate_argv(minishell->tokens, minishell);
 	if (is_builtin(command, minishell) >= 0)
 		; // verificar se é comando filho
@@ -73,10 +79,8 @@ void	prompt(t_minishell *minishell)
 			continue ;
 		}
 		add_history(minishell->input);
-		get_token(minishell->input, &(minishell->tokens));
 		build_commands(minishell);
 		free_resources_prompt(minishell);
-
 	}
 }
 
