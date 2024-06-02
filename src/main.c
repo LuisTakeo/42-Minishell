@@ -43,9 +43,9 @@ void	build_commands(t_minishell *minishell)
 	char	**command;
 
 	get_token(minishell->input, &(minishell->tokens));
-	if (!(minishell->tokens) || !(minishell->tokens->content))
-		return ;
 	// -> validação dos tokens (operadores)
+	if (!(minishell->tokens) || !(minishell->tokens->content) || validate_tokens(minishell->tokens) == 1)
+		return ;
 	// -> atualizar os tipos quando for redir / pipe
 	// -> montar a arvore
 	// -> na montagem de arvore, utilizar ft_generate_argv
@@ -208,16 +208,16 @@ int	main(void)
 	t_minishell	minishell;
 	extern char	**environ;
 	// testes para verificar expansão de aspas simples e words
-	char		*test_word1;
-	char		*test_word2 = "123123   aaa""'a'";
-	char		*temp; // percorrer com temp
+	//char		*test_word1;
+	//char		*test_word2 = "123123   aaa""'a'";
+	//char		*temp; // percorrer com temp
 
 	if (environ)
 		minishell.envp = get_env(environ);
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
-	temp = test_word2;
+	/*temp = test_word2;
 	test_word1 = expand_word(&temp);
 	ft_printf("->%s!\n", test_word1);
 	ft_printf("->%s!\n", test_word2);
@@ -231,7 +231,7 @@ int	main(void)
 	free(test_word1);
 	test_word1 = get_env_value("HOME", minishell.envp);
 	ft_printf("Teste value env ->%s!\n", test_word1);
-	free(test_word1);
+	free(test_word1);*/
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
