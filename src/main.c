@@ -47,6 +47,8 @@ void	build_commands(t_minishell *minishell)
 	if (!(minishell->tokens) || !(minishell->tokens->content) || validate_tokens(minishell->tokens) == 1)
 		return ;
 	// -> atualizar os tipos quando for redir / pipe
+	set_operator_type(&(minishell->tokens));
+	print_tokens(minishell->tokens);
 	// -> montar a arvore
 	// -> na montagem de arvore, utilizar ft_generate_argv
 	// -> função da montagem da arvore

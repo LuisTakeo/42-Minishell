@@ -92,11 +92,11 @@ enum e_token_type
 
 enum e_operator_type
 {
-	PIPE,
-	REDIR_IN,
-	REDIR_OUT,
-	APPEND,
-	HEREDOC
+	PIPE = 1,
+	REDIR_IN = 2,
+	REDIR_OUT = 3,
+	APPEND = 4,
+	HEREDOC = 5
 };
 
 // signals
@@ -111,6 +111,8 @@ void		get_word(char *input, t_token **tokens, int *i);
 void		get_operator(char *input, t_token **tokens, int *i);
 void		get_token(char *input, t_token **tokens);
 int			validate_tokens(t_token *tokens);
+void		set_operator_type(t_token **tokens);
+void		print_tokens(t_token *tokens);
 // get envs
 char		**get_env(char **envp);
 char		*get_single_env(char *env_name, char **envp);
