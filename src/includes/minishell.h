@@ -125,6 +125,7 @@ int			unset(const char *key, char **envp, t_minishell *minishell);
 int			export(char **args, char ***env, t_minishell *minishell);
 int			print_order_env(char **env);
 int			echo(char **args);
+int			exit(t_minishell *minishell);
 int			is_builtin(char **command, t_minishell *minishell);
 // expansor
 char		*expand_simple_quotes(char **word);
@@ -148,5 +149,6 @@ void		swap_arr(char **wordA, char **wordB);
 // free functions
 void		free_resources_prompt(t_minishell *minishell);
 void		free_token(t_token **tokens);
+void		free_all(t_minishell *minishell);
 
 #endif
