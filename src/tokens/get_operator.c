@@ -6,37 +6,55 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:18:32 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/25 17:20:44 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/02 02:44:43 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*static void	set_redirs_type(t_token **tokens, char type, int is_double)
+static void	set_redir_type(t_token *tokens, char type)
 {
 	if (type == '<')
 	{
-		if (is_double)
-			(*tokens)->type = HEREDOC;
+		if (tokens && tokens->content[1] == '<')
+			tokens->type = HEREDOC;
 		else
-			(*tokens)->type = REDIR_IN;
+			tokens->type = REDIR_IN;
 	}
-	else
+	else if (type == '>')
 	{
-		if (is_double)
-			(*tokens)->type = APPEND;
+		if (tokens && tokens->content[1] == '>')
+			tokens->type = APPEND;
 		else
-			(*tokens)->type = REDIR_OUT;
+			tokens->type = REDIR_OUT;
 	}
-}*/
+}
+
+void	set_operator_type(t_token **tokens)
+{
+	t_token	*aux;
+	char	type;
+
+	aux = *tokens;
+	while (aux)
+	{
+		if (aux->type == OPERATOR)
+		{
+			type = aux->content[0];
+			if (type == '|')
+				aux->type = PIPE;
+			else
+				set_redir_type(aux, type);
+		}
+		aux = aux->next;
+	}
+}
 
 static void	get_redirs_token(char *input, t_token **tokens, int *i)
 {
 	char	redir_type;
-	// t_token	*aux;
 
 	redir_type = input[*i];
-	// aux = *tokens;
 	if (input[*i] == redir_type)
 	{
 		if (input[*i + 1] == redir_type)

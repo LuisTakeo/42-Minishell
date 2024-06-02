@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/31 20:51:12 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/02 02:31:53 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,14 @@ static void	verify_null(t_token **tokens)
 	}
 }
 
-void	get_token(char *input, t_token **tokens)
+// Função teste pra imprimir os tokens
+void	print_tokens(t_token *tokens)
 {
 	t_token	*aux;
 	int		i;
 
-	if (!input || !input[0])
-		return ;
-	count_quotes(input);
-	init_token(tokens);
-	split_tokens(input, tokens);
-	verify_null(tokens);
+	aux = tokens;
 	i = 1;
-	aux = *tokens;
 	while (aux)
 	{
 		ft_printf("Token[%d]: %s!\n ", i, aux->content);
@@ -97,4 +92,14 @@ void	get_token(char *input, t_token **tokens)
 		aux = aux->next;
 		i++;
 	}
+}
+
+void	get_token(char *input, t_token **tokens)
+{
+	if (!input || !input[0])
+		return ;
+	count_quotes(input);
+	init_token(tokens);
+	split_tokens(input, tokens);
+	verify_null(tokens);
 }

@@ -90,18 +90,14 @@ enum e_token_type
 	OPERATOR
 };
 
-/*enum e_token_type
+enum e_operator_type
 {
-	COMMAND,
-	CMD_ARG,
-	PIPE,
-	REDIR_IN,
-	REDIR_OUT,
-	APPEND,
-	HEREDOC,
-	ENV,
-	STATUS
-};*/
+	PIPE = 1,
+	REDIR_IN = 2,
+	REDIR_OUT = 3,
+	APPEND = 4,
+	HEREDOC = 5
+};
 
 // signals
 void		prepare_signals(void);
@@ -114,15 +110,14 @@ void		get_quoted_token(char *input, int *i);
 void		get_word(char *input, t_token **tokens, int *i);
 void		get_operator(char *input, t_token **tokens, int *i);
 void		get_token(char *input, t_token **tokens);
-void		free_token(t_token **tokens);
-char		*expand_simple_quotes(char **word);
-char		*expand_word(char **word);
-char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
+int			validate_tokens(t_token *tokens);
+void		set_operator_type(t_token **tokens);
+void		print_tokens(t_token *tokens);
 // get envs
 char		**get_env(char **envp);
 char		*get_single_env(char *env_name, char **envp);
 char		**get_paths(char **env);
-char		*get_env_value(char *env_name, char **envp);
+//char		*get_env_value(char *env_name, char **envp);
 // bultins
 int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);
@@ -132,6 +127,9 @@ int			print_order_env(char **env);
 int			echo(char **args);
 int			is_builtin(char **command, t_minishell *minishell);
 // expansor
+char		*expand_simple_quotes(char **word);
+char		*expand_word(char **word);
+char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 char		*expand_env(char *var, char **envp);
 // execute commands
 // prototype -> 1st version
@@ -149,5 +147,6 @@ void		sort_arr(char **arr);
 void		swap_arr(char **wordA, char **wordB);
 // free functions
 void		free_resources_prompt(t_minishell *minishell);
+void		free_token(t_token **tokens);
 
 #endif

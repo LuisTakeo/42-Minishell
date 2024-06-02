@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:51:40 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/21 15:56:55 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/02 01:26:17 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,27 @@ void	skip_whitespace(char *input, int *i)
 {
 	while (input[*i] && ft_strchr(WHITESPACE, input[*i]))
 		(*i)++;
+}
+
+int	validate_tokens(t_token *tokens)
+{
+	t_token	*aux;
+
+	aux = tokens;
+	while (aux)
+	{
+		if (aux->type == OPERATOR)
+		{
+			if (aux->next == NULL || aux->next->type == OPERATOR)
+			{
+				if (aux->next && aux->next->next)
+					ft_fdprintf("minishell: syntax error near unexpected token `%s'\n", STDERR_FILENO, aux->next->content);
+				else
+					ft_fdprintf("minishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+				return (EXIT_FAILURE);
+			}
+		}
+		aux = aux->next;
+	}
+	return (EXIT_SUCCESS);
 }
