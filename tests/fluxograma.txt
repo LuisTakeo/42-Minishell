@@ -10,8 +10,8 @@ DONE!!!
     -- corrigir segfault quando executado apenas com $ (token não salva)
 
 - arvore binaria
-    -- validar tokens (operadores)
-    -- tipar operadores dos tokens
+    -- validar tokens (operadores) [DONE!!!]
+    -- tipar operadores dos tokens [DONE!!!]
     -- construir a arvore // utilizar lista duplamente linkada?
         -- alocar o primeiro nó
         -- buscar pelo ultimo pipe
