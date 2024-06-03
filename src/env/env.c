@@ -19,7 +19,8 @@ int	print_env(char **envp)
 	temp = envp;
 	while (*temp != NULL)
 	{
-		ft_printf("%s\n", *temp);
+		if (ft_strchr(*temp, '='))
+			ft_printf("%s\n", *temp);
 		temp++;
 	}
 	return (0);

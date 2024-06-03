@@ -63,6 +63,7 @@ struct s_token
 	int				type;
 	char			*content;
 	struct s_token	*next;
+	struct s_token	*prev;
 };
 
 

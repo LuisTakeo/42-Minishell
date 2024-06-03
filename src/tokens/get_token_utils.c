@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:51:40 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/02 01:26:17 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:14:23 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_token(t_token **tokens)
 	(*tokens)->type = -1;
 	(*tokens)->content = NULL;
 	(*tokens)->next = NULL;
+	(*tokens)->prev = NULL;
 }
 
 void	allocate_token(t_token **tokens, char *input, int start, int end)
@@ -28,7 +29,10 @@ void	allocate_token(t_token **tokens, char *input, int start, int end)
 	if (input[end] != '\0')
 	{
 		if ((*tokens)->next == NULL)
+		{
 			init_token(&(*tokens)->next);
+			(*tokens)->next->prev = *tokens;
+		}
 		*tokens = (*tokens)->next;
 	}
 }
@@ -61,16 +65,20 @@ int	validate_tokens(t_token *tokens)
 	aux = tokens;
 	while (aux)
 	{
-		if (aux->type == OPERATOR)
+		if (aux->type == OPERATOR && (aux->next == NULL
+				|| aux->next->type == OPERATOR))
 		{
-			if (aux->next == NULL || aux->next->type == OPERATOR)
-			{
-				if (aux->next && aux->next->next)
-					ft_fdprintf("minishell: syntax error near unexpected token `%s'\n", STDERR_FILENO, aux->next->content);
-				else
-					ft_fdprintf("minishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
-				return (EXIT_FAILURE);
-			}
+			if(aux->content[0] == '|')
+				ft_fdprintf("minishell: syntax error near unexpected token `%s'\n", STDERR_FILENO, aux->content);
+			else if (aux->next && aux->next->next)
+				ft_fdprintf("minishell: syntax error near "
+					"unexpected token `%s'\n",
+					STDERR_FILENO, aux->next->content);
+			if (aux->next && aux->next->next)
+				ft_fdprintf("minishell: syntax error near unexpected token `%s'\n", STDERR_FILENO, aux->next->content);
+			else
+				ft_fdprintf("minishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+			return (EXIT_FAILURE);
 		}
 		aux = aux->next;
 	}

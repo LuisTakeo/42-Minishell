@@ -104,7 +104,6 @@ int	export(char **args, char ***env, t_minishell *minishell)
 			continue ;
 		}
 		insert_key_value(args[i], env);
-
 	}
 	free_arr(minishell->path);
 	minishell->path = get_paths((*env));

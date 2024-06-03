@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/02 02:31:53 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:46:43 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	print_tokens(t_token *tokens)
 	while (aux)
 	{
 		ft_printf("Token[%d]: %s!\n ", i, aux->content);
+		if (aux->prev)
+			ft_printf("Prev: %s!\n", aux->prev->content);
 		ft_printf("Type[%d]: %i!\n\n", i, aux->type);
 		aux = aux->next;
 		i++;

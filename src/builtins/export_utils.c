@@ -58,6 +58,8 @@ static void	print_key_value(char *value)
 	}
 	if (*cpy)
 		ft_fdprintf("\"%s\"", STDOUT_FILENO, cpy);
+	else
+		ft_fdprintf("\"\"", STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 

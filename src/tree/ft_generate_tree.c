@@ -20,7 +20,10 @@ char	*expand_simple_quotes(char **word)
 	temp = *word;
 	i = 0;
 	if (*temp == '\'')
-		(temp++, (*word)++);
+	{
+		temp++;
+		(*word)++;
+	}
 	while (temp[i] && temp[i] != '\'')
 		i++;
 	*word += i + 1;
