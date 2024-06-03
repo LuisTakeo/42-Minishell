@@ -43,11 +43,9 @@ void	build_commands(t_minishell *minishell)
 	char	**command;
 
 	get_token(minishell->input, &(minishell->tokens));
-	// -> validação dos tokens (operadores)
 	if (!(minishell->tokens) || !(minishell->tokens->content)
 		|| validate_tokens(minishell->tokens) == 1)
 		return ;
-	// -> atualizar os tipos quando for redir / pipe
 	set_operator_type(&(minishell->tokens));
 	print_tokens(minishell->tokens);
 	// -> montar a arvore

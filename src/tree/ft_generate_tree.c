@@ -48,11 +48,13 @@ static char	*join_word(char *word, char *new_word)
 	char	*temp;
 
 	if (!word)
-		return (ft_strdup(new_word));
-	temp = word;
-	word = ft_strjoin(word, new_word);
-	free(temp);
-	return (word);
+		return (new_word);
+	temp = ft_strjoin(word, new_word);
+	if (word)
+		free(word);
+	if (new_word)
+		free(new_word);
+	return (temp);
 }
 
 char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
@@ -60,6 +62,7 @@ char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
 	char	*full_word;
 	char	*temp_word;
 	char	*temp;
+	char	*temp_free;
 
 	(void)minishell;
 	full_word = NULL;
@@ -71,10 +74,8 @@ char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
 			temp_word = expand_simple_quotes(&temp);
 		else
 			temp_word = expand_word(&temp);
+		temp_free = full_word;
 		full_word = join_word(full_word, temp_word);
-		if (temp_word)
-			free(temp_word);
-		temp_word = NULL;
 	}
 	// quando encontrar variavel, chamar função de expandir var
 	// quando encontrar "" chamar função de expandir ""

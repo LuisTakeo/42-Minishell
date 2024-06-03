@@ -21,23 +21,32 @@ char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
 
 	i = 0;
 	temp = tokens;
-	while (temp && temp->type == WORD)
+	while (temp && temp->type != PIPE)
 	{
-		i++;
+		if (temp->type == WORD)
+			i++;
+		else
+			temp = temp->next;
 		temp = temp->next;
 	}
+	ft_printf("Size: %d\n", i);
 	argv = (char **)ft_calloc(i + 1, sizeof(char *));
 	temp = tokens;
-	i = 0;
-	while (temp && temp->type == WORD)
+	i = -1;
+	while (temp && temp->type != PIPE)
 	{
-		argv[i] = expand_vars_and_quotes(temp->content, minishell);
+		if (temp->type == WORD)
+		{
+			argv[++i] = expand_vars_and_quotes(temp->content, minishell);
+			ft_printf("Args: %s\n", argv[i]);
+		}
+		else
+			temp = temp->next;
 		temp = temp->next;
-		i++;
 	}
+	return (argv);
+}
 
 	// se encontrar um operador redir, pular para o próximo.
 	// Caso o próximo for null ou diferente de word, retornar erro
 	// se encontrar um operador | ou null, alocar o char **	de acordo com os nós contados
-	return (argv);
-}
