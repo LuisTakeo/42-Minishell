@@ -126,7 +126,7 @@ int			unset(const char *key, char **envp, t_minishell *minishell);
 int			export(char **args, char ***env, t_minishell *minishell);
 int			print_order_env(char **env);
 int			echo(char **args);
-void		exit_builtin(char **args, t_minishell *minishell);
+int			exit_builtin(char **args, t_minishell *minishell);
 int			is_builtin(char **command, t_minishell *minishell);
 // expansor
 char		*expand_simple_quotes(char **word);

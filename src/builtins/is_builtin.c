@@ -18,8 +18,6 @@ int	is_builtin(char **command, t_minishell *minishell)
 		return (change_dir(command, minishell));
 	if (!ft_strncmp(command[0], "echo", ft_strlen("echo") + 1))
 		return (echo(command));
-	if (!ft_strncmp(command[0], "exit", ft_strlen("exit") + 1))
-		return (ft_fdprintf("Exit\n", STDOUT_FILENO));
 	if (!ft_strncmp(command[0], "env", ft_strlen("env") + 1))
 		return (print_env(minishell->envp));
 	if (!ft_strncmp(command[0], "export", ft_strlen("export") + 1))
@@ -28,5 +26,7 @@ int	is_builtin(char **command, t_minishell *minishell)
 		return (unset(NULL, minishell->envp, minishell));
 	if (!ft_strncmp(command[0], "pwd", ft_strlen("pwd") + 1))
 		return (pwd());
+	if (!ft_strncmp(command[0], "exit", ft_strlen("exit") + 1))
+		return (exit_builtin(command, minishell));
 	return (-1);
 }

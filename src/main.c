@@ -236,8 +236,8 @@ int	main(void)
 	free(test_word1);*/
 
 	// teste para validação do exit
-	char *argv[] = {"exit", "-5", NULL};
-	exit_builtin(argv, &minishell);
+	//char *argv[] = {"exit", "-5", NULL};
+	//exit_builtin(argv, &minishell);
 
 	prompt(&minishell);	
 	ft_printf("Exit\n");

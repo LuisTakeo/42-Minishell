@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 03:14:53 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/03 23:53:31 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/04 00:33:49 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	set_exit_code(char **args, t_minishell **minishell)
 	exit(exit_code);
 }
 
-void	exit_builtin(char **args, t_minishell *minishell)
+int	exit_builtin(char **args, t_minishell *minishell)
 {
 	ft_fdprintf("exit\n", STDERR_FILENO);
 	if (args[1] && args[2])
@@ -70,10 +70,11 @@ void	exit_builtin(char **args, t_minishell *minishell)
 		if (ft_is_number(args[1]))
 		{
 			ft_fdprintf("minishell: exit: too many arguments\n", STDERR_FILENO);
-			return ;
+			return (EXIT_FAILURE);
 		}
 		else
 			set_exit_code(args, &minishell);
 	}
 	set_exit_code(args, &minishell);
+	return (EXIT_SUCCESS);
 }
