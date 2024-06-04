@@ -6,32 +6,11 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 03:14:53 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/02 03:46:52 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:53:31 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static char	**dup_arr(char **arr)
-{
-	char	**new_arr;
-	int		i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	new_arr = (char **)ft_calloc(sizeof(char *), i + 1);
-	if (!new_arr)
-		return (NULL);
-	i = 0;
-	while (arr[i])
-	{
-		new_arr[i] = ft_strdup(arr[i]);
-		i++;
-	}
-	new_arr[i] = NULL;
-	return (new_arr);
-}
 
 static int	ft_is_number(char *str)
 {
@@ -49,49 +28,52 @@ static int	ft_is_number(char *str)
 	return (1);
 }
 
-void	free_all(t_minishell *minishell)
+void	free_all(t_minishell **minishell)
 {
-	free_arr(minishell->path);
-	free_arr(minishell->envp);
-	free_arr(minishell->pid_list);
-	free(minishell->input);
-	minishell->input = NULL;
-	if (minishell->tokens)
-		free_token(&(minishell->tokens));
-	minishell->tokens = NULL;
-	if (minishell->tree_cmd)
-		free_tree_cmd(&(minishell->tree_cmd));
-	minishell->tree_cmd = NULL;
+	free_arr((*minishell)->path);
+	free_arr((*minishell)->envp);
+	if ((*minishell)->pid_list)
+		ft_lstclear(&(*minishell)->pid_list, free);
+	//free_resources_prompt(*minishell); --> dando bus error / conditional jump
+	//implementar função para dar free na árvore?
 }
 
-static void	set_exit_code(char **argv)
+static void	set_exit_code(char **args, t_minishell **minishell)
 {
 	int	exit_code;
+	int	number;
 	
-	if (!argv[1])
-		exit_code = 0;
-	else if (ft_is_number(argv[1]))
-		exit_code = ft_atoi(argv[1]);
+	if (!args[1])
+		exit_code = 0; // --> é necessário usar (*minishell)->status?
+	else if (ft_is_number(args[1]))
+	{
+		number = ft_atoi(args[1]);
+		if (number < 0 || number > 255)
+			exit_code = number % 256;
+		else
+			exit_code = number;
+	}
 	else
 	{
-		ft_fdprintf("minishell: exit: %s: numeric argument required\n", STDERR_FILENO, argv[1]);
+		ft_fdprintf("minishell: exit: %s: numeric argument required\n", STDERR_FILENO, args[1]);
 		exit_code = 255;
 	}
+	free_all(minishell);
 	exit(exit_code);
 }
 
-int	exit(t_minishell *minishell)
+void	exit_builtin(char **args, t_minishell *minishell)
 {
-	char	**argv;
-	
 	ft_fdprintf("exit\n", STDERR_FILENO);
-	if (minishell->tree_cmd->argc > 1)
+	if (args[1] && args[2])
 	{
-		ft_fdprintf("minishell: exit: too many arguments\n", STDERR_FILENO);
-		return (EXIT_FAILURE);
+		if (ft_is_number(args[1]))
+		{
+			ft_fdprintf("minishell: exit: too many arguments\n", STDERR_FILENO);
+			return ;
+		}
+		else
+			set_exit_code(args, &minishell);
 	}
-	argv = dup_arr(minishell->tree_cmd->argv);
-	free_all(minishell);
-	set_exit_code(minishell->tree_cmd->argv);
-	return (EXIT_SUCCESS);
+	set_exit_code(args, &minishell);
 }

@@ -31,7 +31,8 @@ void	prepare_signals(void)
 
 void	free_resources_prompt(t_minishell *minishell)
 {
-	free(minishell->input);
+	if(minishell->input)
+		free(minishell->input);
 	minishell->input = NULL;
 	if (minishell->tokens)
 		free_token(&(minishell->tokens));
@@ -234,7 +235,12 @@ int	main(void)
 	test_word1 = get_env_value("HOME", minishell.envp);
 	ft_printf("Teste value env ->%s!\n", test_word1);
 	free(test_word1);*/
-	prompt(&minishell);
+
+	// teste para validação do exit
+	char *argv[] = {"exit", "-5", NULL};
+	exit_builtin(argv, &minishell);
+
+	prompt(&minishell);	
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
 	free_arr(minishell.envp);
