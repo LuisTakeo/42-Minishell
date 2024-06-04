@@ -26,7 +26,13 @@ DONE!!!
         -- se sim, alocar o nó da esquerda e seguir pro próximo (repetir o loop)
 
 - builtins
-    -- implementar exit
+    -- implementar exit [DONE!!!]
+        -- se nenhum argumento for passado, sai do shell com o status de saída do último comando executado
+        -- se um argumento numérico entre 0 e 255 for passado, sai do shell com o status de saída especificado
+        -- se um argumento numérico > 255 for passado, sai do shell com o status de saída adaptado para caber no intervalo de 0 a 255 (num % 256)
+        -- se um argumento não numérico for passado, imprime mensagem de erro e sai do shell com status de saída 255
+        -- se mais de um argumento for passado e o argumento logo após exit for numérico, imprime erro "too many arguments" e não sai do shell
+        -- se mais de um argumento for passado e o argumento logo após exit não for numérico, imprime erro "numeric argument required" e sai do shell com status 255
     -- adaptação unset
 
 - parsear e preparar para execução // separar em função quando for único comando
