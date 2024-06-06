@@ -57,9 +57,8 @@ void	build_commands(t_minishell *minishell)
 		; // verificar se é comando filho
 	else
 		exec_command(command, 0, minishell);
-	// if (command)
-	// 	free_arr(command);
-	free(command);
+	if (command)
+		free_arr(command);
 	command = NULL;
 }
 
@@ -239,7 +238,7 @@ int	main(void)
 	//char *argv[] = {"exit", "-5", NULL};
 	//exit_builtin(argv, &minishell);
 
-	prompt(&minishell);	
+	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
 	free_arr(minishell.envp);
