@@ -37,8 +37,9 @@ char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
 	{
 		if (temp->type == WORD)
 		{
+			ft_printf("Chegou agui\n");
 			argv[++i] = expand_vars_and_quotes(temp->content, minishell);
-			ft_printf("Args: %s\n", argv[i]);
+			ft_printf("Args[%d]: %s\n", i, argv[i]);
 		}
 		else
 			temp = temp->next;

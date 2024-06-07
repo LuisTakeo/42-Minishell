@@ -31,7 +31,7 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	id = fork();
 	if (!id)
 	{
-		// ft_printf("Processo filho: %d\n", id);
+		ft_printf("Processo filho: %d\n", id);
 		execve(full_path, arrstr, minishell->envp);
 		exit(EXIT_FAILURE);
 	}
