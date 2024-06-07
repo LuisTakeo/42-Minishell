@@ -41,9 +41,9 @@ char	*expand_vars_and_quotes(char *word, t_minishell *minishell)
 		ft_printf("expandvarquotes->%s\n", temp);
 		if (*temp == '\'')
 			temp_word = expand_simple_quotes(&temp);
-		if (*temp == '"')
+		else if (*temp == '"')
 			temp_word = expand_double_quotes(&temp, minishell);
-		if (*temp == '$')
+		else if (*temp == '$')
 			temp_word = expand_path(&temp, minishell);
 		else
 			temp_word = expand_word(&temp);

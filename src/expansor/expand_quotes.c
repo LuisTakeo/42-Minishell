@@ -39,6 +39,11 @@ char	*expand_double_quotes(char **word, t_minishell *minishell)
 	full_word = NULL;
 	if (**word == '\"')
 		(*word)++;
+	if (**word == '\"')
+	{
+		(*word)++;
+		return (ft_strdup(""));
+	}
 	while (**word && **word != '\"')
 	{
 		if (**word == '$')
