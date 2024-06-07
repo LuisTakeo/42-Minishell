@@ -17,6 +17,8 @@ char	*verify_path(char *bin, char **path)
 	int		i;
 	char	*full_path;
 
+	if (!*bin)
+		return (NULL);
 	if (access(bin, F_OK) == 0 && access(bin, X_OK) == 0)
 		return (bin);
 	i = 0;

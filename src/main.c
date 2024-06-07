@@ -48,17 +48,21 @@ void	build_commands(t_minishell *minishell)
 		|| validate_tokens(minishell->tokens) == 1)
 		return ;
 	set_operator_type(&(minishell->tokens));
-	print_tokens(minishell->tokens);
-	// -> montar a arvore
+	// print_tokens(minishell->tokens);
+	// ft_generate_tree(minishell);
+	// ft_printf("tree_cmd: %s\n", minishell->tree_cmd->argv[0]);
 	// -> na montagem de arvore, utilizar ft_generate_argv
 	// -> função da montagem da arvore
 	command = ft_generate_argv(minishell->tokens, minishell);
+	// COMENTADO
 	if (is_builtin(command, minishell) >= 0)
 		; // verificar se é comando filho
 	else
 		exec_command(command, 0, minishell);
+
 	if (command)
 		free_arr(command);
+	(void)command;
 	command = NULL;
 }
 
@@ -218,6 +222,7 @@ int	main(void)
 	minishell.path = get_paths(minishell.envp);
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
+	minishell.tree_cmd = NULL;
 	/*temp = test_word2;
 	test_word1 = expand_word(&temp);
 	ft_printf("->%s!\n", test_word1);

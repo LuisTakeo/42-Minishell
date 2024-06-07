@@ -146,6 +146,7 @@ t_command	*ft_newtreenode(char **args);
 void		ft_treeaddonleft(t_command **treenode, t_command *treenew);
 void		ft_treeaddonright(t_command **treenode, t_command *treenew);
 char		**ft_generate_argv(t_token *tokens, t_minishell *minishell);
+void		ft_generate_tree(t_minishell *minishell);
 // utils
 void		free_arr(char **arr);
 void		sort_arr(char **arr);

@@ -29,18 +29,13 @@ char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
 			temp = temp->next;
 		temp = temp->next;
 	}
-	ft_printf("Size: %d\n", i);
 	argv = (char **)ft_calloc(i + 1, sizeof(char *));
 	temp = tokens;
 	i = -1;
 	while (temp && temp->type != PIPE)
 	{
 		if (temp->type == WORD)
-		{
-			ft_printf("Chegou agui\n");
 			argv[++i] = expand_vars_and_quotes(temp->content, minishell);
-			ft_printf("Args[%d]: %s\n", i, argv[i]);
-		}
 		else
 			temp = temp->next;
 		temp = temp->next;

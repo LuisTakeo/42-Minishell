@@ -21,8 +21,13 @@ void	ft_treeaddonleft(t_command **treenode, t_command *treenew)
 	if (!*treenode)
 		*treenode = treenew;
 	treetemp = *treenode;
-	while (treetemp->left)
+	ft_printf("treetemp->argv[0] -> %s\n", treetemp->argv[0]);
+	while (treetemp && treetemp->left)
+	{
+		ft_printf("LOOP?\n");
 		treetemp = treetemp->left;
+	}
+	ft_printf("tree_temp->argv[0] -> %s\n", treetemp->argv[0]);
 	treetemp->left = treenew;
 	treenew->parent = treetemp;
 }
