@@ -116,7 +116,7 @@ void		set_operator_type(t_token **tokens);
 void		print_tokens(t_token *tokens);
 // get envs
 char		**get_env(char **envp);
-char		*get_single_env(char *env_name, char **envp);
+char		*env(char *env_name, char **envp);
 char		**get_paths(char **env);
 //char		*get_env_value(char *env_name, char **envp);
 // bultins
@@ -130,9 +130,12 @@ int			exit_builtin(char **args, t_minishell *minishell);
 int			is_builtin(char **command, t_minishell *minishell);
 // expansor
 char		*expand_simple_quotes(char **word);
+char		*expand_double_quotes(char **word, t_minishell *minishell);
 char		*expand_word(char **word);
 char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 char		*expand_env(char *var, char **envp);
+char		*join_word(char *word, char *new_word);
+char		*expand_path(char **word, t_minishell *minishell);
 // execute commands
 // prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);

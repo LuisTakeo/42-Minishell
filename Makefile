@@ -34,7 +34,7 @@ $(OBJ_TOKENS_FOLDER)%.o:$(SRC_TOKENS_FOLDER)%.c $(HEADER)
 
 # EXPANSOR
 SRC_EXPANSOR_FOLDER := $(SRC_FOLDER)expansor/
-SRC_EXPANSOR := $(addprefix $(SRC_EXPANSOR_FOLDER), $(addsuffix .c, expand_env))
+SRC_EXPANSOR := $(addprefix $(SRC_EXPANSOR_FOLDER), $(addsuffix .c, expand_env expand_quotes expand_word))
 OBJ_EXPANSOR_FOLDER := $(OBJS_FOLDER)expansor/
 OBJS_EXPANSOR := $(SRC_EXPANSOR:$(SRC_EXPANSOR_FOLDER)%.c=$(OBJ_EXPANSOR_FOLDER)%.o)
 
