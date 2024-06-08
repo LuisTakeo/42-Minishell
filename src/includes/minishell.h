@@ -62,6 +62,7 @@ struct s_token
 {
 	int				type;
 	char			*content;
+	int				fd_file;
 	struct s_token	*next;
 	struct s_token	*prev;
 };
@@ -69,7 +70,7 @@ struct s_token
 struct s_command
 {
 	char				**argv;
-	char				**redir;
+	t_token				**redir;
 	int					argc;
 	int					*fd;
 	int					type;
@@ -93,10 +94,10 @@ enum e_token_type
 enum e_operator_type
 {
 	PIPE = 1,
-	REDIR_IN = 2,
-	REDIR_OUT = 3,
-	APPEND = 4,
-	HEREDOC = 5
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC
 };
 
 // signals
@@ -117,7 +118,6 @@ void		print_tokens(t_token *tokens);
 char		**get_env(char **envp);
 char		*env(char *env_name, char **envp);
 char		**get_paths(char **env);
-//char		*get_env_value(char *env_name, char **envp);
 // bultins
 int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);
@@ -133,8 +133,8 @@ char		*expand_double_quotes(char **word, t_minishell *minishell);
 char		*expand_word(char **word);
 char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 char		*expand_env(char *var, char **envp);
-char		*join_word(char *word, char *new_word);
 char		*expand_path(char **word, t_minishell *minishell);
+char		*join_word(char *word, char *new_word);
 // execute commands
 // prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);
@@ -152,9 +152,10 @@ void		ft_generate_tree(t_minishell *minishell);
 void		free_arr(char **arr);
 void		sort_arr(char **arr);
 void		swap_arr(char **wordA, char **wordB);
+int			show_error(char *content, char *error, int num_error);
 // free functions
 void		free_resources_prompt(t_minishell *minishell);
 void		free_token(t_token **tokens);
-void		free_all(t_minishell **minishell);
+void		free_all(t_minishell *minishell);
 
 #endif

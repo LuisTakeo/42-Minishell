@@ -75,25 +75,21 @@ void	execute_tree_commands(t_minishell *minishell)
 		execute_single_command(minishell);
 }
 
-void	build_commands(t_minishell *minishell)
+int	build_commands(t_minishell *minishell)
 {
-	// char	**command;
-
 	get_token(minishell->input, &(minishell->tokens));
 	if (!(minishell->tokens) || !(minishell->tokens->content)
 		|| validate_tokens(minishell->tokens) == 1)
-		return ;
+		return (EXIT_FAILURE);
 	set_operator_type(&(minishell->tokens));
 	ft_generate_tree(minishell);
+	return (EXIT_SUCCESS);
 }
 
 void	prompt(t_minishell *minishell)
 {
-	// char	**test_command;
-
 	prepare_signals();
 	minishell->tokens = NULL;
-	// test_command = NULL;
 	while (1)
 	{
 		minishell->input = readline("minishell$ ");
@@ -105,7 +101,11 @@ void	prompt(t_minishell *minishell)
 			continue ;
 		}
 		add_history(minishell->input);
-		build_commands(minishell);
+		if (build_commands(minishell))
+		{
+			free_resources_prompt(minishell);
+			continue ;
+		}
 		execute_tree_commands(minishell);
 		free_resources_prompt(minishell);
 	}
@@ -234,10 +234,6 @@ int	main(void)
 {
 	t_minishell	minishell;
 	extern char	**environ;
-	// testes para verificar expansão de aspas simples e words
-	//char		*test_word1;
-	//char		*test_word2 = "123123   aaa""'a'";
-	//char		*temp; // percorrer com temp
 
 	if (environ)
 		minishell.envp = get_env(environ);
@@ -246,26 +242,6 @@ int	main(void)
 	minishell.pid_list = NULL;
 	minishell.tree_cmd = NULL;
 	minishell.status = 0;
-	/*temp = test_word2;
-	test_word1 = expand_word(&temp);
-	ft_printf("->%s!\n", test_word1);
-	ft_printf("->%s!\n", test_word2);
-	ft_printf("->%s!\n", temp);
-	free(test_word1);
-	test_word1 = expand_vars_and_quotes(test_word2, &minishell);
-	ft_printf("teste final->%s!\n", test_word1);
-	free(test_word1);
-	test_word1 = get_single_env("HOME", minishell.envp);
-	ft_printf("Teste get single env->%s!\n", test_word1);
-	free(test_word1);
-	test_word1 = get_env_value("HOME", minishell.envp);
-	ft_printf("Teste value env ->%s!\n", test_word1);
-	free(test_word1);*/
-
-	// teste para validação do exit
-	//char *argv[] = {"exit", "-5", NULL};
-	//exit_builtin(argv, &minishell);
-
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
