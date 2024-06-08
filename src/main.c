@@ -29,41 +29,62 @@ void	prepare_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void	free_tree(t_command **tree)
+{
+	t_command	*temp;
+
+	temp = *tree;
+	if (temp->left)
+		free_tree(&temp->left);
+	if (temp->right)
+		free_tree(&temp->right);
+	if (temp->argv)
+		free_arr(temp->argv);
+	free(temp);
+}
+
 void	free_resources_prompt(t_minishell *minishell)
 {
-	if(minishell->input)
+	if (minishell->input)
 		free(minishell->input);
-	minishell->input = NULL;
 	if (minishell->tokens)
 		free_token(&(minishell->tokens));
+	if (minishell->tree_cmd)
+		free_tree(&(minishell->tree_cmd));
+	minishell->input = NULL;
 	minishell->tokens = NULL;
+	minishell->tree_cmd = NULL;
+}
+
+void	execute_single_command(t_minishell *minishell)
+{
+	t_command	*temp_cmd;
+
+	temp_cmd = minishell->tree_cmd;
+	if (is_builtin(temp_cmd->argv, minishell) >= 0)
+		return ;
+	exec_command(temp_cmd->argv, 0, minishell);
+}
+
+void	execute_tree_commands(t_minishell *minishell)
+{
+	t_command	*temp_tree;
+
+	temp_tree = minishell->tree_cmd;
+	if (temp_tree->type == WORD)
+		execute_single_command(minishell);
 }
 
 void	build_commands(t_minishell *minishell)
 {
-	char	**command;
+	// char	**command;
 
 	get_token(minishell->input, &(minishell->tokens));
 	if (!(minishell->tokens) || !(minishell->tokens->content)
 		|| validate_tokens(minishell->tokens) == 1)
 		return ;
 	set_operator_type(&(minishell->tokens));
-	// print_tokens(minishell->tokens);
-	// ft_generate_tree(minishell);
-	// ft_printf("tree_cmd: %s\n", minishell->tree_cmd->argv[0]);
-	// -> na montagem de arvore, utilizar ft_generate_argv
-	// -> função da montagem da arvore
-	command = ft_generate_argv(minishell->tokens, minishell);
-	// COMENTADO
-	if (is_builtin(command, minishell) >= 0)
-		; // verificar se é comando filho
-	else
-		exec_command(command, 0, minishell);
-
-	if (command)
-		free_arr(command);
-	(void)command;
-	command = NULL;
+	ft_generate_tree(minishell);
 }
 
 void	prompt(t_minishell *minishell)
@@ -85,6 +106,7 @@ void	prompt(t_minishell *minishell)
 		}
 		add_history(minishell->input);
 		build_commands(minishell);
+		execute_tree_commands(minishell);
 		free_resources_prompt(minishell);
 	}
 }
@@ -223,6 +245,7 @@ int	main(void)
 	minishell.input = NULL;
 	minishell.pid_list = NULL;
 	minishell.tree_cmd = NULL;
+	minishell.status = 0;
 	/*temp = test_word2;
 	test_word1 = expand_word(&temp);
 	ft_printf("->%s!\n", test_word1);
