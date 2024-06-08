@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 03:14:53 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/04 00:33:49 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:10:56 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,14 @@ static void	set_exit_code(char **args, t_minishell **minishell)
 {
 	int	exit_code;
 	int	number;
-	
+
+	exit_code = 0;
 	if (!args[1])
-		exit_code = 0; // --> é necessário usar (*minishell)->status?
+	{
+		ft_printf("%i", (*minishell)->status);
+		if ((*minishell)->status)
+			exit_code = (*minishell)->status;
+	}
 	else if (ft_is_number(args[1]))
 	{
 		number = ft_atoi(args[1]);
@@ -55,7 +60,8 @@ static void	set_exit_code(char **args, t_minishell **minishell)
 	}
 	else
 	{
-		ft_fdprintf("minishell: exit: %s: numeric argument required\n", STDERR_FILENO, args[1]);
+		ft_fdprintf("minishell: exit: %s: numeric argument required\n",
+			STDERR_FILENO, args[1]);
 		exit_code = 255;
 	}
 	free_all(minishell);

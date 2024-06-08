@@ -62,6 +62,7 @@ struct s_token
 {
 	int				type;
 	char			*content;
+	int				fd_file;
 	struct s_token	*next;
 	struct s_token	*prev;
 };
@@ -69,7 +70,7 @@ struct s_token
 struct s_command
 {
 	char				**argv;
-	char				**redir;
+	t_token				**redir;
 	int					argc;
 	int					*fd;
 	int					type;
@@ -151,6 +152,7 @@ void		ft_generate_tree(t_minishell *minishell);
 void		free_arr(char **arr);
 void		sort_arr(char **arr);
 void		swap_arr(char **wordA, char **wordB);
+int			show_error(char *content, char *error, int num_error);
 // free functions
 void		free_resources_prompt(t_minishell *minishell);
 void		free_token(t_token **tokens);

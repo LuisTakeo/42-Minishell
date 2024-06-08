@@ -57,6 +57,7 @@ t_command	*ft_gen_command_node(t_token *token, t_minishell *minishell)
 	new_node->type = WORD;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	ft_printf("Gerou nó comando\n");
 	return (new_node);
 }
 
@@ -71,6 +72,7 @@ t_command	*ft_gen_pipe_node(t_token *token, t_minishell *minishell)
 	new_node->type = PIPE;
 	new_node->left = NULL;
 	new_node->right = ft_gen_command_node(token->next, minishell);
+	ft_printf("Gerou nó pipe\n");
 	return (new_node);
 }
 
