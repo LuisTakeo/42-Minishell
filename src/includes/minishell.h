@@ -93,10 +93,10 @@ enum e_token_type
 enum e_operator_type
 {
 	PIPE = 1,
-	REDIR_IN = 2,
-	REDIR_OUT = 3,
-	APPEND = 4,
-	HEREDOC = 5
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC
 };
 
 // signals

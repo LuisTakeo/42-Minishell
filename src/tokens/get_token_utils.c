@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:51:40 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/03 17:14:23 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/08 00:10:22 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	free_token(t_token **tokens)
 	free(*tokens);
 }
 
+// Substituir por ft_strtrim da libft
 void	skip_whitespace(char *input, int *i)
 {
 	while (input[*i] && ft_strchr(WHITESPACE, input[*i]))
