@@ -63,7 +63,7 @@ void	execute_single_command(t_minishell *minishell)
 	temp_cmd = minishell->tree_cmd;
 	if (is_builtin(temp_cmd->argv, minishell) >= 0)
 		return ;
-	exec_command(temp_cmd->argv, 0, minishell);
+	minishell->status = exec_command(temp_cmd->argv, 0, minishell);
 }
 
 void	execute_tree_commands(t_minishell *minishell)
