@@ -117,7 +117,6 @@ void		print_tokens(t_token *tokens);
 char		**get_env(char **envp);
 char		*env(char *env_name, char **envp);
 char		**get_paths(char **env);
-char		*get_env_value(char *env_name, char **envp);
 // bultins
 int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);
