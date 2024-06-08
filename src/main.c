@@ -262,10 +262,6 @@ int	main(void)
 	ft_printf("Teste value env ->%s!\n", test_word1);
 	free(test_word1);*/
 
-	// teste para validação do exit
-	//char *argv[] = {"exit", "-5", NULL};
-	//exit_builtin(argv, &minishell);
-
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);
