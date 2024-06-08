@@ -66,7 +66,6 @@ struct s_token
 	struct s_token	*prev;
 };
 
-
 struct s_command
 {
 	char				**argv;
@@ -141,6 +140,8 @@ char		*expand_path(char **word, t_minishell *minishell);
 int			exec_command(char **arrstr, int id, t_minishell *minishell);
 char		*verify_path(char *bin, char **path);
 int			print_env(char **envp);
+void		execute_tree_commands(t_minishell *minishell);
+void		execute_single_command(t_minishell *minishell);
 // tree functions
 t_command	*ft_newtreenode(char **args);
 void		ft_treeaddonleft(t_command **treenode, t_command *treenew);

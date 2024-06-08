@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:59:01 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/06 21:51:47 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/07 21:06:24 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ char	*expand_env(char *var, char **envp)
 	return (NULL);
 }
 
+char	*expand_num_or_status(char **word, t_minishell *minishell)
+{
+	if (**word == '?')
+	{
+		(*word)++;
+		return (ft_itoa(minishell->status));
+	}
+	(*word)++;
+	return (ft_strdup(""));
+}
+
 char	*expand_path(char **word, t_minishell *minishell)
 {
 	int		i;
@@ -43,13 +54,10 @@ char	*expand_path(char **word, t_minishell *minishell)
 	char	*new_word;
 
 	(*word)++;
-	if (!**word || (!ft_isalnum(**word) && **word != '_'))
+	if (!**word || (!ft_isalnum(**word) && **word != '_' && **word != '?'))
 		return (ft_strdup("$"));
-	if (ft_isdigit(**word))
-	{
-		(*word)++;
-		return (ft_strdup(""));
-	}
+	if (**word == '?' || ft_isdigit(**word))
+		return (expand_num_or_status(word, minishell));
 	i = 0;
 	temp = *word;
 	while (**word && (ft_isalnum(**word) || **word == '_'))
