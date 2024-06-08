@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 03:14:53 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/08 17:37:49 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:40:27 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	set_exit_code(char **args, t_minishell **minishell)
 			STDERR_FILENO, args[1]);
 		exit_code = 255;
 	}
-	free_all(minishell);
+	free_all(*minishell);
 	exit(exit_code);
 }
 
