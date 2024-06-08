@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:51:40 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/03 17:14:23 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:29:59 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,19 @@ int	validate_tokens(t_token *tokens)
 		if (aux->type == OPERATOR && (aux->next == NULL
 				|| aux->next->type == OPERATOR))
 		{
-			if(aux->content[0] == '|')
-				ft_fdprintf("minishell: syntax error near unexpected token `%s'\n", STDERR_FILENO, aux->content);
-			else if (aux->next && aux->next->next)
-				ft_fdprintf("minishell: syntax error near "
-					"unexpected token `%s'\n",
-					STDERR_FILENO, aux->next->content);
-			if (aux->next && aux->next->next)
-				ft_fdprintf("minishell: syntax error near unexpected token `%s'\n", STDERR_FILENO, aux->next->content);
+			if (aux->content[0] == '|' && (!aux->next
+					|| (aux->next && aux->next->content[0] == '|')))
+				return (show_error("minishell: "
+						"syntax error near unexpected token ",
+						aux->content, 1));
+			else if (aux->content[0] != '|' && aux->next)
+				return (show_error("minishell: "
+						"syntax error near unexpected token ",
+						aux->next->content, 1));
 			else
-				ft_fdprintf("minishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
-			return (EXIT_FAILURE);
+				return (show_error("minishell: "
+						"syntax error near unexpected token ",
+						"`newline'", 1));
 		}
 		aux = aux->next;
 	}
