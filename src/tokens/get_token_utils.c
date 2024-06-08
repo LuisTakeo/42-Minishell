@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:51:40 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/08 00:10:22 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/08 00:47:17 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	free_token(t_token **tokens)
 	free(*tokens);
 }
 
-// Substituir por ft_strtrim da libft
 void	skip_whitespace(char *input, int *i)
 {
 	while (input[*i] && ft_strchr(WHITESPACE, input[*i]))
