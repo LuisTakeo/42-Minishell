@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 03:14:53 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/08 16:10:56 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:37:49 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,12 @@ static int	ft_is_number(char *str)
 	return (1);
 }
 
-void	free_all(t_minishell **minishell)
+void	free_all(t_minishell *minishell)
 {
-	free_arr((*minishell)->path);
-	free_arr((*minishell)->envp);
-	if ((*minishell)->pid_list)
-		ft_lstclear(&(*minishell)->pid_list, free);
-	//free_resources_prompt(*minishell); --> dando bus error / conditional jump
+	free_arr(minishell->path);
+	free_arr(minishell->envp);
+	if (minishell->pid_list)
+		ft_lstclear(&minishell->pid_list, free);
 	//implementar função para dar free na árvore?
 }
 

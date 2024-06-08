@@ -156,6 +156,6 @@ int			show_error(char *content, char *error, int num_error);
 // free functions
 void		free_resources_prompt(t_minishell *minishell);
 void		free_token(t_token **tokens);
-void		free_all(t_minishell **minishell);
+void		free_all(t_minishell *minishell);
 
 #endif
