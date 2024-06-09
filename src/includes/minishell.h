@@ -121,7 +121,7 @@ char		**get_paths(char **env);
 // bultins
 int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);
-int			unset(const char *key, char **envp, t_minishell *minishell);
+int			unset(const char **key, char **envp, t_minishell *minishell);
 int			export(char **args, char ***env, t_minishell *minishell);
 int			print_order_env(char **env);
 int			echo(char **args);
