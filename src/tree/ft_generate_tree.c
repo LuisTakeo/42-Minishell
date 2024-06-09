@@ -40,7 +40,7 @@ t_token	*find_previous_pipe(t_token *token, t_minishell *minishell)
 	while (temp)
 	{
 		if (temp->type == PIPE)
-			previous_pipe = temp;
+			return (temp);
 		temp = temp->prev;
 	}
 	return (previous_pipe);

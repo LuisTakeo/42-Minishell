@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:58:22 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/05/31 17:57:27 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/08 21:09:51 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,23 @@ static int	unset_env(const char *key, char **envp)
 	return (EXIT_SUCCESS);
 }
 
-int	unset(const char *key, char **envp, t_minishell *minishell)
+int	unset(const char **key, char **envp, t_minishell *minishell)
 {
-	// int	status_error;
+	int		status_error;
+	char	**temp;
 
-	if (key == NULL)
-		return (EXIT_FAILURE);
-	else if (is_key_in_envp(key, envp) == 1)
+	if (key == NULL || key[1] == NULL)
+		return (show_error("unset: ", "not enought arguments", 1));
+	temp = ((char **)key) + 1;
+	while (*temp)
 	{
-		ft_fdprintf("unset: %s: not an identifier\n", STDERR_FILENO, key);
-		return (EXIT_FAILURE);
+		if (is_key_in_envp(*temp, envp) == 1)
+			status_error = ft_fdprintf("unset: %s: not an identifier\n",
+					STDERR_FILENO, *temp);
+		else
+			unset_env(*temp, envp);
+		(temp)++;
 	}
-	unset_env(key, envp);
 	free_arr(minishell->path);
 	minishell->path = get_paths(envp);
 	return (EXIT_SUCCESS);
