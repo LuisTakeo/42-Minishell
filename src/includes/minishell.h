@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <string.h>
+# include <fcntl.h>
 # include <errno.h>
 
 # include "../../libs/libft/libft.h"
