@@ -51,9 +51,12 @@ void	free_resources_prompt(t_minishell *minishell)
 		free_token(&(minishell->tokens));
 	if (minishell->tree_cmd)
 		free_tree(&(minishell->tree_cmd));
+	if (minishell->pid_list)
+		ft_lstclear(&(minishell->pid_list), free);
 	minishell->input = NULL;
 	minishell->tokens = NULL;
 	minishell->tree_cmd = NULL;
+	minishell->pid_list = NULL;
 }
 
 void	execute_single_command(t_minishell *minishell)
@@ -66,13 +69,65 @@ void	execute_single_command(t_minishell *minishell)
 	minishell->status = exec_command(temp_cmd->argv, 0, minishell);
 }
 
+void	execute_command(t_minishell *minishell, t_command *temp_tree,
+	int is_left)
+{
+	pid_t	pid;
+
+	(void)temp_tree;
+	(void)is_left;
+	pid = fork();
+	if (pid == -1)
+	{
+		minishell->status = show_error("fork: ", strerror(errno), 1);
+		return ;
+	}
+	if (!pid)
+	{
+		// if (parent_tree->parent->type == PIPE)
+		// 	dup2(parent_tree->fd[STDIN_FILENO], STDIN_FILENO);
+		// dup2(parent_tree->fd[STDOUT_FILENO], STDOUT_FILENO);
+		// close(parent_tree->fd[STDOUT_FILENO]);
+		// close(parent_tree->fd[STDIN_FILENO]);
+		// execute_tree_commands(minishell);
+		exit(EXIT_FAILURE);
+	}
+	ft_lstadd_back(&(minishell->pid_list), ft_lstnew((void *)((long)pid)));
+}
+
+void	execute_pipe_command(t_minishell *minishell, t_command *temp_tree)
+{
+	// pipe(temp_tree->fd);
+	(void)temp_tree;
+	if (temp_tree->left && temp_tree->left->type == PIPE)
+		execute_pipe_command(minishell, temp_tree->left);
+	if (temp_tree->left && temp_tree->left->type != PIPE)
+		execute_command(minishell, temp_tree->left, 1);
+	if (temp_tree->right && temp_tree->right->type != PIPE)
+		execute_command(minishell, temp_tree->right, 0);
+	// close(temp_tree->fd[STDOUT_FILENO]);
+	// close(temp_tree->fd[STDIN_FILENO]);
+}
+
 void	execute_tree_commands(t_minishell *minishell)
 {
 	t_command	*temp_tree;
+	t_list		*temp_list;
 
 	temp_tree = minishell->tree_cmd;
 	if (temp_tree->type == WORD)
 		execute_single_command(minishell);
+	else
+	{
+		execute_pipe_command(minishell, temp_tree);
+		temp_list = minishell->pid_list;
+		while (temp_list)
+		{
+			ft_printf("pid: %d\n", (long)(temp_list->content));
+			waitpid((pid_t)((long)(temp_list->content)), &minishell->status, 0);
+			temp_list = temp_list->next;
+		}
+	}
 }
 
 int	build_commands(t_minishell *minishell)
