@@ -67,6 +67,7 @@ void	execute_single_command(t_minishell *minishell)
 	if (is_builtin(temp_cmd->argv, minishell) >= 0)
 		return ;
 	minishell->status = exec_command(temp_cmd->argv, 0, minishell);
+	minishell->status = (minishell->status >> 8) & 0xff;
 }
 
 void	execute_command(t_minishell *minishell, t_command *temp_tree,
@@ -125,6 +126,7 @@ void	execute_tree_commands(t_minishell *minishell)
 		{
 			ft_printf("pid: %d\n", (long)(temp_list->content));
 			waitpid((pid_t)((long)(temp_list->content)), &minishell->status, 0);
+			minishell->status = (minishell->status >> 8) & 0xff;
 			temp_list = temp_list->next;
 		}
 	}
