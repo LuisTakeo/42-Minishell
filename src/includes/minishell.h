@@ -119,10 +119,11 @@ void		print_tokens(t_token *tokens);
 char		**get_env(char **envp);
 char		*env(char *env_name, char **envp);
 char		**get_paths(char **env);
+char		*get_single_env(char *env_name, char **envp);
 // bultins
 int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);
-int			unset(const char **key, char **envp, t_minishell *minishell);
+int			unset(const char **key, t_minishell *minishell);
 int			export(char **args, char ***env, t_minishell *minishell);
 int			print_order_env(char **env);
 int			echo(char **args);
