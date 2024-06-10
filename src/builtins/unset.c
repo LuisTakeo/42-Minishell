@@ -12,14 +12,14 @@
 
 #include "../includes/minishell.h"
 
-static int	is_key_in_envp(const char *key, char **envp)
+static int	is_key_in_envp(const char *key, t_minishell *minishell)
 {
 	int	i;
 
 	i = 0;
-	while (envp[i])
+	while (minishell->envp[i])
 	{
-		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
+		if (ft_strncmp(minishell->envp[i], key, ft_strlen(key)) == 0)
 			return (EXIT_SUCCESS);
 		i++;
 	}
@@ -42,7 +42,7 @@ static int	get_envp_len(char **envp, const char *key)
 	return (occ);
 }
 
-static int	unset_env(const char *key, char **envp)
+static int	unset_env(const char *key, t_minishell *minishell)
 {
 	int		i;
 	int		j;
@@ -51,43 +51,48 @@ static int	unset_env(const char *key, char **envp)
 
 	i = 0;
 	j = 0;
-	new_key = ft_strjoin(key, "=");
+	new_key = get_single_env((char *)key, minishell->envp);
 	new_env = (char **)malloc(sizeof(char *) * (
-				get_envp_len(envp, new_key) + 1));
-	while (envp[i])
+				get_envp_len(minishell->envp, new_key) + 1));
+	ft_printf("Chegando aqui\n");
+	while (minishell->envp[i])
 	{
-		if (ft_strncmp(envp[i], new_key, ft_strlen(new_key)) != 0)
+		if (ft_strncmp(minishell->envp[i], new_key, ft_strlen(new_key)) != 0)
 		{
-			new_env[j] = ft_strdup(envp[i]);
+			new_env[j] = ft_strdup(minishell->envp[i]);
 			j++;
 		}
 		i++;
 	}
+	ft_printf("Chegando aqui 2\n");
 	new_env[j] = NULL;
-	free_arr(envp);
-	envp = new_env;
+	free_arr(minishell->envp);
+	minishell->envp = new_env;
 	free(new_key);
+	ft_printf("Chegando aqui 3\n");
 	return (EXIT_SUCCESS);
 }
 
-int	unset(const char **key, char **envp, t_minishell *minishell)
+int	unset(const char **key, t_minishell *minishell)
 {
 	int		status_error;
 	char	**temp;
 
-	if (key == NULL || key[1] == NULL)
+	if (!key || key[1] == NULL)
 		return (show_error("unset: ", "not enought arguments", 1));
-	temp = ((char **)key) + 1;
+	temp = (char **)key;
+	(temp)++;
 	while (*temp)
 	{
-		if (is_key_in_envp(*temp, envp) == 1)
-			status_error = ft_fdprintf("unset: %s: not an identifier\n",
-					STDERR_FILENO, *temp);
+		if (is_key_in_envp(*temp, minishell) == 1)
+			status_error = show_error(*temp,": not an identifier", 2);
 		else
-			unset_env(*temp, envp);
+			unset_env(*temp, minishell);
 		(temp)++;
 	}
 	free_arr(minishell->path);
-	minishell->path = get_paths(envp);
-	return (EXIT_SUCCESS);
+	ft_printf("Chegou 4\n");
+	minishell->path = get_paths(minishell->envp);
+	ft_printf("Chegou 5\n");
+	return (status_error);
 }

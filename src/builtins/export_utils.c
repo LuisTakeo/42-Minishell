@@ -55,11 +55,11 @@ static void	print_key_value(char *value)
 	{
 		ft_putchar_fd(*cpy, STDOUT_FILENO);
 		cpy++;
+		if (*cpy)
+			ft_fdprintf("\"%s\"", STDOUT_FILENO, cpy);
+		else
+			ft_fdprintf("\"\"", STDOUT_FILENO);
 	}
-	if (*cpy)
-		ft_fdprintf("\"%s\"", STDOUT_FILENO, cpy);
-	else
-		ft_fdprintf("\"\"", STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
