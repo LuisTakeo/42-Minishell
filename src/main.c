@@ -72,7 +72,11 @@ void	execute_tree_commands(t_minishell *minishell)
 
 	temp_tree = minishell->tree_cmd;
 	if (temp_tree->type == WORD)
+	{
+		if (temp_tree->redir)
+			setup_redirs(temp_tree->redir);
 		execute_single_command(minishell);
+	}
 }
 
 int	build_commands(t_minishell *minishell)
@@ -83,6 +87,8 @@ int	build_commands(t_minishell *minishell)
 		return (EXIT_FAILURE);
 	set_operator_type(&(minishell->tokens));
 	ft_generate_tree(minishell);
+	get_redirs(&(minishell));
+	print_tokens(minishell->tree_cmd->redir);
 	return (EXIT_SUCCESS);
 }
 

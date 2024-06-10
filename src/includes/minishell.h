@@ -63,7 +63,7 @@ struct s_token
 {
 	int				type;
 	char			*content;
-	int				fd_file;
+	int				file_fd;
 	struct s_token	*next;
 	struct s_token	*prev;
 };
@@ -71,7 +71,7 @@ struct s_token
 struct s_command
 {
 	char				**argv;
-	t_token				**redir;
+	t_token				*redir;
 	int					argc;
 	int					*fd;
 	int					type;
@@ -107,6 +107,8 @@ void		prepare_signals(void);
 int			count_quotes(char *input);
 void		skip_whitespace(char *input, int *i);
 void		init_token(t_token **tokens);
+void		ft_tokenadd_back(t_token **lst, t_token *new);
+void		ft_tokendelone(t_token **lst, t_token *node);
 void		allocate_token(t_token **tokens, char *input, int start, int end);
 void		get_quoted_token(char *input, int *i);
 void		get_word(char *input, t_token **tokens, int *i);
@@ -136,6 +138,14 @@ char		*expand_vars_and_quotes(char *word, t_minishell *minishell);
 char		*expand_env(char *var, char **envp);
 char		*expand_path(char **word, t_minishell *minishell);
 char		*join_word(char *word, char *new_word);
+// redirections
+void		get_redirs(t_minishell **minishell);
+int			setup_redirs(t_token *redir);
+int			add_redirection(t_token *redirs, t_minishell *minishell);
+int			redirect_input(const char *filename);
+int			redirect_output(const char *filename);
+int			append_output(const char *filename);
+int			heredoc(const char *delim);
 // execute commands
 // prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);

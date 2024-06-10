@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 18:38:35 by tpaim-yu          #+#    #+#              #
-#    Updated: 2024/04/28 16:24:16 by tpaim-yu         ###   ########.fr        #
+#    Updated: 2024/06/09 21:36:21 by dde-fati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC = ft_isdigit.c \
 				 ft_strchr.c \
 				 ft_strrchr.c \
 				 ft_strncmp.c \
+				 ft_strcmp.c \
 				 ft_memchr.c \
 				 ft_memcmp.c \
 				 ft_strnstr.c \

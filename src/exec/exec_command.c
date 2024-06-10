@@ -19,6 +19,7 @@ int	show_error(char *content, char *error, int num_error)
 	return (num_error);
 }
 
+// alterar o id conforme redirects
 int	exec_command(char **arrstr, int id, t_minishell *minishell)
 {
 	int		i;
