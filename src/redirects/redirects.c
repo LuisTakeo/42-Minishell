@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 01:14:11 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/11 00:58:12 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/11 01:02:52 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ t_token	*add_redirection(t_token *redirs)
 		return (NULL);
 	new_redir->content = ft_strdup(redirs->next->content);
 	new_redir->type = redirs->type;
+	new_redir->file_fd = -1; // utilizar função pra salvar o fd
 	new_redir->next = NULL;
 	new_redir->prev = NULL;
 	return (new_redir);
