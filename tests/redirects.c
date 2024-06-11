@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 01:14:11 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/09 18:58:27 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/10 20:10:08 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ void	heredoc(const char *delim)
 	char *line; 
 	int pipefd[2]; 
 
+	// adaptar com arquivo temporário
+	// incluir validação do signal
+	// restaurar valor padrão da variável estática e do comportamento padrão do signal
 	line = NULL;
 	if (pipe(pipefd) == -1)
 	{

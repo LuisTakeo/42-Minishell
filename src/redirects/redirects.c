@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 01:14:11 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/09 23:44:43 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/11 00:58:12 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ int	append_output(const char *filename)
 	close(fd);
 	return (EXIT_SUCCESS);
 }
-
+// adaptar com arquivo temporário
+// incluir validação do signal
+// restaurar valor padrão da variável estática e do comportamento padrão do signal
 int	heredoc(const char *delim)
 {
     char *line; 
@@ -106,31 +108,35 @@ int	heredoc(const char *delim)
 	return (EXIT_SUCCESS);
 }
 
-int	add_redirection(t_token *redirs, t_minishell *minishell)
+t_token	*add_redirection(t_token *redirs)
 {
-	t_token	*node;
+	t_token	*new_redir;
 
-	init_token(&node);
-	if (!node)
-		return (EXIT_FAILURE);
-	node->content = ft_strdup(redirs->next->content);
-	node->type = redirs->type;
-	ft_tokenadd_back(&minishell->tree_cmd->redir, node);
-	return (EXIT_SUCCESS);
+	init_token(&new_redir);
+	if (!new_redir)
+		return (NULL);
+	new_redir->content = ft_strdup(redirs->next->content);
+	new_redir->type = redirs->type;
+	new_redir->next = NULL;
+	new_redir->prev = NULL;
+	return (new_redir);
 }
 
-void	get_redirs(t_minishell **minishell)
+t_token	*ft_generate_redirs(t_token *token)
 {
-	t_token	*temp;
+	t_token	*redirs;
+	t_token	*current;
 
-	temp = (*minishell)->tokens;
-	while (temp)
+	redirs = NULL;
+	current = token;
+	while (current && current->type != PIPE)
 	{
-		if (temp->type != PIPE && temp->type != WORD)
-			add_redirection(temp, *minishell);
-		else
-			temp = temp->next;
+		if (current->type == REDIR_IN || current->type == REDIR_OUT
+			|| current->type == APPEND || current->type == HEREDOC)
+			redirs = add_redirection(current);
+		current = current->next;
 	}
+	return (redirs);
 }
 
 int    setup_redirs(t_token *redir)

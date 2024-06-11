@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:17:13 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/09 19:52:06 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/11 00:29:50 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,4 @@ void	get_token(char *input, t_token **tokens)
 	init_token(tokens);
 	split_tokens(input, tokens);
 	verify_null(tokens);
-	print_tokens(*tokens); // <-- não esquecer de apagar
 }
