@@ -50,6 +50,5 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
         perror("dup2");
         return (EXIT_FAILURE);
     }
-
 	return (i_status);
 }

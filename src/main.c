@@ -127,7 +127,7 @@ void	execute_tree_commands(t_minishell *minishell)
 		if (temp_tree->redir)
 			setup_redirs(temp_tree->redir);
 		execute_single_command(minishell);
-  }
+  	}
 	else
 	{
 		execute_pipe_command(minishell, temp_tree);
