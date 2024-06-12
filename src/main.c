@@ -61,9 +61,15 @@ void	execute_single_command(t_minishell *minishell)
 	t_command	*temp_cmd;
 
 	temp_cmd = minishell->tree_cmd;
-	if (is_builtin(temp_cmd->argv, minishell) >= 0)
+	// necessário adaptar execução dos builtins em caso de redirs
+	// leaks na execução de bultins com redirects
+	// echo entrando em loop infinito com >
+	if (is_builtin(temp_cmd->argv, minishell) >= 0) 
 		return ;
-	exec_command(temp_cmd->argv, 0, minishell);
+	if (temp_cmd->redir)
+		exec_command(temp_cmd->argv, temp_cmd->redir->file_fd, minishell);
+	else
+		exec_command(temp_cmd->argv, 0, minishell);
 }
 
 void	execute_tree_commands(t_minishell *minishell)
@@ -247,6 +253,8 @@ int	main(void)
 	minishell.pid_list = NULL;
 	minishell.tree_cmd = NULL;
 	minishell.status = 0;
+	minishell.stdin_backup = dup(STDIN_FILENO);
+	minishell.stdout_backup = dup(STDOUT_FILENO);
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);

@@ -54,6 +54,8 @@ struct s_minishell
 	char		*input;
 	char		**envp;
 	char		**path;
+	int 		stdin_backup;
+	int			stdout_backup;
 	t_token		*tokens;
 	t_command	*tree_cmd;
 	t_list		*pid_list;
@@ -142,10 +144,10 @@ char		*join_word(char *word, char *new_word);
 t_token		*ft_generate_redirs(t_token *token);
 t_token		*add_redirection(t_token *redirs);
 int			setup_redirs(t_token *redir);
-int			redirect_input(const char *filename);
-int			redirect_output(const char *filename);
-int			append_output(const char *filename);
-int			heredoc(const char *delim);
+int			redirect_input(const char *filename, t_token *redir);
+int			redirect_output(const char *filename, t_token *redir);
+int			append_output(const char *filename, t_token *redir);
+int			heredoc(const char *delim, t_token *redir);
 // execute commands
 // prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);
