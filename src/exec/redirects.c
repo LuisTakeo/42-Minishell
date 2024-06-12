@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 01:14:11 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/12 01:18:42 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/12 01:54:40 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	heredoc(const char *delim, t_token *redir)
         perror("dup2");
         return(EXIT_FAILURE);
     }
-	redir->file_fd = pipefd[0]; // validar
+	redir->file_fd = pipefd[0]; // validar descritor
     close(pipefd[0]);
 	return (EXIT_SUCCESS);
 }

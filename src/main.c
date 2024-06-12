@@ -64,9 +64,15 @@ void	execute_single_command(t_minishell *minishell)
 	t_command	*temp_cmd;
 
 	temp_cmd = minishell->tree_cmd;
-	if (is_builtin(temp_cmd->argv, minishell) >= 0)
+	// necessário adaptar execução dos builtins em caso de redirs
+	// leaks na execução de bultins com redirects
+	// echo entrando em loop infinito com >
+	if (is_builtin(temp_cmd->argv, minishell) >= 0) 
 		return ;
-	minishell->status = exec_command(temp_cmd->argv, 0, minishell);
+	if (temp_cmd->redir)
+		minishell->status = exec_command(temp_cmd->argv, temp_cmd->redir->file_fd, minishell);
+	else
+		minishell->status = exec_command(temp_cmd->argv, 0, minishell);
 	minishell->status = (minishell->status >> 8) & 0xff;
 }
 
@@ -117,7 +123,11 @@ void	execute_tree_commands(t_minishell *minishell)
 
 	temp_tree = minishell->tree_cmd;
 	if (temp_tree->type == WORD)
+	{
+		if (temp_tree->redir)
+			setup_redirs(temp_tree->redir);
 		execute_single_command(minishell);
+  }
 	else
 	{
 		execute_pipe_command(minishell, temp_tree);
@@ -140,6 +150,7 @@ int	build_commands(t_minishell *minishell)
 		return (EXIT_FAILURE);
 	set_operator_type(&(minishell->tokens));
 	ft_generate_tree(minishell);
+	print_tokens(minishell->tree_cmd->redir);
 	return (EXIT_SUCCESS);
 }
 
@@ -299,6 +310,8 @@ int	main(void)
 	minishell.pid_list = NULL;
 	minishell.tree_cmd = NULL;
 	minishell.status = 0;
+	minishell.stdin_backup = dup(STDIN_FILENO);
+	minishell.stdout_backup = dup(STDOUT_FILENO);
 	prompt(&minishell);
 	ft_printf("Exit\n");
 	free_arr(minishell.path);

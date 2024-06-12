@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:18:32 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/02 02:44:43 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:21:10 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static void	set_redir_type(t_token *tokens, char type)
 	if (type == '<')
 	{
 		if (tokens && tokens->content[1] == '<')
+		{
 			tokens->type = HEREDOC;
+		}
 		else
 			tokens->type = REDIR_IN;
 	}

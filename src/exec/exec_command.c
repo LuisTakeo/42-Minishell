@@ -19,6 +19,7 @@ int	show_error(char *content, char *error, int num_error)
 	return (num_error);
 }
 
+// alterar o id conforme redirects
 int	exec_command(char **arrstr, int id, t_minishell *minishell)
 {
 	int		i_status;
@@ -39,5 +40,16 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	if (full_path && ft_strncmp(full_path, arrstr[0],
 			ft_strlen(full_path) + 1))
 		free(full_path);
+
+	// Restaurar os descritores de arquivo originais
+    if (dup2(minishell->stdin_backup, STDIN_FILENO) < 0) {
+        perror("dup2");
+        return (EXIT_FAILURE);
+    }
+    if (dup2(minishell->stdout_backup, STDOUT_FILENO) < 0) {
+        perror("dup2");
+        return (EXIT_FAILURE);
+    }
+
 	return (i_status);
 }

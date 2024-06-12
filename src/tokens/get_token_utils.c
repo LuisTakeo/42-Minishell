@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:51:40 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/08 17:29:59 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/09 22:55:25 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,43 @@ void	init_token(t_token **tokens)
 	if (!(*tokens))
 		return ;
 	(*tokens)->type = -1;
+	(*tokens)->file_fd = -1;
 	(*tokens)->content = NULL;
 	(*tokens)->next = NULL;
 	(*tokens)->prev = NULL;
+}
+
+void	ft_tokenadd_back(t_token **lst, t_token *new)
+{
+	t_token	*aux;
+
+	if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	aux = *lst;
+	while (aux->next)
+		aux = aux->next;
+	aux->next = new;
+	new->prev = aux;
+}
+
+void	ft_tokendelone(t_token **lst, t_token *node)
+{
+	t_token	*aux;
+
+	if (!node)
+		return ;
+	if (*lst == node)
+		*lst = node->next;
+	if (node->prev)
+		node->prev->next = node->next;
+	if (node->next)
+		node->next->prev = node->prev;
+	aux = node;
+	free(aux->content);
+	free(aux);
 }
 
 void	allocate_token(t_token **tokens, char *input, int start, int end)
