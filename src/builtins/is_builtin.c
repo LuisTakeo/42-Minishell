@@ -23,7 +23,7 @@ int	is_builtin(char **command, t_minishell *minishell)
 	if (!ft_strncmp(command[0], "export", ft_strlen("export") + 1))
 		return (export(command, &(minishell->envp), minishell));
 	if (!ft_strncmp(command[0], "unset", ft_strlen("unset") + 1))
-		return (unset(NULL, minishell->envp, minishell));
+		return (unset((const char **)command, minishell));
 	if (!ft_strncmp(command[0], "pwd", ft_strlen("pwd") + 1))
 		return (pwd());
 	if (!ft_strncmp(command[0], "exit", ft_strlen("exit") + 1))

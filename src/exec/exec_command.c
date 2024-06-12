@@ -22,21 +22,20 @@ int	show_error(char *content, char *error, int num_error)
 // alterar o id conforme redirects
 int	exec_command(char **arrstr, int id, t_minishell *minishell)
 {
-	int		i;
+	int		i_status;
 	char	*full_path;
 
-	i = 0;
+	i_status = 0;
 	full_path = verify_path(arrstr[0], minishell->path);
 	if (!full_path)
-		return (show_error(arrstr[0], ": Command not found", 127));
+		return (show_error(arrstr[0], ": Command not found\n", 127));
 	id = fork();
 	if (!id)
 	{
 		execve(full_path, arrstr, minishell->envp);
 		exit(EXIT_FAILURE);
 	}
-	waitpid(id, &i, 0);
-	minishell->status = i;
+	waitpid(id, &i_status, 0);
 	// ft_printf("Response: %d\n", minishell->status);
 	if (full_path && ft_strncmp(full_path, arrstr[0],
 			ft_strlen(full_path) + 1))
@@ -51,5 +50,6 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
         perror("dup2");
         return (EXIT_FAILURE);
     }
-	return (0);
+
+	return (i_status);
 }
