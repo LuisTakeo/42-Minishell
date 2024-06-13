@@ -83,6 +83,7 @@ void	prompt(t_minishell *minishell)
 		}
 		execute_tree_commands(minishell);
 		free_resources_prompt(minishell);
+		control_status(0);
 	}
 }
 

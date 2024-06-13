@@ -12,10 +12,12 @@ int		control_status(int status)
 
 int	filter_status(int status)
 {
-	if (status > 255)
+    if (control_status(-1) && status == 2)
+    {
+        status = control_status(-1);
+    }
+	else if (status > 255)
 		status = (status >> 8) & 0xff;
-	else if (status >= 2)
-		status = 128 + status;
 	return (status);
 }
 
