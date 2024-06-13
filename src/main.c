@@ -12,23 +12,6 @@
 
 #include "./includes/minishell.h"
 
-void	handle_signal(int signum)
-{
-	if (signum == SIGINT)
-	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", STDIN_FILENO);
-		rl_redisplay();
-	}
-}
-
-void	prepare_signals(void)
-{
-	signal(SIGINT, &handle_signal);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 void	free_tree(t_command **tree)
 {
 	t_command	*temp;
@@ -40,6 +23,8 @@ void	free_tree(t_command **tree)
 		free_tree(&temp->right);
 	if (temp->argv)
 		free_arr(temp->argv);
+	if (temp->redir)
+		free_token(&(temp->redir));
 	free(temp);
 }
 
@@ -52,95 +37,14 @@ void	free_resources_prompt(t_minishell *minishell)
 	if (minishell->tree_cmd)
 		free_tree(&(minishell->tree_cmd));
 	if (minishell->pid_list)
-		ft_lstclear(&(minishell->pid_list), free);
+		free_list(&(minishell->pid_list));
 	minishell->input = NULL;
 	minishell->tokens = NULL;
 	minishell->tree_cmd = NULL;
 	minishell->pid_list = NULL;
 }
 
-void	execute_single_command(t_minishell *minishell)
-{
-	t_command	*temp_cmd;
 
-	temp_cmd = minishell->tree_cmd;
-	// necessário adaptar execução dos builtins em caso de redirs
-	// leaks na execução de bultins com redirects
-	// echo entrando em loop infinito com >
-	if (is_builtin(temp_cmd->argv, minishell) >= 0) 
-		return ;
-	if (temp_cmd->redir)
-		minishell->status = exec_command(temp_cmd->argv, temp_cmd->redir->file_fd, minishell);
-	else
-		minishell->status = exec_command(temp_cmd->argv, 0, minishell);
-	minishell->status = (minishell->status >> 8) & 0xff;
-}
-
-void	execute_command(t_minishell *minishell, t_command *temp_tree,
-	int is_left)
-{
-	pid_t	pid;
-
-	(void)temp_tree;
-	(void)is_left;
-	pid = fork();
-	if (pid == -1)
-	{
-		minishell->status = show_error("fork: ", strerror(errno), 1);
-		return ;
-	}
-	if (!pid)
-	{
-		// if (parent_tree->parent->type == PIPE)
-		// 	dup2(parent_tree->fd[STDIN_FILENO], STDIN_FILENO);
-		// dup2(parent_tree->fd[STDOUT_FILENO], STDOUT_FILENO);
-		// close(parent_tree->fd[STDOUT_FILENO]);
-		// close(parent_tree->fd[STDIN_FILENO]);
-		// execute_tree_commands(minishell);
-		exit(EXIT_FAILURE);
-	}
-	ft_lstadd_back(&(minishell->pid_list), ft_lstnew((void *)((long)pid)));
-}
-
-void	execute_pipe_command(t_minishell *minishell, t_command *temp_tree)
-{
-	// pipe(temp_tree->fd);
-	(void)temp_tree;
-	if (temp_tree->left && temp_tree->left->type == PIPE)
-		execute_pipe_command(minishell, temp_tree->left);
-	if (temp_tree->left && temp_tree->left->type != PIPE)
-		execute_command(minishell, temp_tree->left, 1);
-	if (temp_tree->right && temp_tree->right->type != PIPE)
-		execute_command(minishell, temp_tree->right, 0);
-	// close(temp_tree->fd[STDOUT_FILENO]);
-	// close(temp_tree->fd[STDIN_FILENO]);
-}
-
-void	execute_tree_commands(t_minishell *minishell)
-{
-	t_command	*temp_tree;
-	t_list		*temp_list;
-
-	temp_tree = minishell->tree_cmd;
-	if (temp_tree->type == WORD)
-	{
-		if (temp_tree->redir)
-			setup_redirs(temp_tree->redir);
-		execute_single_command(minishell);
-  }
-	else
-	{
-		execute_pipe_command(minishell, temp_tree);
-		temp_list = minishell->pid_list;
-		while (temp_list)
-		{
-			ft_printf("pid: %d\n", (long)(temp_list->content));
-			waitpid((pid_t)((long)(temp_list->content)), &minishell->status, 0);
-			minishell->status = (minishell->status >> 8) & 0xff;
-			temp_list = temp_list->next;
-		}
-	}
-}
 
 int	build_commands(t_minishell *minishell)
 {
@@ -161,6 +65,9 @@ void	prompt(t_minishell *minishell)
 	while (1)
 	{
 		minishell->input = readline("minishell$ ");
+		if (control_status(-1))
+			minishell->status = control_status(-1);
+		control_status(0);
 		if (!minishell->input)
 			break ;
 		if (!minishell->input[0])
@@ -296,6 +203,18 @@ void	test(t_minishell *minishell)
 	free_arr(env);
 	temp = minishell->pid_list;
 	ft_lstclear(&temp, free);
+}
+
+void	free_list(t_list **list)
+{
+	t_list	*temp;
+
+	while (*list)
+	{
+		temp = *list;
+		*list = (*list)->next;
+		free(temp);
+	}
 }
 
 int	main(void)

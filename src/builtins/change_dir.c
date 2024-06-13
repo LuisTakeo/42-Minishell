@@ -23,9 +23,9 @@ static int	print_error_cd(char **path, char *error_msg)
 		ft_fdprintf("cd: %s\n", STDERR_FILENO, error_msg);
 	else
 	{
-		ft_fdprintf("cd: ", STDERR_FILENO);
-		perror(NULL);
-		ft_fdprintf("cd: %s %s\n", STDERR_FILENO, (*path), strerror(errno));
+		// ft_fdprintf("cd: ", STDERR_FILENO);
+		// perror(NULL);
+		ft_fdprintf("cd: %s: %s\n", STDERR_FILENO, (*path), strerror(errno));
 	}
 	return (EXIT_FAILURE);
 }
@@ -65,7 +65,7 @@ int	verify_and_change_dir(char *path, t_minishell *minishell)
 		path = full_path;
 	}
 	if (chdir(path) == -1)
-		return (EXIT_FAILURE);
+		return (print_error_cd(&path, NULL));
 	else
 		set_pwd(minishell);
 	if (full_path)

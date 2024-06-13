@@ -75,7 +75,7 @@ struct s_command
 	char				**argv;
 	t_token				*redir;
 	int					argc;
-	int					*fd;
+	int					fd[2];
 	int					type;
 	struct s_command	*left;
 	struct s_command	*right;
@@ -105,6 +105,10 @@ enum e_operator_type
 
 // signals
 void		prepare_signals(void);
+void		handle_signal(int signum);
+void		handle_signal_exec(int signum);
+// status
+int			control_status(int status);
 // tokenization
 int			count_quotes(char *input);
 void		skip_whitespace(char *input, int *i);
@@ -171,5 +175,7 @@ int			show_error(char *content, char *error, int num_error);
 void		free_resources_prompt(t_minishell *minishell);
 void		free_token(t_token **tokens);
 void		free_all(t_minishell *minishell);
+void		free_tree(t_command **tree);
+void		free_list(t_list **list);
 
 #endif
