@@ -33,6 +33,7 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	if (!id)
 	{
 		execve(full_path, arrstr, minishell->envp);
+		a
 		exit(EXIT_FAILURE);
 	}
 	waitpid(id, &i_status, 0);
