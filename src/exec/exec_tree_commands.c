@@ -44,6 +44,11 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 		// dup2(parent_tree->fd[STDOUT_FILENO], STDOUT_FILENO);
 		// close(temp_tree->parent->fd[STDOUT_FILENO]);
 		// close(temp_tree->parent->fd[STDIN_FILENO]);
+        if (is_builtin(temp_tree->argv, minishell) >= 0)
+        {
+            free_all(minishell);
+            exit(minishell->status);
+        }
         free_all(minishell);
 		// execute_tree_commands(minishell);
 		exit(EXIT_FAILURE);

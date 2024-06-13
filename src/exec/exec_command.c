@@ -37,12 +37,7 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	}
 	waitpid(id, &i_status, 0);
 	// ft_printf("Response: %d\n", minishell->status);
-	if (i_status > 255)
-		i_status = (i_status >> 8) & 0xff;
-	else if (i_status >= 2)
-		i_status = 128 + i_status;
-	else
-		i_status = i_status;
+	i_status = filter_status(i_status);
 	if (full_path && ft_strncmp(full_path, arrstr[0],
 			ft_strlen(full_path) + 1))
 		free(full_path);

@@ -10,6 +10,15 @@ int		control_status(int status)
 	return (status_backup);
 }
 
+int	filter_status(int status)
+{
+	if (status > 255)
+		status = (status >> 8) & 0xff;
+	else if (status >= 2)
+		status = 128 + status;
+	return (status);
+}
+
 void	handle_signal_exec(int signum)
 {
 	if (signum == SIGINT)

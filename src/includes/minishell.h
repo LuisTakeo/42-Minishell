@@ -109,6 +109,7 @@ void		handle_signal(int signum);
 void		handle_signal_exec(int signum);
 // status
 int			control_status(int status);
+int			filter_status(int status);
 // tokenization
 int			count_quotes(char *input);
 void		skip_whitespace(char *input, int *i);
