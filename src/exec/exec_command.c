@@ -36,7 +36,7 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(id, &i_status, 0);
-	// ft_printf("Response: %d\n", minishell->status);
+	i_status = filter_status(i_status);
 	if (full_path && ft_strncmp(full_path, arrstr[0],
 			ft_strlen(full_path) + 1))
 		free(full_path);

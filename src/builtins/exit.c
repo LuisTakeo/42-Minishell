@@ -33,7 +33,14 @@ void	free_all(t_minishell *minishell)
 	free_arr(minishell->path);
 	free_arr(minishell->envp);
 	if (minishell->pid_list)
-		ft_lstclear(&minishell->pid_list, free);
+		free_list(&minishell->pid_list);
+	if (minishell->input)
+		free(minishell->input);
+	if (minishell->tokens)
+		free_token(&minishell->tokens);
+	if (minishell->tree_cmd)
+		free_tree(&minishell->tree_cmd);
+	rl_clear_history();
 	//implementar função para dar free na árvore?
 }
 
