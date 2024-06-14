@@ -54,7 +54,7 @@ int	build_commands(t_minishell *minishell)
 		return (EXIT_FAILURE);
 	set_operator_type(&(minishell->tokens));
 	ft_generate_tree(minishell);
-	print_tokens(minishell->tree_cmd->redir);
+	//print_tokens(minishell->tree_cmd->redir);
 	return (EXIT_SUCCESS);
 }
 
@@ -64,6 +64,7 @@ void	prompt(t_minishell *minishell)
 	minishell->tokens = NULL;
 	while (1)
 	{
+		reset_fds(minishell);		
 		minishell->input = readline("minishell$ ");
 		if (control_status(-1))
 			minishell->status = control_status(-1);

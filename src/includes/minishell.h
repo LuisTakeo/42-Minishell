@@ -156,6 +156,7 @@ int			redirect_input(const char *filename, t_token *redir);
 int			redirect_output(const char *filename, t_token *redir);
 int			append_output(const char *filename, t_token *redir);
 int			heredoc(const char *delim, t_token *redir);
+void		reset_fds(t_minishell *minishell);
 // execute commands
 // prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);
