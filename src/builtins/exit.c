@@ -52,7 +52,6 @@ static void	set_exit_code(char **args, t_minishell **minishell)
 	exit_code = 0;
 	if (!args[1])
 	{
-		ft_printf("%i", (*minishell)->status);
 		if ((*minishell)->status)
 			exit_code = (*minishell)->status;
 	}

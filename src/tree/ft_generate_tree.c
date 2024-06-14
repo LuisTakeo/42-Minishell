@@ -72,6 +72,7 @@ t_command	*ft_gen_pipe_node(t_token *token, t_minishell *minishell)
 	new_node->type = PIPE;
 	new_node->left = NULL;
 	new_node->right = ft_gen_command_node(token->next, minishell);
+	new_node->right->parent = new_node;
 	return (new_node);
 }
 

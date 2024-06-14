@@ -46,4 +46,5 @@ void	prepare_signals(void)
 {
 	signal(SIGINT, &handle_signal);
 	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGPIPE, SIG_IGN);
 }

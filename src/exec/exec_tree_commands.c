@@ -38,17 +38,47 @@ void	close_fds(t_minishell *minishell)
 
 }
 
+int		handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
+{
+	t_command	*parent_tree;
+
+	(void)minishell;
+	parent_tree = temp_tree->parent;
+	if (is_left)
+		dup2(parent_tree->fd[STDOUT_FILENO], STDOUT_FILENO);
+	else
+	{
+		dup2(parent_tree->fd[STDIN_FILENO], STDIN_FILENO);
+		if (parent_tree->parent)
+			dup2(parent_tree->parent->fd[1], STDOUT_FILENO);
+	}
+	close(parent_tree->fd[0]);
+	close(parent_tree->fd[1]);
+	return (EXIT_SUCCESS);
+}
+
+void	close_upcoming_fds(t_command *parent)
+{
+	t_command	*parent_tree;
+
+	parent_tree = parent->parent;
+	while (parent_tree)
+	{
+		close(parent_tree->fd[0]);
+		close(parent_tree->fd[1]);
+		parent_tree = parent_tree->parent;
+	}
+}
+
 void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	int is_left)
 {
 	int		status;
 	pid_t	pid;
 	char	*cmd;
-	t_command	*parent_tree;
+
 
 	status = 0;
-	parent_tree = temp_tree->parent;
-	(void)is_left;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -57,12 +87,7 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	}
 	if (!pid)
 	{
-		// ft_printf("%s\n", temp_tree->argv[0]);
-
-		if (is_left)
-			dup2(parent_tree->fd[STDOUT_FILENO], STDOUT_FILENO);
-		else
-			dup2(parent_tree->fd[STDIN_FILENO], STDIN_FILENO);
+		handle_fds(minishell, temp_tree, is_left);
 		if (is_builtin(temp_tree->argv, minishell) >= 0)
 		{
 			free_all(minishell);
@@ -73,14 +98,12 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 		{
 			status = show_error(temp_tree->argv[0], ": Command not found", 127);
 			free_all(minishell);
-			close(parent_tree->fd[STDIN_FILENO]);
-			close(parent_tree->fd[STDOUT_FILENO]);
+			close_upcoming_fds(temp_tree->parent);
 			exit(status);
 		}
 		execve(cmd, temp_tree->argv, minishell->envp);
         free_all(minishell);
-		close(parent_tree->fd[STDIN_FILENO]);
-		close(parent_tree->fd[STDOUT_FILENO]);
+		close_upcoming_fds(temp_tree->parent);
 		// execute_tree_commands(minishell);
 		exit(EXIT_FAILURE);
 	}
@@ -96,6 +119,8 @@ void	execute_pipe_command(t_minishell *minishell, t_command *temp_tree)
 	if (temp_tree->left && temp_tree->left->type != PIPE)
 		execute_command(minishell, temp_tree->left, 1);
 	execute_command(minishell, temp_tree->right, 0);
+	close(temp_tree->fd[0]);
+	close(temp_tree->fd[1]);
 }
 
 // int	execute_pipe_command(t_minishell *minishell, t_command *temp_tree)
@@ -138,21 +163,20 @@ void	execute_tree_commands(t_minishell *minishell)
 		if (temp_tree->redir)
 			setup_redirs(temp_tree->redir);
 		execute_single_command(minishell);
-  }
+	}
 	else
 	{
 		execute_pipe_command(minishell, temp_tree);
 		temp_list = minishell->pid_list;
-		close(temp_tree->fd[STDOUT_FILENO]);
-		close(temp_tree->fd[STDIN_FILENO]);
 		while (temp_list)
 		{
 			// ft_printf("pid: %d\n", (long)(temp_list->content));
 			waitpid((pid_t)((long)(temp_list->content)), &minishell->status, 0);
+			ft_printf("Status: %d\n", minishell->status);
 			minishell->status = filter_status(minishell->status);
 			temp_list = temp_list->next;
 		}
-		// close_fds(minishell);
+
 	}
 	signal(SIGINT, &handle_signal);
 }
