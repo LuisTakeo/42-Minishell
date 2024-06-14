@@ -12,42 +12,40 @@
 
 #include "../includes/minishell.h"
 
+int	count_type_quote(char quote, int i, char *input)
+{
+	if (input[i] && input[i] == quote)
+	{
+		i++;
+		while (input[i] && input[i] != quote)
+				i++;
+		if (!input[i])
+			return (-1);
+	}
+	return (++i);
+}
+
 int	count_quotes(char *input)
 {
 	int	i;
-	int	occ_s_quote;
-	int	occ_d_quote;
 
 	i = 0;
-	occ_s_quote = 0;
-	occ_d_quote = 0;
 	while (input[i])
 	{
-		if (input[i] == '"')
+		if (ft_strchr(QUOTES, input[i]))
 		{
-			occ_d_quote++;
-			i++;
-			while (input[i] && input[i] != '"')
-				i++;
-			if (input[i++] == '"')
-				occ_d_quote++;
-			continue ;
+			if (input[i] == '"')
+				i = count_type_quote('"', i, input);
+			else
+				i = count_type_quote('\'', i, input);
+			if (i < 0)
+				return (show_error("minishell: ",
+						"You need to close your quotes!!!", 1));
 		}
-		if (input[i] == '\'')
-		{
-			occ_s_quote++;
+		else
 			i++;
-			while (input[i] && input[i] != '\'')
-				i++;
-			if (input[i++] == '\'')
-				occ_s_quote++;
-			continue ;
-		}
-		i++;
 	}
-	if (occ_s_quote % 2 == 0 && occ_d_quote % 2 == 0)
-		return (0);
-	return (1);
+	return (0);
 }
 
 void	get_quoted_token(char *input, int *i)

@@ -96,11 +96,22 @@ void	print_tokens(t_token *tokens)
 	}
 }
 
+static int	is_only_spaces(char *input)
+{
+	int i;
+
+	i = 0;
+	while (input[i] && ft_strchr(WHITESPACE, input[i]))
+		i++;
+	if (!input[i])
+		return (1);
+	return (0);
+}
+
 void	get_token(char *input, t_token **tokens)
 {
-	if (!input || !input[0])
+	if (!input || !input[0] || count_quotes(input) || is_only_spaces(input))
 		return ;
-	count_quotes(input);
 	init_token(tokens);
 	split_tokens(input, tokens);
 	verify_null(tokens);
