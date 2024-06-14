@@ -23,8 +23,6 @@ static int	print_error_cd(char **path, char *error_msg)
 		ft_fdprintf("cd: %s\n", STDERR_FILENO, error_msg);
 	else
 	{
-		// ft_fdprintf("cd: ", STDERR_FILENO);
-		// perror(NULL);
 		ft_fdprintf("cd: %s: %s\n", STDERR_FILENO, (*path), strerror(errno));
 	}
 	return (EXIT_FAILURE);

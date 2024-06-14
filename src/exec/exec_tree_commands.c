@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_tree_commands.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
+/*   Updated: 2024/06/14 05:19:32 by tpaim-yu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	execute_single_command(t_minishell *minishell)
@@ -102,9 +114,8 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 			exit(status);
 		}
 		execve(cmd, temp_tree->argv, minishell->envp);
-        free_all(minishell);
+		free_all(minishell);
 		close_upcoming_fds(temp_tree->parent);
-		// execute_tree_commands(minishell);
 		exit(EXIT_FAILURE);
 	}
 	ft_lstadd_back(&(minishell->pid_list), ft_lstnew((void *)((long)pid)));
@@ -122,34 +133,6 @@ void	execute_pipe_command(t_minishell *minishell, t_command *temp_tree)
 	close(temp_tree->fd[0]);
 	close(temp_tree->fd[1]);
 }
-
-// int	execute_pipe_command(t_minishell *minishell, t_command *temp_tree)
-// {
-// 	pid_t	left;
-// 	pid_t	right;
-// 	int		status;
-
-// 	status = 0;
-// 	pipe(temp_tree->fd);
-// 	left = fork();
-// 	if (!left)
-// 	{
-// 		if (temp_tree->left && temp_tree->left->type == PIPE)
-// 			status = execute_pipe_command(minishell, temp_tree->left);
-// 		else
-// 			execute_command(minishell, temp_tree->left, 1);
-// 		exit(status);
-// 	}
-// 	right = fork();
-// 	if (!right)
-// 		execute_command(minishell, temp_tree->right, 0);
-// 	waitpid(left, &status, 0);
-// 	waitpid(left, &status, 1);
-// 	close(temp_tree->fd[STDOUT_FILENO]);
-// 	close(temp_tree->fd[STDIN_FILENO]);
-// 	minishell->status = filter_status(status);
-// 	return (minishell->status);
-// }
 
 void	execute_tree_commands(t_minishell *minishell)
 {
@@ -170,9 +153,7 @@ void	execute_tree_commands(t_minishell *minishell)
 		temp_list = minishell->pid_list;
 		while (temp_list)
 		{
-			// ft_printf("pid: %d\n", (long)(temp_list->content));
 			waitpid((pid_t)((long)(temp_list->content)), &minishell->status, 0);
-			ft_printf("Status: %d\n", minishell->status);
 			minishell->status = filter_status(minishell->status);
 			temp_list = temp_list->next;
 		}

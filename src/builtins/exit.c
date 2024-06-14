@@ -41,7 +41,6 @@ void	free_all(t_minishell *minishell)
 	if (minishell->tree_cmd)
 		free_tree(&minishell->tree_cmd);
 	rl_clear_history();
-	//implementar função para dar free na árvore?
 }
 
 static void	set_exit_code(char **args, t_minishell **minishell)

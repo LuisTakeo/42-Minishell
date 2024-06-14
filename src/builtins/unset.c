@@ -49,27 +49,18 @@ static int	unset_env(const char *key, t_minishell *minishell)
 	char	**new_env;
 	char	*new_key;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	new_key = get_single_env((char *)key, minishell->envp);
 	new_env = (char **)malloc(sizeof(char *) * (
 				get_envp_len(minishell->envp, new_key) + 1));
-	ft_printf("Chegando aqui\n");
-	while (minishell->envp[i])
-	{
+	while (minishell->envp[++i])
 		if (ft_strncmp(minishell->envp[i], new_key, ft_strlen(new_key)) != 0)
-		{
-			new_env[j] = ft_strdup(minishell->envp[i]);
-			j++;
-		}
-		i++;
-	}
-	ft_printf("Chegando aqui 2\n");
+			new_env[j++] = ft_strdup(minishell->envp[i]);
 	new_env[j] = NULL;
 	free_arr(minishell->envp);
 	minishell->envp = new_env;
 	free(new_key);
-	ft_printf("Chegando aqui 3\n");
 	return (EXIT_SUCCESS);
 }
 
@@ -85,7 +76,7 @@ int	unset(const char **key, t_minishell *minishell)
 	while (*temp)
 	{
 		if (is_key_in_envp(*temp, minishell) == 1)
-			status_error = show_error(*temp,": not an identifier", 2);
+			status_error = show_error(*temp, ": not an identifier", 2);
 		else
 			unset_env(*temp, minishell);
 		(temp)++;
