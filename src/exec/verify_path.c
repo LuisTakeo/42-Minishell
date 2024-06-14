@@ -21,6 +21,8 @@ char	*verify_path(char *bin, char **path)
 		return (NULL);
 	if (access(bin, F_OK) == 0 && access(bin, X_OK) == 0)
 		return (bin);
+	if (!path)
+		return (NULL);
 	i = 0;
 	while (path[i])
 	{

@@ -28,7 +28,7 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	i_status = 0;
 	full_path = verify_path(arrstr[0], minishell->path);
 	if (!full_path)
-		return (show_error(arrstr[0], ": Command not found", 127));
+		return (show_error(arrstr[0], ": BUH! Command not found", 127));
 	id = fork();
 	if (!id)
 	{

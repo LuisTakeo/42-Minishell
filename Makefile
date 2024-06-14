@@ -94,10 +94,10 @@ ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS) $(OB
 # $(NAME)
 
 $(NAME): libft $(ALL_OBJ)
-	@$(CC) $(ALL_OBJ) $(LIBS) -o $(NAME) -lreadline
-	@echo "Compilando executável $@"
 
 all: $(NAME)
+	@$(CC) $(ALL_OBJ) $(LIBS) -o $(NAME) -lreadline
+	@echo "Compilando executável $(NAME)"
 
 libft:
 	@echo "Compilando Libft..."

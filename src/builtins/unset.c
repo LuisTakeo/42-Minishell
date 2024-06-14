@@ -50,14 +50,14 @@ static int	unset_env(const char *key, t_minishell *minishell)
 	char	*new_key;
 
 	i = -1;
-	j = 0;
+	j = -1;
 	new_key = get_single_env((char *)key, minishell->envp);
 	new_env = (char **)malloc(sizeof(char *) * (
 				get_envp_len(minishell->envp, new_key) + 1));
 	while (minishell->envp[++i])
 		if (ft_strncmp(minishell->envp[i], new_key, ft_strlen(new_key)) != 0)
-			new_env[j++] = ft_strdup(minishell->envp[i]);
-	new_env[j] = NULL;
+			new_env[++j] = ft_strdup(minishell->envp[i]);
+	new_env[++j] = NULL;
 	free_arr(minishell->envp);
 	minishell->envp = new_env;
 	free(new_key);
@@ -82,8 +82,6 @@ int	unset(const char **key, t_minishell *minishell)
 		(temp)++;
 	}
 	free_arr(minishell->path);
-	ft_printf("Chegou 4\n");
 	minishell->path = get_paths(minishell->envp);
-	ft_printf("Chegou 5\n");
 	return (status_error);
 }
