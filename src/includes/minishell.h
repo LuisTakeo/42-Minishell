@@ -77,7 +77,7 @@ struct s_command
 	char				**argv;
 	t_token				*redir;
 	int					argc;
-	int					fd[2];
+	int					*fd;
 	int					type;
 	struct s_command	*left;
 	struct s_command	*right;
