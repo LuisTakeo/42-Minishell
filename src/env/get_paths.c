@@ -18,7 +18,10 @@ char	**insert_paths(char *paths)
 	char	*temp;
 	int		i;
 
+	split = NULL;
 	split = ft_split(paths, ':');
+	if (!split)
+		return (NULL);
 	i = 0;
 	while (split[i])
 	{

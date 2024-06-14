@@ -19,11 +19,13 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <signal.h>
 # include <termios.h>
 # include <string.h>
 # include <fcntl.h>
 # include <errno.h>
+
 
 # include "../../libs/libft/libft.h"
 # include "../../libs/libft/ft_printf/includes/ft_printf.h"
@@ -133,7 +135,7 @@ char		*get_single_env(char *env_name, char **envp);
 int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);
 int			unset(const char **key, t_minishell *minishell);
-int			export(char **args, char ***env, t_minishell *minishell);
+int			export(char **args, t_minishell *minishell);
 int			print_order_env(char **env);
 int			echo(char **args);
 int			exit_builtin(char **args, t_minishell *minishell);

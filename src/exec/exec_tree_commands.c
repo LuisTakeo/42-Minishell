@@ -41,10 +41,12 @@ void	close_fds(t_minishell *minishell)
 void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	int is_left)
 {
+	int		status;
 	pid_t	pid;
 	char	*cmd;
 	t_command	*parent_tree;
 
+	status = 0;
 	parent_tree = temp_tree->parent;
 	(void)is_left;
 	pid = fork();
@@ -77,15 +79,16 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 			cmd = verify_path(temp_tree->argv[0], minishell->path);
 			if (!cmd)
 			{
+				status = show_error(temp_tree->argv[0], ": Command not found", 127);
 				free_all(minishell);
-				exit(show_error(temp_tree->argv[0], ": Command not found", 127));
+				exit(status);
 			}
 		}
+		close(parent_tree->fd[STDOUT_FILENO]);
+		close(parent_tree->fd[STDIN_FILENO]);
 		execve(cmd, temp_tree->argv, minishell->envp);
         free_all(minishell);
 		// execute_tree_commands(minishell);
-		close(parent_tree->fd[STDOUT_FILENO]);
-		close(parent_tree->fd[STDIN_FILENO]);
 		exit(EXIT_FAILURE);
 	}
 	ft_lstadd_back(&(minishell->pid_list), ft_lstnew((void *)((long)pid)));
@@ -100,8 +103,8 @@ void	execute_pipe_command(t_minishell *minishell, t_command *temp_tree)
 	if (temp_tree->left && temp_tree->left->type != PIPE)
 		execute_command(minishell, temp_tree->left, 1);
 	execute_command(minishell, temp_tree->right, 0);
-	// close(temp_tree->fd[STDOUT_FILENO]);
-	// close(temp_tree->fd[STDIN_FILENO]);
+	close(temp_tree->fd[STDOUT_FILENO]);
+	close(temp_tree->fd[STDIN_FILENO]);
 }
 
 void	execute_tree_commands(t_minishell *minishell)

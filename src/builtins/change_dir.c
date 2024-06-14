@@ -41,11 +41,12 @@ void	set_pwd(t_minishell *minishell)
 		if (!ft_strncmp(minishell->envp[i], "PWD", 3))
 			break ;
 	temp = getcwd(NULL, 0);
-	arr_export = malloc(sizeof(char *) * 3);
-	arr_export[2] = NULL;
-	arr_export[0] = ft_strjoin("OLD", minishell->envp[i]);
+	arr_export = malloc(sizeof(char *) * 4);
+	arr_export[3] = NULL;
+	arr_export[2] = ft_strjoin("OLD", minishell->envp[i]);
 	arr_export[1] = ft_strjoin("PWD=", temp);
-	export(arr_export, &minishell->envp, minishell);
+	arr_export[0] = ft_strdup("export");
+	export(arr_export, minishell);
 	free_arr(arr_export);
 	free(temp);
 }

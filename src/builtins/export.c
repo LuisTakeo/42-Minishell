@@ -38,14 +38,14 @@ int	calculate_n_size(char *text, char delimiter)
 	return (i);
 }
 
-int	is_var_exists(char *var, char ***env)
+int	is_var_exists(char *var, t_minishell *minishell)
 {
 	char	**temp;
 	int		size_temp;
 	int		size_var;
 	int		i;
 
-	temp = (*env);
+	temp = minishell->envp;
 	size_var = calculate_n_size(var, '=');
 	i = 0;
 	while (temp[i])
@@ -53,6 +53,8 @@ int	is_var_exists(char *var, char ***env)
 		size_temp = calculate_n_size(temp[i], '=');
 		if (size_temp == size_var && !ft_strncmp(temp[i], var, size_temp))
 		{
+			if (var[size_var] != '=')
+				return (1);
 			free(temp[i]);
 			temp[i] = ft_strdup(var);
 			return (1);
@@ -62,36 +64,36 @@ int	is_var_exists(char *var, char ***env)
 	return (0);
 }
 
-void	insert_key_value(char *variable, char ***env)
+void	insert_key_value(char *variable, t_minishell *minishell)
 {
 	int		size;
 	int		i;
 	char	**new_envp;
 
 	size = 0;
-	if (is_var_exists(variable, env))
+	if (is_var_exists(variable, minishell))
 		return ;
-	while ((*env)[size])
+	while (minishell->envp[size])
 		size++;
 	new_envp = calloc(sizeof(char *), size + 2);
 	i = -1;
-	while ((*env)[++i])
-		new_envp[i] = ft_strdup((*env)[i]);
+	while (minishell->envp[++i])
+		new_envp[i] = ft_strdup(minishell->envp[i]);
 	new_envp[i] = ft_strdup(variable);
 	new_envp[size + 1] = NULL;
-	if (*env)
-		free_arr(*env);
-	*env = new_envp;
+	if (minishell->envp)
+		free_arr(minishell->envp);
+	minishell->envp = new_envp;
 }
 
-int	export(char **args, char ***env, t_minishell *minishell)
+int	export(char **args, t_minishell *minishell)
 {
 	char	*var;
 	int		i;
 	int		status_error;
 
 	if (!args[1])
-		return (print_order_env((*env)));
+		return (print_order_env((minishell->envp)));
 	status_error = 0;
 	i = 0;
 	while (args[++i])
@@ -103,9 +105,9 @@ int	export(char **args, char ***env, t_minishell *minishell)
 					STDERR_FILENO, var);
 			continue ;
 		}
-		insert_key_value(args[i], env);
+		insert_key_value(args[i], minishell);
 	}
 	free_arr(minishell->path);
-	minishell->path = get_paths((*env));
+	minishell->path = get_paths(minishell->envp);
 	return (status_error);
 }
