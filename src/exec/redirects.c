@@ -12,6 +12,16 @@
 
 #include "../includes/minishell.h"
 
+void	reset_fds(t_minishell *minishell)
+{
+	if ((dup2(minishell->stdin_backup, STDIN_FILENO) < 0)
+		|| (dup2(minishell->stdout_backup, STDOUT_FILENO) < 0))
+	{
+		perror("dup2");
+		return ;
+	}
+}
+
 int	redirect_input(const char *filename, t_token *redir)
 {
 	int	fd;
