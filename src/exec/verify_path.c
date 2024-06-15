@@ -19,15 +19,15 @@ char	*verify_path(char *bin, char **path)
 
 	if (!*bin)
 		return (NULL);
-	if (access(bin, F_OK) == 0 && access(bin, X_OK) == 0)
-		return (bin);
+	if (access(bin, F_OK) == 0)
+		return (ft_strdup(bin));
 	if (!path)
 		return (NULL);
 	i = 0;
 	while (path[i])
 	{
 		full_path = ft_strjoin(path[i], bin);
-		if (access(full_path, F_OK) == 0 && access(full_path, X_OK) == 0)
+		if (access(full_path, F_OK) == 0)
 			return (full_path);
 		free(full_path);
 		i++;
