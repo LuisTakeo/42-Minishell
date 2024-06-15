@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree_commands.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/14 05:19:32 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:35:54 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	execute_single_command(t_minishell *minishell)
 
 	temp_cmd = minishell->tree_cmd;
 	// necessário adaptar execução dos builtins em caso de redirs
-	// leaks na execução de bultins com redirects
 	// echo entrando em loop infinito com >
 	status = is_builtin(temp_cmd->argv, minishell);
 	if (status >= 0)
@@ -66,6 +65,13 @@ int		handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
 	}
 	close(parent_tree->fd[0]);
 	close(parent_tree->fd[1]);
+	/*if (temp_tree->redir)
+	{
+		if (temp_tree->redir->type == REDIR_IN)
+			dup2(temp_tree->redir->file_fd, STDIN_FILENO);
+		else if (temp_tree->redir->type == REDIR_OUT)
+			dup2(temp_tree->redir->file_fd, STDOUT_FILENO);
+	}*/
 	return (EXIT_SUCCESS);
 }
 
@@ -89,7 +95,8 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	pid_t	pid;
 	char	*cmd;
 
-
+	if (temp_tree->redir)
+		setup_redirs(temp_tree->redir, temp_tree);
 	status = 0;
 	pid = fork();
 	if (pid == -1)
@@ -144,7 +151,7 @@ void	execute_tree_commands(t_minishell *minishell)
 	if (temp_tree->type == WORD)
 	{
 		if (temp_tree->redir)
-			setup_redirs(temp_tree->redir);
+			setup_redirs(temp_tree->redir, temp_tree);
 		execute_single_command(minishell);
 	}
 	else

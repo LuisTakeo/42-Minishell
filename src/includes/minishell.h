@@ -150,9 +150,9 @@ char		*expand_path(char **word, t_minishell *minishell);
 char		*join_word(char *word, char *new_word);
 // redirections
 t_token		*ft_generate_redirs(t_token *token);
-t_token		*add_redirection(t_token *redirs);
-int			setup_redirs(t_token *redir);
-int			redirect_input(const char *filename, t_token *redir);
+t_token		*add_redirection(t_token *redirs, t_token *new_redir);
+int			setup_redirs(t_token *redir, t_command *cmd);
+int			redirect_input(const char *filename, t_token *redir, t_command *cmd);
 int			redirect_output(const char *filename, t_token *redir);
 int			append_output(const char *filename, t_token *redir);
 int			heredoc(const char *delim, t_token *redir);

@@ -44,8 +44,6 @@ void	free_resources_prompt(t_minishell *minishell)
 	minishell->pid_list = NULL;
 }
 
-
-
 int	build_commands(t_minishell *minishell)
 {
 	get_token(minishell->input, &(minishell->tokens));
@@ -54,7 +52,7 @@ int	build_commands(t_minishell *minishell)
 		return (EXIT_FAILURE);
 	set_operator_type(&(minishell->tokens));
 	ft_generate_tree(minishell);
-	//print_tokens(minishell->tree_cmd->redir);
+	print_tokens(minishell->tree_cmd->redir);
 	return (EXIT_SUCCESS);
 }
 
