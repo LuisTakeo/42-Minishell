@@ -67,7 +67,6 @@ struct s_token
 {
 	int				type;
 	char			*content;
-	int				file_fd;
 	struct s_token	*next;
 	struct s_token	*prev;
 };
@@ -150,12 +149,12 @@ char		*expand_path(char **word, t_minishell *minishell);
 char		*join_word(char *word, char *new_word);
 // redirections
 t_token		*ft_generate_redirs(t_token **token);
-t_token		*add_redirection(t_token **redirs, t_token *new_redir);
-int			setup_redirs(t_token *redir, t_command **cmd);
-int			redirect_input(const char *filename, t_token *redir, t_command *cmd);
-int			redirect_output(const char *filename, t_token *redir);
-int			append_output(const char *filename, t_token *redir);
-int			heredoc(const char *delim, t_token *redir);
+void		add_redirection(t_token **redirs, t_token *new_redir);
+int			setup_redirs(t_token *redir);
+int			redirect_input(char *filename);
+int			redirect_output(char *filename);
+int			append_output(char *filename);
+int			heredoc(char *delim);
 void		reset_fds(t_minishell *minishell);
 // execute commands
 // prototype -> 1st version

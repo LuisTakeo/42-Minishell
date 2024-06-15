@@ -51,6 +51,7 @@ int	build_commands(t_minishell *minishell)
 		|| validate_tokens(minishell->tokens) == 1)
 		return (EXIT_FAILURE);
 	set_operator_type(&(minishell->tokens));
+	// função de verificação do heredoc e criação de arquivo temporário
 	ft_generate_tree(minishell);
 	return (EXIT_SUCCESS);
 }

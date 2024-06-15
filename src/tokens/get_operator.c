@@ -17,9 +17,7 @@ static void	set_redir_type(t_token *tokens, char type)
 	if (type == '<')
 	{
 		if (tokens && tokens->content[1] == '<')
-		{
 			tokens->type = HEREDOC;
-		}
 		else
 			tokens->type = REDIR_IN;
 	}

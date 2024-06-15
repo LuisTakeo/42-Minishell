@@ -18,7 +18,6 @@ void	init_token(t_token **tokens)
 	if (!(*tokens))
 		return ;
 	(*tokens)->type = -1;
-	(*tokens)->file_fd = -1;
 	(*tokens)->content = NULL;
 	(*tokens)->next = NULL;
 	(*tokens)->prev = NULL;
