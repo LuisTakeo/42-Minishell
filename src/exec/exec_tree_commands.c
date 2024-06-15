@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/15 15:35:54 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:28:05 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	char	*cmd;
 
 	if (temp_tree->redir)
-		setup_redirs(temp_tree->redir, temp_tree);
+		setup_redirs(temp_tree->redir, &temp_tree);
 	status = 0;
 	pid = fork();
 	if (pid == -1)
@@ -151,7 +151,7 @@ void	execute_tree_commands(t_minishell *minishell)
 	if (temp_tree->type == WORD)
 	{
 		if (temp_tree->redir)
-			setup_redirs(temp_tree->redir, temp_tree);
+			setup_redirs(temp_tree->redir, &temp_tree);
 		execute_single_command(minishell);
 	}
 	else

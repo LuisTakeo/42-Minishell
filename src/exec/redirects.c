@@ -121,51 +121,49 @@ int	heredoc(const char *delim, t_token *redir)
 	return (EXIT_SUCCESS);
 }
 
-t_token	*add_redirection(t_token *redirs, t_token *new_redir)
+t_token	*add_redirection(t_token **redirs, t_token *new_redir)
 {
 	t_token	*temp;
-	//t_token	*current;
 
 	init_token(&temp);
 	if (!temp)
 		return (NULL);
 	temp->content = ft_strdup(new_redir->next->content);
 	temp->type = new_redir->type;
-	ft_tokenadd_back(&redirs, temp);
-	return (redirs);
+	ft_tokenadd_back(redirs, temp);
+	return (*redirs);
 }
 
-t_token	*ft_generate_redirs(t_token *token)
+t_token	*ft_generate_redirs(t_token **token)
 {
 	t_token	*redirs;
 	t_token	*current;
 	t_token	*next;
 
 	redirs = NULL;
-	current = token;
+	current = *token;
 	while (current && current->type != PIPE)
 	{
 		next = current->next;
 		if (current->type == REDIR_IN || current->type == REDIR_OUT
 			|| current->type == APPEND || current->type == HEREDOC)
 		{
-			redirs = add_redirection(redirs, current);
-			//next = current->next->next;
-			ft_tokendelone(&token, current);
-			ft_tokendelone(&token, current->next);
+			redirs = add_redirection(&redirs, current);
+			ft_tokendelone(token, current);
+			ft_tokendelone(token, current->next);
 		}
 		current = next;
 	}
 	return (redirs);
 }
 
-int    setup_redirs(t_token *redir, t_command *cmd)
+int    setup_redirs(t_token *redir, t_command **cmd)
 {
 	while (redir)
 	{
 		if (redir->type == REDIR_IN)
 		{
-			if (redirect_input(redir->content, redir, cmd) == 1)
+			if (redirect_input(redir->content, redir, *cmd) == 1)
 				return (EXIT_FAILURE);
 		}
 		else if (redir->type == REDIR_OUT)
