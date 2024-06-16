@@ -30,6 +30,19 @@ char	*expand_simple_quotes(char **word)
 	return (ft_substr(temp, 0, i));
 }
 
+static char	*expand_word_quotes(char **word, char quote)
+{
+	char	*temp;
+	int		i;
+
+	temp = *word;
+	i = 0;
+	while (temp[i] && temp[i] != quote && temp[i] != '$')
+		i++;
+	*word += i;
+	return (ft_substr(temp, 0, i));
+}
+
 char	*expand_double_quotes(char **word, t_minishell *minishell)
 {
 	char	*temp_word;
@@ -44,12 +57,12 @@ char	*expand_double_quotes(char **word, t_minishell *minishell)
 		(*word)++;
 		return (ft_strdup(""));
 	}
-	while (**word && **word != '\"')
+	while (**word && **word != '"')
 	{
 		if (**word == '$')
 				temp_word = expand_path(&(*word), minishell);
 		else
-			temp_word = expand_word(&(*word));
+			temp_word = expand_word_quotes(&(*word), '"');
 		full_word = join_word(full_word, temp_word);
 	}
 	(*word)++;

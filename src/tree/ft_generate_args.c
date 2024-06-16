@@ -31,6 +31,7 @@ char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
 	}
 	argv = (char **)ft_calloc(i + 1, sizeof(char *));
 	temp = tokens;
+	
 	i = -1;
 	while (temp && temp->type != PIPE)
 	{

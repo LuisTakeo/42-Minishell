@@ -29,7 +29,7 @@ int	redirect_input(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("open");
+		perror("minishell");
 		return (EXIT_FAILURE);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
@@ -48,7 +48,7 @@ int	redirect_output(char *filename)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		perror("open");
+		perror("minishell");
 		return (EXIT_FAILURE);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -67,7 +67,7 @@ int	append_output(char *filename)
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		perror("open");
+		perror("minishell");
 		return (EXIT_FAILURE);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -79,52 +79,111 @@ int	append_output(char *filename)
 	return (EXIT_SUCCESS);
 }
 
+int	verify_heredoc(t_minishell *minishell)
+{
+	t_token	*temp;
+	int		i;
+	int		status;
+
+	i = 0;
+	status = 0;
+	temp = minishell->tokens;
+	while (temp)
+	{
+		if (temp->type == HEREDOC)
+			status = heredoc(&temp->next->content, i++);
+		if (status)
+			return (status);
+		temp = temp->next;
+	}
+	return (status);
+}
+
 // adaptar com arquivo temporário
 // incluir validação do signal
 // restaurar valor padrão da variável estática e do comportamento padrão do signal
-int	heredoc(char *delim)
+char	*generate_heredoc_name(int index)
+{
+	char	*full_name;
+	char	*index_text;
+
+	index_text = ft_itoa(index);
+	full_name = ft_strjoin("/tmp/heredoc-", index_text);
+	free(index_text);
+	return (full_name);
+}
+
+void	handle_sig_heredoc(int signal)
+{
+	if (signal == SIGINT)
+	{
+		// ft_putstr_fd("\n", STDOUT_FILENO);
+		close(STDIN_FILENO);
+		control_status(130);
+	}
+}
+
+int	read_heredoc(char *delim, int fd)
 {
 	char	*line;
-	int		fd;
+	int		fd_in;
 
-	fd = open(delim, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		perror("open");
-		return (EXIT_FAILURE);
-	}
 	line = NULL;
+	fd_in = dup(STDIN_FILENO);
+	signal(SIGINT, &handle_sig_heredoc);
 	while (1)
 	{
 		line = readline("> ");
-		if (line == NULL)
+		if (line == NULL || control_status(-1))
 			break ;
 		if (ft_strcmp(line, delim) == 0)
 		{
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	close(fd);
-	return (EXIT_SUCCESS);
+	dup2(fd_in, STDIN_FILENO);
+	signal(SIGINT, &handle_signal);
+	return (control_status(-1));
 }
 
-void	add_redirection(t_token **redirs, t_token *new_redir)
+int	heredoc(char **str, int index)
+{
+	char	*full_name;
+	int		fd;
+	int		status;
+
+	status = 0;
+	full_name = generate_heredoc_name(index);
+	fd = open(full_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		return (EXIT_FAILURE);
+	}
+	status = read_heredoc(*str, fd);
+	close(fd);
+	control_status(0);
+	free(*str);
+	*str = full_name;
+	return (status);
+}
+
+void	add_redir(t_token **rds, t_token *new_rd, t_minishell *minishell)
 {
 	t_token	*temp;
 
 	init_token(&temp);
 	if (!temp)
 		return ;
-	temp->content = ft_strdup(new_redir->next->content);
-	temp->type = new_redir->type;
-	ft_tokenadd_back(redirs, temp);
+	temp->content = expand_vars_and_quotes(new_rd->next->content, minishell);
+	temp->type = new_rd->type;
+	ft_tokenadd_back(rds, temp);
 }
 
-t_token	*ft_generate_redirs(t_token **token)
+t_token	*ft_generate_redirs(t_token **token, t_minishell *minishell)
 {
 	t_token	*redirs;
 	t_token	*current;
@@ -140,7 +199,7 @@ t_token	*ft_generate_redirs(t_token **token)
 		if (current->type == REDIR_IN || current->type == REDIR_OUT
 			|| current->type == APPEND || current->type == HEREDOC)
 		{
-			add_redirection(&redirs, current);
+			add_redir(&redirs, current, minishell);
 			ft_tokendelone(token, current);
 			ft_tokendelone(token, current->next);
 		}
@@ -153,7 +212,7 @@ int	setup_redirs(t_token *redir)
 {
 	while (redir)
 	{
-		if (redir->type == REDIR_IN)
+		if (redir->type == REDIR_IN || redir->type == HEREDOC)
 		{
 			if (redirect_input(redir->content) == 1)
 				return (EXIT_FAILURE);
@@ -166,11 +225,6 @@ int	setup_redirs(t_token *redir)
 		else if (redir->type == APPEND)
 		{
 			if (append_output(redir->content) == 1)
-				return (EXIT_FAILURE);
-		}
-		else if (redir->type == HEREDOC)
-		{
-			if (heredoc(redir->content) == 1)
 				return (EXIT_FAILURE);
 		}
 		redir = redir->next;

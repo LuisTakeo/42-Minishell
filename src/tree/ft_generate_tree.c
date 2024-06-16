@@ -54,7 +54,7 @@ t_command	*ft_gen_command_node(t_token *token, t_minishell *minishell)
 	if (!new_node)
 		return (NULL);
 	new_node->argv = ft_generate_argv(token, minishell);
-	new_node->redir = ft_generate_redirs(&token);
+	new_node->redir = ft_generate_redirs(&token, minishell);
 	new_node->type = WORD;
 	new_node->left = NULL;
 	new_node->right = NULL;
