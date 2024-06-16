@@ -67,7 +67,6 @@ char	*get_env_value(char *env_name, char **envp)
 		temp++;
 		temp = ft_strdup(temp);
 		free (full_var_env);
-
 	}
 	return (temp);
 }

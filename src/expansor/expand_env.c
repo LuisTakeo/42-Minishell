@@ -31,7 +31,7 @@ char	*expand_env(char *var, char **envp)
 	while (*temp)
 	{
 		size_temp = ft_strlen(*temp);
-		if (!ft_strncmp(var, (char *)(*temp), len) 
+		if (!ft_strncmp(var, (char *)(*temp), len)
 			&& (!(*temp)[len] || (*temp)[len] == '='))
 			return (get_env_value(*temp, len));
 		temp++;
@@ -71,6 +71,5 @@ char	*expand_path(char **word, t_minishell *minishell)
 	temp = ft_substr(temp, 0, i);
 	new_word = expand_env(temp, minishell->envp);
 	free(temp);
-
 	return (new_word);
 }
