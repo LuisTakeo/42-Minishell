@@ -155,6 +155,7 @@ int			redirect_input(char *filename);
 int			redirect_output(char *filename);
 int			append_output(char *filename);
 int			heredoc(char *delim);
+void		verify_heredoc(t_token *tokens);
 void		reset_fds(t_minishell *minishell);
 // execute commands
 // prototype -> 1st version

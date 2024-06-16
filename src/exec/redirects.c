@@ -79,6 +79,11 @@ int	append_output(char *filename)
 	return (EXIT_SUCCESS);
 }
 
+void	verify_heredoc(t_token *tokens)
+{
+	
+}
+
 // adaptar com arquivo temporário
 // incluir validação do signal
 // restaurar valor padrão da variável estática e do comportamento padrão do signal
