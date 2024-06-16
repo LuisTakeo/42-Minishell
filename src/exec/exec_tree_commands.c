@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/16 13:57:47 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:17:47 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	close_fds(t_minishell *minishell)
 		close(temp_tree->fd[STDIN_FILENO]);
 		temp_tree = temp_tree->left;
 	}
-
 }
 
 int	handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
@@ -91,7 +90,6 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	int		status;
 	pid_t	pid;
 	char	*cmd;
-
 
 	status = 0;
 	pid = fork();

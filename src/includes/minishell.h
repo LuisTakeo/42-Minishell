@@ -124,7 +124,6 @@ void		get_operator(char *input, t_token **tokens, int *i);
 void		get_token(char *input, t_token **tokens);
 int			validate_tokens(t_token *tokens);
 void		set_operator_type(t_token **tokens);
-void		print_tokens(t_token *tokens);
 // get envs
 char		**get_env(char **envp);
 char		**get_paths(char **env);

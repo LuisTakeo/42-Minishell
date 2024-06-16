@@ -77,28 +77,9 @@ static void	verify_null(t_token **tokens)
 	}
 }
 
-// Função teste pra imprimir os tokens
-void	print_tokens(t_token *tokens)
-{
-	t_token	*aux;
-	int		i;
-
-	aux = tokens;
-	i = 1;
-	while (aux)
-	{
-		ft_printf("Token[%d]: %s!\n ", i, aux->content);
-		if (aux->prev)
-			ft_printf("Prev: %s!\n", aux->prev->content);
-		ft_printf("Type[%d]: %i!\n\n", i, aux->type);
-		aux = aux->next;
-		i++;
-	}
-}
-
 static int	is_only_spaces(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i] && ft_strchr(WHITESPACE, input[i]))

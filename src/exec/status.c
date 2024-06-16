@@ -6,13 +6,13 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:42 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/14 05:19:44 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:15:47 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		control_status(int status)
+int	control_status(int status)
 {
 	static int	status_backup;
 
@@ -24,10 +24,8 @@ int		control_status(int status)
 
 int	filter_status(int status)
 {
-    if (control_status(-1) && status == 2)
-    {
-        status = control_status(-1);
-    }
+	if (control_status(-1) && status == 2)
+		status = control_status(-1);
 	else if (status > 255)
 		status = (status >> 8) & 0xff;
 	return (status);
