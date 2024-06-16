@@ -200,6 +200,7 @@ t_token	*ft_generate_redirs(t_token **token, t_minishell *minishell)
 			|| current->type == APPEND || current->type == HEREDOC)
 		{
 			add_redir(&redirs, current, minishell);
+			//validar se existe
 			ft_tokendelone(token, current);
 			ft_tokendelone(token, current->next);
 		}

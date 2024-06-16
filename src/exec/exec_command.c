@@ -30,7 +30,6 @@ int	is_valid_command(char **full_path, char *path, t_minishell *minishell)
 		closedir(dir);
 		return (show_error(path, ": BUH! Not an executable", 126));
 	}
-	ft_printf("Cheogu agui\n");
 	if (!*full_path)
 		return (show_error(path, ": BUH! Command not found", 127));
 	return (0);
