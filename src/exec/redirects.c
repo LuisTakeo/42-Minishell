@@ -99,9 +99,6 @@ int	verify_heredoc(t_minishell *minishell)
 	return (status);
 }
 
-// adaptar com arquivo temporário
-// incluir validação do signal
-// restaurar valor padrão da variável estática e do comportamento padrão do signal
 char	*generate_heredoc_name(int index)
 {
 	char	*full_name;
@@ -178,8 +175,8 @@ void	add_redir(t_token **rds, t_token *new_rd, t_minishell *minishell)
 	init_token(&temp);
 	if (!temp)
 		return ;
-	temp->content = expand_vars_and_quotes(new_rd->next->content, minishell);
-	temp->type = new_rd->type;
+	(temp)->content = expand_vars_and_quotes(new_rd->next->content, minishell);
+	(temp)->type = new_rd->type;
 	ft_tokenadd_back(rds, temp);
 }
 
@@ -189,9 +186,7 @@ t_token	*ft_generate_redirs(t_token **token, t_minishell *minishell)
 	t_token	*current;
 	t_token	*next;
 
-	init_token(&redirs);
-	if (!redirs)
-		return (NULL);
+	redirs = NULL;
 	current = *token;
 	while (current && current->type != PIPE)
 	{
@@ -200,9 +195,6 @@ t_token	*ft_generate_redirs(t_token **token, t_minishell *minishell)
 			|| current->type == APPEND || current->type == HEREDOC)
 		{
 			add_redir(&redirs, current, minishell);
-			//validar se existe
-			ft_tokendelone(token, current);
-			ft_tokendelone(token, current->next);
 		}
 		current = next;
 	}

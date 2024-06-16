@@ -39,23 +39,6 @@ void	ft_tokenadd_back(t_token **lst, t_token *new)
 	new->prev = aux;
 }
 
-void	ft_tokendelone(t_token **lst, t_token *node)
-{
-	t_token	*aux;
-
-	if (!node)
-		return ;
-	if (*lst == node)
-		*lst = node->next;
-	if (node->prev)
-		node->prev->next = node->next;
-	if (node->next)
-		node->next->prev = node->prev;
-	aux = node;
-	free(aux->content);
-	free(aux);
-}
-
 void	allocate_token(t_token **tokens, char *input, int start, int end)
 {
 	(*tokens)->content = ft_substr(input, start, end - start);
