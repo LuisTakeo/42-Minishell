@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/15 20:19:46 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/16 03:12:50 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	execute_single_command(t_minishell *minishell)
 	}
 	else
 		minishell->status = exec_command(temp_cmd->argv, 0, minishell);
-	// ft_printf("Status: %d\n", minishell->status);
-	//minishell->status = (minishell->status >> 8) & 0xff;
-	// ft_printf("Status: %d\n", minishell->status);
 }
 
 void	close_fds(t_minishell *minishell)
@@ -61,8 +58,8 @@ int		handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
 	}
 	close(parent_tree->fd[0]);
 	close(parent_tree->fd[1]);
-	if (temp_tree->redir)
-		setup_redirs(temp_tree->redir);
+	if (temp_tree->redir && setup_redirs(temp_tree->redir))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -96,8 +93,8 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	}
 	if (!pid)
 	{
-		handle_fds(minishell, temp_tree, is_left);
-		if (is_builtin(temp_tree->argv, minishell) >= 0)
+		minishell->status = handle_fds(minishell, temp_tree, is_left);
+		if (minishell->status || is_builtin(temp_tree->argv, minishell) >= 0)
 		{
 			free_all(minishell);
 			exit(minishell->status);
@@ -141,8 +138,9 @@ void	execute_tree_commands(t_minishell *minishell)
 	if (temp_tree->type == WORD)
 	{
 		if (temp_tree->redir)
-			setup_redirs(temp_tree->redir);
-		execute_single_command(minishell);
+			minishell->status = setup_redirs(temp_tree->redir);
+		if (!minishell->status)
+			execute_single_command(minishell);
 	}
 	else
 	{

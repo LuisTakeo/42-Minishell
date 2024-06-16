@@ -148,14 +148,14 @@ char		*expand_env(char *var, char **envp);
 char		*expand_path(char **word, t_minishell *minishell);
 char		*join_word(char *word, char *new_word);
 // redirections
-t_token		*ft_generate_redirs(t_token **token);
-void		add_redirection(t_token **redirs, t_token *new_redir);
+t_token		*ft_generate_redirs(t_token **token, t_minishell *minishell);
+void		add_redir(t_token **rds, t_token *new_rd, t_minishell *minishell);
 int			setup_redirs(t_token *redir);
 int			redirect_input(char *filename);
 int			redirect_output(char *filename);
 int			append_output(char *filename);
-int			heredoc(char *delim);
-void		verify_heredoc(t_token *tokens);
+int			heredoc(char **str, int index);
+int			verify_heredoc(t_minishell *minishell);
 void		reset_fds(t_minishell *minishell);
 // execute commands
 // prototype -> 1st version

@@ -24,16 +24,19 @@ char	*expand_env(char *var, char **envp)
 {
 	char	**temp;
 	int		len;
+	int		size_temp;
 
 	temp = envp;
 	len = ft_strlen(var);
 	while (*temp)
 	{
-		if (!ft_strncmp(var, (char *)(*temp), len))
+		size_temp = ft_strlen(*temp);
+		if (!ft_strncmp(var, (char *)(*temp), len) 
+			&& (!(*temp)[len] || (*temp)[len] == '='))
 			return (get_env_value(*temp, len));
 		temp++;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 char	*expand_num_or_status(char **word, t_minishell *minishell)
@@ -68,5 +71,6 @@ char	*expand_path(char **word, t_minishell *minishell)
 	temp = ft_substr(temp, 0, i);
 	new_word = expand_env(temp, minishell->envp);
 	free(temp);
+
 	return (new_word);
 }
