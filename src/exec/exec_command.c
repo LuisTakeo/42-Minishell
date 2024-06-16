@@ -22,7 +22,7 @@ int	show_error(char *content, char *error, int num_error)
 	return (num_error);
 }
 
-static int	verify_abs_path(char *path)
+int	verify_abs_path(char *path)
 {
 	if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
 		return (1);

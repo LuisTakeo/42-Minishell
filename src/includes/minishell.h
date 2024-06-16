@@ -180,6 +180,8 @@ void		ft_treeaddonright(t_command **treenode, t_command *treenew);
 char		**ft_generate_argv(t_token *tokens, t_minishell *minishell);
 void		ft_generate_tree(t_minishell *minishell);
 void		close_fds(t_minishell *minishell);
+int			verify_abs_path(char *path);
+char		*define_full_path(char *cmd, char **path);
 // utils
 void		free_arr(char **arr);
 void		sort_arr(char **arr);

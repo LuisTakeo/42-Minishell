@@ -25,6 +25,16 @@ void	close_upcoming_fds(t_command *parent)
 	}
 }
 
+char	*define_full_path(char *cmd, char **path)
+{
+	char	*full_path;
+
+	if (verify_abs_path(cmd))
+		return (cmd);
+	full_path = verify_path(cmd, path);
+	return (full_path);
+}
+
 void	child_process(t_minishell *minishell, t_command *temp_tree,
 	int is_left)
 {
@@ -39,7 +49,7 @@ void	child_process(t_minishell *minishell, t_command *temp_tree,
 		free_all(minishell);
 		exit(minishell->status);
 	}
-	cmd = verify_path(temp_tree->argv[0], minishell->path);
+	cmd = define_full_path(temp_tree->argv[0], minishell->path);
 	if (!cmd)
 	{
 		status = show_error(temp_tree->argv[0], ": Command not found", 127);

@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/16 15:09:21 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:13:04 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,16 @@ int	handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
 	if (temp_tree->redir && setup_redirs(temp_tree->redir))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+void	close_all_fds(t_minishell *minishell)
+{
+	t_command	*temp;
+
+	temp = minishell->tree_cmd;
+	while (temp->left)
+		temp = temp->left;
+	close_upcoming_fds(temp);
 }
 
 void	execute_tree_commands(t_minishell *minishell)
