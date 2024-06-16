@@ -69,14 +69,18 @@ int	unset(const char **key, t_minishell *minishell)
 	int		status_error;
 	char	**temp;
 
+	status_error = 0;
 	if (!key || key[1] == NULL)
-		return (show_error("unset: ", "not enought arguments", 1));
+		return (status_error);
 	temp = (char **)key;
 	(temp)++;
 	while (*temp)
 	{
 		if (is_key_in_envp(*temp, minishell) == 1)
-			status_error = show_error(*temp, ": not an identifier", 2);
+		{
+			if (validate_var_name(*temp))
+				status_error = show_error(*temp, ": not an identifier", 1);
+		}
 		else
 			unset_env(*temp, minishell);
 		(temp)++;

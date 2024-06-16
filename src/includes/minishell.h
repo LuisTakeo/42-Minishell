@@ -133,6 +133,7 @@ int			pwd(void);
 int			change_dir(char **path, t_minishell *minishell);
 int			unset(const char **key, t_minishell *minishell);
 int			export(char **args, t_minishell *minishell);
+char		*validate_var_name(char *var);
 int			print_order_env(char **env);
 int			echo(char **args);
 int			exit_builtin(char **args, t_minishell *minishell);

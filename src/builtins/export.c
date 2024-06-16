@@ -101,8 +101,7 @@ int	export(char **args, t_minishell *minishell)
 		var = validate_var_name(args[i]);
 		if (var)
 		{
-			status_error = ft_fdprintf("'%s': not a valid identifier\n",
-					STDERR_FILENO, var);
+			status_error = show_error(var, ": not a valid identifier", 1);
 			continue ;
 		}
 		insert_key_value(args[i], minishell);
