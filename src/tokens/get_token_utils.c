@@ -39,20 +39,6 @@ void	ft_tokenadd_back(t_token **lst, t_token *new)
 	new->prev = aux;
 }
 
-void	allocate_token(t_token **tokens, char *input, int start, int end)
-{
-	(*tokens)->content = ft_substr(input, start, end - start);
-	if (input[end] != '\0')
-	{
-		if ((*tokens)->next == NULL)
-		{
-			init_token(&(*tokens)->next);
-			(*tokens)->next->prev = *tokens;
-		}
-		*tokens = (*tokens)->next;
-	}
-}
-
 void	free_token(t_token **tokens)
 {
 	t_token	*aux;
@@ -74,38 +60,16 @@ void	skip_whitespace(char *input, int *i)
 		(*i)++;
 }
 
-int	return_validation_tokens(t_token *tokens)
+void	allocate_token(t_token **tokens, char *input, int start, int end)
 {
-	if (tokens->content[0] == '|' && (!tokens->next
-			|| (tokens->next && tokens->next->content[0] == '|')))
-		return (show_error("minishell: "
-				"syntax error near unexpected token ",
-				tokens->content, 1));
-	else if (tokens->content[0] != '|' && tokens->next)
-		return (show_error("minishell: "
-				"syntax error near unexpected token ",
-				tokens->next->content, 1));
-	else if (tokens->content[0] != '|')
-		return (show_error("minishell: "
-				"syntax error near unexpected token ",
-				"`newline'", 1));
-	return (0);
-}
-
-int	validate_tokens(t_token *tokens)
-{
-	t_token	*aux;
-
-	aux = tokens;
-	while (aux)
+	(*tokens)->content = ft_substr(input, start, end - start);
+	if (input[end] != '\0')
 	{
-		if (aux->type == OPERATOR && (aux->next == NULL
-				|| aux->next->type == OPERATOR))
+		if ((*tokens)->next == NULL)
 		{
-			if (return_validation_tokens(aux))
-				return (1);
+			init_token(&(*tokens)->next);
+			(*tokens)->next->prev = *tokens;
 		}
-		aux = aux->next;
+		*tokens = (*tokens)->next;
 	}
-	return (EXIT_SUCCESS);
 }
