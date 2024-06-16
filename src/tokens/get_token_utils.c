@@ -91,6 +91,24 @@ void	skip_whitespace(char *input, int *i)
 		(*i)++;
 }
 
+int	return_validation_tokens(t_token *tokens)
+{
+	if (tokens->content[0] == '|' && (!tokens->next
+			|| (tokens->next && tokens->next->content[0] == '|')))
+		return (show_error("minishell: "
+				"syntax error near unexpected token ",
+				tokens->content, 1));
+	else if (tokens->content[0] != '|' && tokens->next)
+		return (show_error("minishell: "
+				"syntax error near unexpected token ",
+				tokens->next->content, 1));
+	else if (tokens->content[0] != '|')
+		return (show_error("minishell: "
+				"syntax error near unexpected token ",
+				"`newline'", 1));
+	return (0);
+}
+
 int	validate_tokens(t_token *tokens)
 {
 	t_token	*aux;
@@ -101,19 +119,8 @@ int	validate_tokens(t_token *tokens)
 		if (aux->type == OPERATOR && (aux->next == NULL
 				|| aux->next->type == OPERATOR))
 		{
-			if (aux->content[0] == '|' && (!aux->next
-					|| (aux->next && aux->next->content[0] == '|')))
-				return (show_error("minishell: "
-						"syntax error near unexpected token ",
-						aux->content, 1));
-			else if (aux->content[0] != '|' && aux->next)
-				return (show_error("minishell: "
-						"syntax error near unexpected token ",
-						aux->next->content, 1));
-			else
-				return (show_error("minishell: "
-						"syntax error near unexpected token ",
-						"`newline'", 1));
+			if (return_validation_tokens(aux))
+				return (1);
 		}
 		aux = aux->next;
 	}

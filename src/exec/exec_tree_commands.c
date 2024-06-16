@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree_commands.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/16 03:12:50 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/16 09:51:55 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	execute_single_command(t_minishell *minishell)
 	t_command	*temp_cmd;
 	int			status;
 
+	if (!minishell->tree_cmd->argv)
+		return ;
 	temp_cmd = minishell->tree_cmd;
 	status = is_builtin(temp_cmd->argv, minishell);
 	if (status >= 0)
@@ -83,7 +85,7 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	pid_t	pid;
 	char	*cmd;
 
-	
+
 	status = 0;
 	pid = fork();
 	if (pid == -1)
@@ -94,7 +96,8 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	if (!pid)
 	{
 		minishell->status = handle_fds(minishell, temp_tree, is_left);
-		if (minishell->status || is_builtin(temp_tree->argv, minishell) >= 0)
+		if (minishell->status || !temp_tree->argv
+			|| is_builtin(temp_tree->argv, minishell) >= 0)
 		{
 			free_all(minishell);
 			exit(minishell->status);
@@ -103,8 +106,8 @@ void	execute_command(t_minishell *minishell, t_command *temp_tree,
 		if (!cmd)
 		{
 			status = show_error(temp_tree->argv[0], ": Command not found", 127);
-			free_all(minishell);
 			close_upcoming_fds(temp_tree->parent);
+			free_all(minishell);
 			exit(status);
 		}
 		execve(cmd, temp_tree->argv, minishell->envp);
