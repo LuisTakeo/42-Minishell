@@ -74,12 +74,9 @@ void	append_output(const char *filename)
 
 void	heredoc(const char *delim)
 {
-	char *line; 
-	int pipefd[2]; 
+	char	*line; 
+	int		pipefd[2]; 
 
-	// adaptar com arquivo temporário
-	// incluir validação do signal
-	// restaurar valor padrão da variável estática e do comportamento padrão do signal
 	line = NULL;
 	if (pipe(pipefd) == -1)
 	{
