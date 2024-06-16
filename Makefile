@@ -23,7 +23,7 @@ $(OBJS_FOLDER)%.o:$(SRC_FOLDER)%.c $(HEADER)
 
 # TOKENS
 SRC_TOKENS_FOLDER := $(SRC_FOLDER)tokens/
-SRC_TOKENS := $(addprefix $(SRC_TOKENS_FOLDER), $(addsuffix .c, get_token get_token_utils get_quoted_token get_operator))
+SRC_TOKENS := $(addprefix $(SRC_TOKENS_FOLDER), $(addsuffix .c, get_token get_token_utils get_quoted_token get_operator validate_tokens))
 OBJ_TOKENS_FOLDER := $(OBJS_FOLDER)tokens/
 OBJS_TOKENS := $(SRC_TOKENS:$(SRC_TOKENS_FOLDER)%.c=$(OBJ_TOKENS_FOLDER)%.o)
 
@@ -56,7 +56,7 @@ $(OBJ_ENV_FOLDER)%.o:$(SRC_ENV_FOLDER)%.c $(HEADER)
 
 # EXEC
 SRC_EXEC_FOLDER := $(SRC_FOLDER)exec/
-SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command verify_path redirects exec_tree_commands exec_multiple status))
+SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, verify_path generate_redirs setup_redirs heredoc exec_command exec_tree_commands exec_multiple status))
 OBJ_EXEC_FOLDER := $(OBJS_FOLDER)exec/
 OBJS_EXEC := $(SRC_EXEC:$(SRC_EXEC_FOLDER)%.c=$(OBJ_EXEC_FOLDER)%.o)
 
