@@ -12,22 +12,6 @@
 
 #include "./includes/minishell.h"
 
-void	free_tree(t_command **tree)
-{
-	t_command	*temp;
-
-	temp = *tree;
-	if (temp->left)
-		free_tree(&temp->left);
-	if (temp->right)
-		free_tree(&temp->right);
-	if (temp->argv)
-		free_arr(temp->argv);
-	if (temp->redir)
-		free_token(&(temp->redir));
-	free(temp);
-}
-
 void	free_resources_prompt(t_minishell *minishell)
 {
 	if (minishell->input)
@@ -42,37 +26,6 @@ void	free_resources_prompt(t_minishell *minishell)
 	minishell->tokens = NULL;
 	minishell->tree_cmd = NULL;
 	minishell->pid_list = NULL;
-}
-
-int	build_commands(t_minishell *minishell)
-{
-	int	status;
-
-	get_token(minishell->input, &(minishell->tokens));
-	if (!(minishell->tokens) || !(minishell->tokens->content)
-		|| validate_tokens(minishell->tokens) == 1)
-		return (EXIT_FAILURE);
-	set_operator_type(&(minishell->tokens));
-	status = verify_heredoc(minishell);
-	if (status)
-	{
-		minishell->status = status;
-		return (EXIT_FAILURE);
-	}
-	ft_generate_tree(minishell);
-	return (EXIT_SUCCESS);
-}
-
-void	build_and_execute(t_minishell *minishell)
-{
-	add_history(minishell->input);
-	if (build_commands(minishell))
-	{
-		free_resources_prompt(minishell);
-		return ;
-	}
-	execute_tree_commands(minishell);
-	free_resources_prompt(minishell);
 }
 
 void	prompt(t_minishell *minishell)
@@ -95,33 +48,6 @@ void	prompt(t_minishell *minishell)
 			build_and_execute(minishell);
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		control_status(0);
-	}
-}
-
-void	free_arr(char **arr)
-{
-	int	i;
-
-	if (!arr || !arr[0])
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-void	free_list(t_list **list)
-{
-	t_list	*temp;
-
-	while (*list)
-	{
-		temp = *list;
-		*list = (*list)->next;
-		free(temp);
 	}
 }
 

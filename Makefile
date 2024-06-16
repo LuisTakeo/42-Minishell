@@ -87,8 +87,19 @@ $(OBJ_TREE_FOLDER)%.o:$(SRC_TREE_FOLDER)%.c $(HEADER)
 	@mkdir -p $(OBJ_TREE_FOLDER)
 	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
 
+# BUILDS
+SRC_BUILDS_FOLDER := $(SRC_FOLDER)builds/
+SRC_BUILDS := $(addprefix $(SRC_BUILDS_FOLDER), $(addsuffix .c, builds frees))
+OBJ_BUILDS_FOLDER := $(OBJS_FOLDER)builds/
+OBJS_BUILDS := $(SRC_BUILDS:$(SRC_BUILDS_FOLDER)%.c=$(OBJ_BUILDS_FOLDER)%.o)
+
+# BUILDS Objects
+$(OBJ_BUILDS_FOLDER)%.o:$(SRC_BUILDS_FOLDER)%.c $(HEADER)
+	@mkdir -p $(OBJ_BUILDS_FOLDER)
+	@$(CC) $(FLAGS) -g3 -o $@ -c $< && echo "Compilando: $(notdir $<)"
+
 # Variavel para receber todos os objects
-ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS) $(OBJS_TREE) $(OBJS_EXPANSOR)
+ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS) $(OBJS_TREE) $(OBJS_EXPANSOR) $(OBJS_BUILDS)
 
 ######################################################################
 # $(NAME)
@@ -96,6 +107,7 @@ ALL_OBJ := $(OBJS) $(OBJS_TOKENS) $(OBJS_ENV) $(OBJS_EXEC) $(OBJS_BUILTINS) $(OB
 $(NAME): libft $(ALL_OBJ)
 	@$(CC) $(ALL_OBJ) $(LIBS) -o $(NAME) -lreadline
 	@echo "Compilando executável $(NAME)"
+
 all: $(NAME)
 
 libft:

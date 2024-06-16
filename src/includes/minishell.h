@@ -137,6 +137,9 @@ int			print_order_env(char **env);
 int			echo(char **args);
 int			exit_builtin(char **args, t_minishell *minishell);
 int			is_builtin(char **command, t_minishell *minishell);
+// builds
+int			build_commands(t_minishell *minishell);
+void		build_and_execute(t_minishell *minishell);
 // expansor
 char		*expand_simple_quotes(char **word);
 char		*expand_double_quotes(char **word, t_minishell *minishell);
