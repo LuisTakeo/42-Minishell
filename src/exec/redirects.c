@@ -114,7 +114,7 @@ void	handle_sig_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
-		// ft_putstr_fd("\n", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		close(STDIN_FILENO);
 		control_status(130);
 	}
@@ -123,16 +123,19 @@ void	handle_sig_heredoc(int signal)
 int	read_heredoc(char *delim, int fd)
 {
 	char	*line;
-	int		fd_in;
 
 	line = NULL;
-	fd_in = dup(STDIN_FILENO);
 	signal(SIGINT, &handle_sig_heredoc);
 	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL || control_status(-1))
+		{
+			if (!control_status(-1))
+				ft_fdprintf("Warning: heredoc "
+					"delimited by EOF. Wanted delim: %s\n", 2, delim);
 			break ;
+		}
 		if (ft_strcmp(line, delim) == 0)
 		{
 			free(line);
@@ -141,7 +144,6 @@ int	read_heredoc(char *delim, int fd)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	dup2(fd_in, STDIN_FILENO);
 	signal(SIGINT, &handle_signal);
 	return (control_status(-1));
 }

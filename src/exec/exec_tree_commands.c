@@ -6,7 +6,7 @@
 /*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 05:19:27 by tpaim-yu          #+#    #+#             */
-/*   Updated: 2024/06/16 09:51:55 by tpaim-yu         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:57:47 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,24 @@ void	execute_single_command(t_minishell *minishell)
 	t_command	*temp_cmd;
 	int			status;
 
-	if (!minishell->tree_cmd->argv)
-		return ;
+	status = 0;
 	temp_cmd = minishell->tree_cmd;
-	status = is_builtin(temp_cmd->argv, minishell);
-	if (status >= 0)
-	{
+	if (temp_cmd->redir)
+		status = setup_redirs(temp_cmd->redir);
+	if (status)
 		minishell->status = status;
-		return ;
-	}
 	else
+	{
+		if (!temp_cmd->argv)
+			return ;
+		status = is_builtin(temp_cmd->argv, minishell);
+		if (status >= 0)
+		{
+			minishell->status = status;
+			return ;
+		}
 		minishell->status = exec_command(temp_cmd->argv, 0, minishell);
+	}
 }
 
 void	close_fds(t_minishell *minishell)
@@ -44,7 +51,7 @@ void	close_fds(t_minishell *minishell)
 
 }
 
-int		handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
+int	handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
 {
 	t_command	*parent_tree;
 
@@ -135,16 +142,12 @@ void	execute_tree_commands(t_minishell *minishell)
 {
 	t_command	*temp_tree;
 	t_list		*temp_list;
+	int			status;
 
-	signal(SIGINT, &handle_signal_exec);
+	status = 0;
 	temp_tree = minishell->tree_cmd;
 	if (temp_tree->type == WORD)
-	{
-		if (temp_tree->redir)
-			minishell->status = setup_redirs(temp_tree->redir);
-		if (!minishell->status)
-			execute_single_command(minishell);
-	}
+		execute_single_command(minishell);
 	else
 	{
 		execute_pipe_command(minishell, temp_tree);

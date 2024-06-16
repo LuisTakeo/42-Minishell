@@ -28,7 +28,6 @@
 # include <sys/types.h>
 # include <dirent.h>
 
-
 # include "../../libs/libft/libft.h"
 # include "../../libs/libft/ft_printf/includes/ft_printf.h"
 # include "../../libs/libft/gnl/includes/get_next_line.h"
@@ -58,7 +57,7 @@ struct s_minishell
 	char		*input;
 	char		**envp;
 	char		**path;
-	int 		stdin_backup;
+	int			stdin_backup;
 	int			stdout_backup;
 	t_token		*tokens;
 	t_command	*tree_cmd;
