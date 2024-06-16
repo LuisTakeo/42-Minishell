@@ -12,12 +12,10 @@
 
 #include "../includes/minishell.h"
 
-// gera o argv (char **) da arvore
-char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
+static int	count_args(t_token *tokens)
 {
-	int		i;
 	t_token	*temp;
-	char	**argv;
+	int		i;
 
 	i = 0;
 	temp = tokens;
@@ -29,9 +27,21 @@ char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
 			temp = temp->next;
 		temp = temp->next;
 	}
+	return (i);
+}
+
+char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
+{
+	int		i;
+	t_token	*temp;
+	char	**argv;
+
+	i = count_args(tokens);
+	temp = tokens;
+	if (!i)
+		return (NULL);
 	argv = (char **)ft_calloc(i + 1, sizeof(char *));
 	temp = tokens;
-	
 	i = -1;
 	while (temp && temp->type != PIPE)
 	{
@@ -43,7 +53,3 @@ char	**ft_generate_argv(t_token *tokens, t_minishell *minishell)
 	}
 	return (argv);
 }
-
-	// se encontrar um operador redir, pular para o próximo.
-	// Caso o próximo for null ou diferente de word, retornar erro
-	// se encontrar um operador | ou null, alocar o char **	de acordo com os nós contados
