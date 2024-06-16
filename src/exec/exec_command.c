@@ -15,21 +15,28 @@
 int	show_error(char *content, char *error, int num_error)
 {
 	ft_putstr_fd(content, STDERR_FILENO);
-	ft_putendl_fd(error, STDERR_FILENO);
+	if (error)
+		ft_putendl_fd(error, STDERR_FILENO);
+	else
+		perror(NULL);
 	return (num_error);
+}
+
+static int	verify_abs_path(char *path)
+{
+	if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
+		return (1);
+	return (0);
 }
 
 int	is_valid_command(char **full_path, char *path, t_minishell *minishell)
 {
-	DIR		*dir;
-
-	dir = opendir(path);
-	*full_path = verify_path(path, minishell->path);
-	if ((*full_path && access(*full_path, X_OK) != 0) || dir)
+	if (verify_abs_path(path))
 	{
-		closedir(dir);
-		return (show_error(path, ": BUH! Not an executable", 126));
+		*full_path = path;
+		return (EXIT_SUCCESS);
 	}
+	*full_path = verify_path(path, minishell->path);
 	if (!*full_path)
 		return (show_error(path, ": BUH! Command not found", 127));
 	return (0);
@@ -55,6 +62,7 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	{
 		if (full_path)
 			free(full_path);
+		full_path = NULL;
 		return (i_status);
 	}
 	id = fork();
