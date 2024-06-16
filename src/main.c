@@ -141,8 +141,6 @@ int	main(void)
 	minishell.stdout_backup = dup(STDOUT_FILENO);
 	prompt(&minishell);
 	ft_printf("Exit\n");
-	free_arr(minishell.path);
-	free_arr(minishell.envp);
-	rl_clear_history();
+	free_all(&minishell);
 	return (EXIT_SUCCESS);
 }

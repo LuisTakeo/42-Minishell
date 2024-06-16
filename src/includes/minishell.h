@@ -118,7 +118,6 @@ int			count_quotes(char *input);
 void		skip_whitespace(char *input, int *i);
 void		init_token(t_token **tokens);
 void		ft_tokenadd_back(t_token **lst, t_token *new);
-void		ft_tokendelone(t_token **lst, t_token *node);
 void		allocate_token(t_token **tokens, char *input, int start, int end);
 void		get_quoted_token(char *input, int *i);
 void		get_word(char *input, t_token **tokens, int *i);
@@ -129,7 +128,6 @@ void		set_operator_type(t_token **tokens);
 void		print_tokens(t_token *tokens);
 // get envs
 char		**get_env(char **envp);
-char		*env(char *env_name, char **envp);
 char		**get_paths(char **env);
 char		*get_single_env(char *env_name, char **envp);
 // bultins
