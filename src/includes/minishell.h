@@ -159,12 +159,19 @@ int			heredoc(char **str, int index);
 int			verify_heredoc(t_minishell *minishell);
 void		reset_fds(t_minishell *minishell);
 // execute commands
-// prototype -> 1st version
 int			exec_command(char **arrstr, int id, t_minishell *minishell);
 char		*verify_path(char *bin, char **path);
 int			print_env(char **envp);
 void		execute_tree_commands(t_minishell *minishell);
 void		execute_single_command(t_minishell *minishell);
+void		close_upcoming_fds(t_command *parent);
+void		execute_pipe_command(t_minishell *minishell, t_command *temp_tree);
+void		child_process(t_minishell *minishell, t_command *temp_tree,
+				int is_left);
+void		execute_command(t_minishell *minishell, t_command *temp_tree,
+				int is_left);
+int			handle_fds(t_minishell *minishell, t_command *temp_tree,
+				int is_left);
 // tree functions
 t_command	*ft_newtreenode(char **args);
 void		ft_treeaddonleft(t_command **treenode, t_command *treenew);

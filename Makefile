@@ -56,7 +56,7 @@ $(OBJ_ENV_FOLDER)%.o:$(SRC_ENV_FOLDER)%.c $(HEADER)
 
 # EXEC
 SRC_EXEC_FOLDER := $(SRC_FOLDER)exec/
-SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command verify_path redirects exec_tree_commands status))
+SRC_EXEC := $(addprefix $(SRC_EXEC_FOLDER), $(addsuffix .c, exec_command verify_path redirects exec_tree_commands exec_multiple status))
 OBJ_EXEC_FOLDER := $(OBJS_FOLDER)exec/
 OBJS_EXEC := $(SRC_EXEC:$(SRC_EXEC_FOLDER)%.c=$(OBJ_EXEC_FOLDER)%.o)
 

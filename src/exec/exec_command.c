@@ -35,7 +35,14 @@ int	is_valid_command(char **full_path, char *path, t_minishell *minishell)
 	return (0);
 }
 
-// alterar o id conforme redirects
+void	child_single(char *full_path, char **arrstr, t_minishell *minishell)
+{
+	execve(full_path, arrstr, minishell->envp);
+	free(full_path);
+	free_all(minishell);
+	exit(EXIT_FAILURE);
+}
+
 int	exec_command(char **arrstr, int id, t_minishell *minishell)
 {
 	int		i_status;
@@ -52,12 +59,7 @@ int	exec_command(char **arrstr, int id, t_minishell *minishell)
 	}
 	id = fork();
 	if (!id)
-	{
-		execve(full_path, arrstr, minishell->envp);
-		free(full_path);
-		free_all(minishell);
-		exit(EXIT_FAILURE);
-	}
+		child_single(full_path, arrstr, minishell);
 	waitpid(id, &i_status, 0);
 	i_status = filter_status(i_status);
 	if (full_path && ft_strncmp(full_path, arrstr[0],
