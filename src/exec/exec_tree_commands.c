@@ -57,15 +57,17 @@ int	handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
 	(void)minishell;
 	parent_tree = temp_tree->parent;
 	if (is_left)
+	{
+		close(parent_tree->fd[STDIN_FILENO]);
 		dup2(parent_tree->fd[STDOUT_FILENO], STDOUT_FILENO);
+	}
 	else
 	{
 		dup2(parent_tree->fd[STDIN_FILENO], STDIN_FILENO);
 		if (parent_tree->parent)
 			dup2(parent_tree->parent->fd[1], STDOUT_FILENO);
 	}
-	close(parent_tree->fd[0]);
-	close(parent_tree->fd[1]);
+	close_upcoming_fds(temp_tree);
 	if (temp_tree->redir && setup_redirs(temp_tree->redir))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
