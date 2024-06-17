@@ -66,7 +66,7 @@ static void	set_exit_code(char **args, t_minishell **minishell)
 	{
 		ft_fdprintf("minishell: exit: %s: numeric argument required\n",
 			STDERR_FILENO, args[1]);
-		exit_code = 255;
+		exit_code = 2;
 	}
 	free_all(*minishell);
 	exit(exit_code);
