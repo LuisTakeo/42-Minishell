@@ -87,6 +87,7 @@ void	execute_tree_commands(t_minishell *minishell)
 	t_list		*temp_list;
 
 	temp_tree = minishell->tree_cmd;
+	signal(SIGINT, &handle_signal_exec);
 	if (temp_tree->type == WORD)
 		execute_single_command(minishell);
 	else
