@@ -46,6 +46,7 @@ void	prompt(t_minishell *minishell)
 			break ;
 		if (minishell->input[0])
 			build_and_execute(minishell);
+		free_resources_prompt(minishell);
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		control_status(0);
 	}

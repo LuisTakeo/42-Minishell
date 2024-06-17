@@ -66,10 +66,8 @@ void	child_process(t_minishell *minishell, t_command *temp_tree,
 void	execute_command(t_minishell *minishell, t_command *temp_tree,
 	int is_left)
 {
-	int		status;
 	pid_t	pid;
 
-	status = 0;
 	pid = fork();
 	if (pid == -1)
 	{
