@@ -24,13 +24,11 @@ char	*expand_env(char *var, char **envp)
 {
 	char	**temp;
 	int		len;
-	int		size_temp;
 
 	temp = envp;
 	len = ft_strlen(var);
 	while (*temp)
 	{
-		size_temp = ft_strlen(*temp);
 		if (!ft_strncmp(var, (char *)(*temp), len)
 			&& (!(*temp)[len] || (*temp)[len] == '='))
 			return (get_env_value(*temp, len));
