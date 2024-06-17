@@ -6,7 +6,7 @@
 /*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 14:54:42 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/16 14:58:29 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:57:05 by dde-fati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ t_token	*ft_generate_redirs(t_token **token, t_minishell *minishell)
 		next = current->next;
 		if (current->type == REDIR_IN || current->type == REDIR_OUT
 			|| current->type == APPEND || current->type == HEREDOC)
-		{
 			add_redir(&redirs, current, minishell);
-		}
 		current = next;
 	}
 	return (redirs);

@@ -54,7 +54,8 @@ void	child_process(t_minishell *minishell, t_command *temp_tree,
 	cmd = define_full_path(temp_tree->argv[0], minishell->path);
 	if (!cmd)
 	{
-		minishell->status = show_error(temp_tree->argv[0], ": Command not found", 127);
+		minishell->status = show_error(temp_tree->argv[0],
+			": Command not found", 127);
 		close_upcoming_fds(temp_tree);
 		free_child(minishell);
 	}
