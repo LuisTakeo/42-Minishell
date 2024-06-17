@@ -54,3 +54,9 @@ void	free_tree(t_command **tree)
 		free_token(&(temp->redir));
 	free(temp);
 }
+
+void	free_child(t_minishell *minishell)
+{
+	free_all(minishell);
+	exit(minishell->status);
+}

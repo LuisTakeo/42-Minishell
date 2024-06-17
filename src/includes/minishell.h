@@ -187,6 +187,7 @@ void		free_arr(char **arr);
 void		sort_arr(char **arr);
 void		swap_arr(char **wordA, char **wordB);
 int			show_error(char *content, char *error, int num_error);
+void		free_child(t_minishell *minishell);
 // free functions
 void		free_resources_prompt(t_minishell *minishell);
 void		free_token(t_token **tokens);

@@ -43,23 +43,23 @@ void	child_process(t_minishell *minishell, t_command *temp_tree,
 
 	status = 0;
 	minishell->status = handle_fds(minishell, temp_tree, is_left);
-	if (minishell->status || !temp_tree->argv
-		|| is_builtin(temp_tree->argv, minishell) >= 0)
+	if (minishell->status || !temp_tree->argv)
+		free_child(minishell);
+	status = is_builtin(temp_tree->argv, minishell);
+	if (status >= 0)
 	{
-		free_all(minishell);
-		exit(minishell->status);
+		minishell->status = status;
+		free_child(minishell);
 	}
 	cmd = define_full_path(temp_tree->argv[0], minishell->path);
 	if (!cmd)
 	{
-		status = show_error(temp_tree->argv[0], ": Command not found", 127);
+		minishell->status = show_error(temp_tree->argv[0], ": Command not found", 127);
 		close_upcoming_fds(temp_tree);
-		free_all(minishell);
-		exit(status);
+		free_child(minishell);
 	}
 	execve(cmd, temp_tree->argv, minishell->envp);
 	free_all(minishell);
-	close_upcoming_fds(temp_tree->parent);
 	exit(EXIT_FAILURE);
 }
 
