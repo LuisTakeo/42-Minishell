@@ -55,10 +55,10 @@ void	child_process(t_minishell *minishell, t_command *temp_tree,
 	if (!cmd)
 	{
 		minishell->status = show_error(temp_tree->argv[0],
-			": Command not found", 127);
+				": Command not found", 127);
 		close_upcoming_fds(temp_tree);
 		free_child(minishell);
-	}
+	}	
 	execve(cmd, temp_tree->argv, minishell->envp);
 	free_all(minishell);
 	exit(EXIT_FAILURE);
