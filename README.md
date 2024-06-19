@@ -14,7 +14,7 @@ close to the human language.
 
 - Execution of simple commands (e.g., `ls`, `echo`)
 - Input and output redirection (`>`, `<`)
-- Support for pipes (`|`)
+- Support for pipes (`|`) and multiple commands
 - Environment variable manipulation
 - Execution of built-in commands like `cd`, `exit`, and `env`
 - Basic signal handling (e.g., `Ctrl+C`, `Ctrl+D`)
