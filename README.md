@@ -1,23 +1,21 @@
 # Minishell
 
-As beautiful as a shell! This [@42SP](https://github.com/42sp) project is a simple implementation of a Unix shell, created for educational purposes, using all the knowledge adquired in 42 so far. It allows users to execute basic commands, just like in a real terminal.
 
 ## Introduction
 
-The existence of shells is linked to the very existence of IT.
-At the time, all developers agreed that communicating with a computer using aligned
-1/0 switches was seriously irritating.
-It was only logical that they came up with the idea of creating a software to communicate with a computer using interactive lines of commands in a language somewhat
-close to the human language.
+As beautiful as a shell! This [@42SP](https://github.com/42sp) project is a simple implementation of a Unix shell, created for educational purposes, using all the knowledge adquired in 42 so far. It allows users to execute basic commands, just like in a real terminal. In this project we learn about system calls, communicating multiples processes, input and output redirections and more, like teaamwork, work peer to peer, use of git to control and develop new features, etc.
 
 ## Features
 
+- Prompt waiting user's commands
+- Expansions of environ, single and double quotes
 - Execution of simple commands (e.g., `ls`, `echo`)
 - Input and output redirection (`>`, `<`)
 - Support for pipes (`|`) and multiple commands
 - Environment variable manipulation
 - Execution of built-in commands like `cd`, `exit`, and `env`
 - Basic signal handling (e.g., `Ctrl+C`, `Ctrl+D`)
+- Handle $? (brings the last status executed);
 
 ## Prerequisites
 
