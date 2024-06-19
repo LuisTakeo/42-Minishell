@@ -30,13 +30,11 @@ sudo apt-get install libreadline-dev
 
 ### Fedora
 ```bash
-Copiar código
 sudo dnf install readline-devel
 ```
 
 ### macOS (using Homebrew)
 ```bash
-Copiar código
 brew install readline
 ```
 
