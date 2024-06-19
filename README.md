@@ -14,7 +14,7 @@ As beautiful as a shell! This [@42SP](https://github.com/42sp) project is a simp
 - Support for pipes (`|`) and multiple commands
 - Environment variable manipulation
 - Execution of built-in commands like `cd`, `exit`, and `env`
-- Basic signal handling (e.g., `Ctrl+C`, `Ctrl+D`)
+- Signal handling (`Ctrl+C`, `Ctrl+D`, `Ctrl+\`)
 - Handle $? (brings the last status executed);
 
 ## Prerequisites
