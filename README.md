@@ -3,7 +3,7 @@
 
 ## Introduction
 
-As beautiful as a shell! This [@42SP](https://github.com/42sp) project is a simple implementation of a Unix shell, created for educational purposes, using all the knowledge adquired in 42 so far. It allows users to execute basic commands, just like in a real terminal. In this project we learn about system calls, communicating multiples processes, input and output redirections and more, like teaamwork, work peer to peer, use of git to control and develop new features, etc.
+As beautiful as a shell! This [@42SP](https://github.com/42sp) project is a simple implementation of a Unix shell, created for educational purposes, using all the knowledge adquired in 42 so far. It allows users to execute basic commands, just like in a real terminal. In this project we learn about system calls, communicating multiples processes, input and output redirections, use of git to control and develop new features, etc. Furthermore, teamwork, division of tasks using flowcharts, good communication, code versioning, exchange with the community and peer programming were essential for us to complete this project.
 
 ## Features
 
