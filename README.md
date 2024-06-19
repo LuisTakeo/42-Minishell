@@ -30,6 +30,20 @@ sudo apt-get update
 sudo apt-get install libreadline-dev
 ```
 
+### Fedora
+```bash
+Copiar código
+sudo dnf install readline-devel
+```
+
+### macOS (using Homebrew)
+```bash
+Copiar código
+brew install readline
+```
+
+## Installation 
+
 To install Minishell, you need to have GCC (or another compatible compiler) and Make installed on your system. Follow the steps below:
 
 1. Clone the repository:
