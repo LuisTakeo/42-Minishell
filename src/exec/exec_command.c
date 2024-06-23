@@ -44,6 +44,11 @@ int	is_valid_command(char **full_path, char *path, t_minishell *minishell)
 
 void	child_single(char *full_path, char **arrstr, t_minishell *minishell)
 {
+	int	i;
+
+	i = 3;
+	while (i < 1024)
+		close(i++);
 	execve(full_path, arrstr, minishell->envp);
 	free(full_path);
 	free_all(minishell);

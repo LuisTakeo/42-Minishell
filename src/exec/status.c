@@ -40,7 +40,6 @@ void	handle_signal_exec(int signum)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		control_status(signum + 128);
 	}
-
 }
 
 void	handle_signal(int signum)

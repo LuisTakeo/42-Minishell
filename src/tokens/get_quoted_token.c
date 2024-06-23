@@ -18,7 +18,7 @@ int	count_type_quote(char quote, int i, char *input)
 	{
 		i++;
 		while (input[i] && input[i] != quote)
-				i++;
+			i++;
 		if (!input[i])
 			return (-1);
 	}

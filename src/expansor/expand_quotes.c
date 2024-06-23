@@ -60,7 +60,7 @@ char	*expand_double_quotes(char **word, t_minishell *minishell)
 	while (**word && **word != '"')
 	{
 		if (**word == '$')
-				temp_word = expand_path(&(*word), minishell);
+			temp_word = expand_path(&(*word), minishell);
 		else
 			temp_word = expand_word_quotes(&(*word), '"');
 		full_word = join_word(full_word, temp_word);

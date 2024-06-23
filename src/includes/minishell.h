@@ -166,6 +166,7 @@ int			print_env(char **envp);
 void		execute_tree_commands(t_minishell *minishell);
 void		execute_single_command(t_minishell *minishell);
 void		close_upcoming_fds(t_command *parent);
+void		close_all_fds(t_minishell *minishell);
 void		execute_pipe_command(t_minishell *minishell, t_command *temp_tree);
 void		child_process(t_minishell *minishell, t_command *temp_tree,
 				int is_left);

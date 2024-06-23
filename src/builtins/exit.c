@@ -40,6 +40,11 @@ void	free_all(t_minishell *minishell)
 		free_token(&minishell->tokens);
 	if (minishell->tree_cmd)
 		free_tree(&minishell->tree_cmd);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	close(minishell->stdin_backup);
+	close(minishell->stdout_backup);
 	rl_clear_history();
 }
 

@@ -67,7 +67,7 @@ int	handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
 		if (parent_tree->parent)
 			dup2(parent_tree->parent->fd[1], STDOUT_FILENO);
 	}
-	close_upcoming_fds(temp_tree);
+	close_all_fds(minishell);
 	if (temp_tree->redir && setup_redirs(temp_tree->redir))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -76,7 +76,11 @@ int	handle_fds(t_minishell *minishell, t_command *temp_tree, int is_left)
 void	close_all_fds(t_minishell *minishell)
 {
 	t_command	*temp;
+	int			i;
 
+	i = 3;
+	while (i < 1024)
+		close(i++);
 	temp = minishell->tree_cmd;
 	while (temp->left)
 		temp = temp->left;
