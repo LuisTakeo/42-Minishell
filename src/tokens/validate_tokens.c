@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_token_utils2.c                                 :+:      :+:    :+:   */
+/*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-fati <dde-fati@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tpaim-yu <tpaim-yu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 15:10:01 by dde-fati          #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:40 by dde-fati         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:16:52 by tpaim-yu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ int	validate_tokens(t_token *tokens)
 	t_token	*aux;
 
 	aux = tokens;
+	if (aux && aux->type == OPERATOR && aux->content[0] == '|')
+		return (show_error("minishell: "
+				"syntax error near unexpected token ",
+				aux->content, 1));
 	while (aux)
 	{
 		if (aux->type == OPERATOR && (aux->next == NULL
